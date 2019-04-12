@@ -1,25 +1,39 @@
 const path = require('path');
 const WebpackNotifierPlugin = require('webpack-notifier');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+require('@babel/polyfill');
 
 module.exports = {
-    entry: './src/index.js',
+    entry: ['@babel/polyfill', './src/index.js'],
     output: {
         path: path.join(__dirname, '../dist'),
-        filename: "bundle.js"
+        filename: 'bundle.js'
     },
     module: {
         rules: [
             {
                 test: /\.js$/,
                 exclude: /node_modules/,
-                use: ['babel-loader']
-            }, {
-                test: /\.css$/,
-                use: ['style-loader', 'css-loader']
-            }, {
-                test: /\.(sass|scss)$/,
-                use: ['css-loader', 'sass-loader']
-            }, {
+                use: ['babel-loader'],
+                include: path.resolve('src')
+            },
+            {
+                test: /\.(s?[ac]ss)$/,
+                loader: ExtractTextPlugin.extract({
+                    fallback: 'style-loader',
+                    use: 'css-loader!sass-loader'
+                }),
+                include: path.resolve('src')
+            },
+            {
+                test: /\.less$/,
+                loader: ExtractTextPlugin.extract({
+                    fallback: 'style-loader',
+                    use: 'css-loader!less-loader'
+                }),
+                include: path.resolve('src')
+            },
+            {
                 test: /.(ttf|otf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
                 use: [{
                     loader: 'file-loader',
@@ -34,5 +48,6 @@ module.exports = {
     },
     plugins: [
         new WebpackNotifierPlugin(),
+        new ExtractTextPlugin('styles.css'),
     ]
-}
+};

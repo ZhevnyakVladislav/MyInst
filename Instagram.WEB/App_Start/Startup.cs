@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNet.Identity;
+﻿using Instagram.BusinessLogic;
+using Instagram.DBProviders;
+using Microsoft.AspNet.Identity;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Owin;
@@ -14,6 +16,10 @@ namespace Instagram.WEB
                 AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
                 LoginPath = new PathString("/Account/Login"),
             });
+
+
+            ProviderServiceRegistrator.RegisterServices();
+            BusinesslogicServiceRegistrator.RegisterServices();
         }
     }
 }
