@@ -24,12 +24,6 @@ steps:
     feedsToUse: 'select'
     vstsFeed: '/b4a08098-fdc1-4d12-a773-3fb87794c243'
 
-- task: MSBuild@1
-  inputs:
-    solution: '**/*.sln'
-    clean: true
-    restoreNugetPackages: true
-    
 - task: VSBuild@1
   displayName: 'Build solution'
   inputs:
