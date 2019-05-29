@@ -22,7 +22,7 @@ steps:
     command: 'restore'
     restoreSolution: '**/*.sln'
     feedsToUse: 'config'
-    nugetConfigPath: './package.config'
+    nugetConfigPath: '\Instagram.WEB\'
 - task: VSBuild@1
   inputs:
     solution: '$(solution)'
