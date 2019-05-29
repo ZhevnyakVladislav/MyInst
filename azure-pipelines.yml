@@ -7,7 +7,7 @@ trigger:
 - master
 
 pool:
-  vmImage: 'windows-2019'
+  vmImage: 'vs2017-win2016'
 
 variables:
   solution: '**/*.sln'
@@ -15,13 +15,6 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
-- task: NuGetCommand@2
-  inputs:
-    command: 'restore'
-    restoreSolution: '**/*.sln'
-    feedsToUse: 'select'
-    vstsFeed: '/b4a08098-fdc1-4d12-a773-3fb87794c243'
-
 - task: VSBuild@1
   displayName: 'Build solution'
   inputs:
