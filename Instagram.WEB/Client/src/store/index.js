@@ -5,14 +5,14 @@ import rootSaga from './sagas';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
 const initialState = {};
-const sageMiddleware = createSagaMiddleware();
+const sagaMiddleware = createSagaMiddleware();
 const composeEnhansers = process.env.NODE_ENV === 'production' ? compose : composeWithDevTools;
 const store = createStore(
     rootReducer,
     initialState,
-    composeEnhansers(applyMiddleware(sageMiddleware))
+    composeEnhansers(applyMiddleware(sagaMiddleware))
 );
 
-sageMiddleware.run(rootSaga);
+sagaMiddleware.run(rootSaga);
 
 export default store;

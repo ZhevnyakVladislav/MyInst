@@ -4,7 +4,6 @@ import { createAction } from 'redux-actions';
 import types from './types';
 
 function* callSignIn(action) {
-    yield put({});
     try {
         const response = yield call(
             api.call.post,
@@ -26,11 +25,11 @@ function* callSignUp(action) {
         );
         yield put(createAction(types.USER_SIGN_IN_SUCCESS));
     } catch (e) {
-        yield put(createAction(types.USER_SIGN_UP_ERROR, e.response.data));
+        yield put(createAction(types.USER_SIGN_UP_ERROR, e.response));
     }
 }
 
-export default function* watch() {
-    yield takeEvery(types.USER_SIGN_UP, callSignUp);
-    yield takeEvery(types.USER_SIGN_IN, callSignIn);
-}
+export default [
+    takeEvery(types.USER_SIGN_UP, callSignUp),
+    takeEvery(types.USER_SIGN_IN, callSignIn)
+];

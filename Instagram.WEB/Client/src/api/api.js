@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = '//myinstagrag.com';
+const BASE_URL = '//myinstagram.com';
 
 const axiosInstance = axios.create({
     baseURL: BASE_URL,
@@ -20,9 +20,9 @@ const get = async (path, params) => {
     }
 };
 
-const post = async (path, params) => {
+const post = async (path, body, params) => {
     try {
-        const response = await axiosInstance.post(path, { params });
+        const response = await axiosInstance.post(path, body, { params });
         return response;
     } catch (err) {
         throw new Error();

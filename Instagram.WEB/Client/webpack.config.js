@@ -3,7 +3,8 @@ const WebpackNotifierPlugin = require('webpack-notifier');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 require('@babel/polyfill');
 
-module.exports = {
+module.exports = env => ({
+    devtool: env.NODE_ENV === 'production' ? 'cheap-module-source-map' : 'source-map',
     entry: ['@babel/polyfill', './src/index.js'],
     output: {
         path: path.join(__dirname, '../dist'),
@@ -23,7 +24,10 @@ module.exports = {
                     fallback: 'style-loader',
                     use: 'css-loader!sass-loader'
                 }),
-                include: path.resolve('src')
+                include: [
+                    path.resolve('src'),
+                    path.resolve('node_modules'),
+                ]
             },
             {
                 test: /\.less$/,
@@ -49,5 +53,8 @@ module.exports = {
     plugins: [
         new WebpackNotifierPlugin(),
         new ExtractTextPlugin('styles.css'),
-    ]
-};
+    ],
+    resolve: {
+        modules: ['node_modules', 'src'],
+    }
+});

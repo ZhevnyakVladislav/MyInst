@@ -26,10 +26,11 @@ namespace Instagram.BusinessLogic.Services
             UserProfile userProfile = new UserProfile()
             {
                 Email = user.Email,
+                FullName = user.FullName,
+                UserName = user.UserName
             };
 
             _profileProvider.Create(userProfile);
         }
-        
     }
 }

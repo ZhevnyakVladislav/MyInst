@@ -20,6 +20,8 @@ namespace Instagram.WEB
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
+
+
         }
     }
 }

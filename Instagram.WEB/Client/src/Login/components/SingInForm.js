@@ -8,6 +8,14 @@ export default class SignInForm extends React.Component {
         password: '',
     }
 
+    handleSubmit = (e) => {
+        e.preventDefault();
+        this.props.signIn({
+            email: '123@gmail.com',
+            password: 'Wtest100*',
+        });
+    }
+
     render() {
         return (
             <div className="section">
@@ -16,7 +24,7 @@ export default class SignInForm extends React.Component {
                         <div className="column is-5">
                             <div className="box is-centered">
                                 <h1 className="is-size-3 has-text-centered">Instagram</h1>
-                                <form onSubmit className="margin-top-two" >
+                                <form onSubmit={this.handleSubmit} className="margin-top-two" >
                                     <div className="field">
                                         <div className="control">
                                             <input className="input" type="email" placeholder="Email" />

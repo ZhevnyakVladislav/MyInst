@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Instagram.BusinessLogic.Entities;
@@ -33,7 +34,7 @@ namespace Instagram.BusinessLogic.Services
             if(userDto == null) throw new ArgumentNullException(nameof(userDto));
 
             var user = await _userManager.FindByNameAsync(userDto.Email);
-            
+
             if (user == null)
             {
                 var role = await _roleManager.FindByNameAsync(userDto.Role.ToString());
@@ -46,19 +47,27 @@ namespace Instagram.BusinessLogic.Services
 
                 var result = await _userManager.CreateAsync(user, userDto.Password);
 
-                var userProfile = new UserProfile
+                if (result.Succeeded)
                 {
-                    Id = user.Id,
-                    Email = userDto.Email,
-                };
+                    var userProfile = new UserProfile
+                    {
+                        Id = user.Id,
+                        Email = userDto.Email,
+                        FullName = userDto.FullName,
+                        UserName = userDto.UserName,
+                    };
 
-                _profileManager.Create(userProfile);
+                    _profileManager.Create(userProfile);
+                } else
+                {
+                    throw new BusinesslogicException(result.Errors.First());
+                }
 
                 return null;
             }
             else
             {
-                throw new NotImplementedException();
+                throw new BusinesslogicException($"User with email = {userDto.Email} already exists.");
             }
             
         }

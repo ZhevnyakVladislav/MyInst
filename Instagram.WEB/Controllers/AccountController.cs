@@ -34,6 +34,7 @@ namespace Instagram.WEB.Controllers
 
             if (!ModelState.IsValid)
             {
+                
                 throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.BadRequest)
                 {
                     Content = new StringContent("Model state is not valid!")
@@ -77,6 +78,8 @@ namespace Instagram.WEB.Controllers
             {
                 Email = model.Email,
                 Password = model.Password,
+                UserName = model.UserName,
+                FullName = model.FullName,
                 Role = Roles.Admin
             };
 
