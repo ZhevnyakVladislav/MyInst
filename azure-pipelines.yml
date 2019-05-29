@@ -19,7 +19,8 @@ steps:
 
 - task: NuGetCommand@2
   inputs:
-    restoreSolution: '$(solution)'
+    command: pack
+    packagesToPack: '**/*.csproj'
 
 - task: VSBuild@1
   inputs:
