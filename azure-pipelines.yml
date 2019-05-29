@@ -22,8 +22,7 @@ steps:
     command: 'restore'
     restoreSolution: '**/*.sln'
     feedsToUse: 'config'
-    nugetConfigPath: '$(solution)'
-
+    nugetConfigPath: './package.config'
 - task: VSBuild@1
   inputs:
     solution: '$(solution)'
