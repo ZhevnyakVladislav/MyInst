@@ -16,11 +16,13 @@ variables:
 
 steps:
 - task: NuGetToolInstaller@0
-  displayName: 'NuGet restore'
+
+- task: NuGetCommand@2
   inputs:
-    solution: '**\DealCloud.sln'
-    nuGetVersion: 3.5.0.1829
-    
+    command: 'restore'
+    restoreSolution: '**/*.sln'
+    feedsToUse: 'select'
+
 - task: VSBuild@1
   displayName: 'Build solution'
   inputs:
