@@ -18,7 +18,7 @@ steps:
 - task: NuGetToolInstaller@0
   displayName: 'NuGet restore'
   inputs:
-    solution: '**\DealCloud.sln'
+    solution: '**/*.sln'
     nuGetVersion: 3.5.0.1829
     
 - task: VSBuild@1
