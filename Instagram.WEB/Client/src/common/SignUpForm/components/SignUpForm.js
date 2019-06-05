@@ -11,9 +11,9 @@ import Heading from 'react-bulma-components/lib/components/heading';
 import {
     Field,
     Control,
-    Input,
 } from 'react-bulma-components/lib/components/form';
 import Button from 'react-bulma-components/lib/components/button';
+import Message from 'react-bulma-components/lib/components/message';
 import Joi from 'joi';
 import TextField from '../../../common/components/TextField';
 
@@ -63,6 +63,12 @@ class SignUpForm extends React.Component {
                             <Box>
                                 <Heading className="has-text-centered">Instagram</Heading>
                                 <p className="has-text-centered">Sign up to see photos and videos from your friends</p>
+                                {this.props.errorMessage &&
+                                    <Message color="danger">
+                                        <Message.Body>
+                                            {this.props.errorMessage}
+                                        </Message.Body>
+                                    </Message>}
                                 <form onSubmit={handleSubmit} className="margin-top-two" >
                                     <TextField
                                         name="email"
@@ -123,7 +129,8 @@ SignUpForm.propTypes = {
     getErrorMessage: PropTypes.func,
     renderErrors: PropTypes.func,
     handleValidateField: PropTypes.func,
-    isFieldValid: PropTypes.func
+    isFieldValid: PropTypes.func,
+    errorMessage: PropTypes.string
 };
 
 export default validationForm(SignUpForm);

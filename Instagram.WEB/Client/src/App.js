@@ -1,6 +1,7 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 
+import RequireAuth from './common/auth/RequireAuth';
 import SignIn from './Login/containers/SingInForm';
 import SignUpForm from './common/SignUpForm/containers/SingUpForm';
 
@@ -10,7 +11,7 @@ const App = () => {
             <Switch>
                 <Route path="/account/login" component={SignIn} />
                 <Route path="/account/register" component={SignUpForm} />
-                <Route path="*" component={() => (<h1>Not Found</h1>)} />
+                <Route path="*" component={RequireAuth(() => <h1>Hello world</h1>)} />
             </Switch>
         </div>);
 };
