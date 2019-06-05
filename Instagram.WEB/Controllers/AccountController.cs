@@ -9,6 +9,7 @@ using Instagram.BusinessLogic.Interfaces;
 using Instagram.Common.Enums;
 using Instagram.Common.IoContainer;
 using Instagram.WEB.Models;
+using Instagram.WEB.Utils.WebApi;
 using Microsoft.Owin.Security;
 
 namespace Instagram.WEB.Controllers
@@ -63,11 +64,10 @@ namespace Instagram.WEB.Controllers
 
         [HttpPost]
         [Route("api/account/register")]
-        public async Task Register(RegisterVm model)
+        public async Task<ApiResult> Register(RegisterVm model)
         {
             if (!ModelState.IsValid)
             {
-
                 throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.BadRequest)
                 {
                     Content = new StringContent("Model state is not valid!")
@@ -84,13 +84,25 @@ namespace Instagram.WEB.Controllers
             };
 
             var result = await _userService.CreateAsync(user);
+
+            if (!result.Succeeded)
+            {
+                throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.BadRequest)
+                {
+                    Content = new StringContent(result.Errors.ToString())
+                });
+            }
+
+            return ApiResult.Ok;
         }
 
         [HttpPost]
         [Route("api/account/logout")]
-        public void Logout()
+        public ApiResult Logout()
         {
             AuthenticationManager.SignOut();
+
+            return ApiResult.Ok;
         }
     }
 }

@@ -29,7 +29,7 @@ namespace Instagram.BusinessLogic.Services
             _roleManager = roleManager ?? throw new ArgumentException(nameof(roleManager));
         }
 
-        public async Task<object> CreateAsync(UserDTO userDto)
+        public async Task<IdentityResult> CreateAsync(UserDTO userDto)
         {
             if(userDto == null) throw new ArgumentNullException(nameof(userDto));
 
@@ -63,7 +63,7 @@ namespace Instagram.BusinessLogic.Services
                     throw new BusinesslogicException(result.Errors.First());
                 }
 
-                return null;
+                return result;
             }
             else
             {
