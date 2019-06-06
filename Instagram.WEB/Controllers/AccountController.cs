@@ -14,6 +14,7 @@ using Microsoft.Owin.Security;
 
 namespace Instagram.WEB.Controllers
 {
+    [RoutePrefix("api/account")]
     public class AccountController : ApiController
     {
         private static IAuthenticationManager AuthenticationManager => HttpContext.Current.GetOwinContext().Authentication;
@@ -28,42 +29,40 @@ namespace Instagram.WEB.Controllers
         }
 
         [HttpPost]
-        [Route("api/account/login")]
-        public async Task Login(LoginVm model)
+        [Route("login")]
+        public async Task<ApiResult> Login(LoginVm model)
         {
-            if (User.Identity.IsAuthenticated) return;
+            if (User.Identity.IsAuthenticated) return new ApiResult { StatusCode = 404, Message = "User is already authenticated" };
 
             if (!ModelState.IsValid)
             {
-                
+
                 throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.BadRequest)
                 {
                     Content = new StringContent("Model state is not valid!")
                 });
             }
 
-            try
+            var user = new UserDTO
             {
-                var user = new UserDTO
-                {
-                    Email = model.Email,
-                    Password = model.Password
-                };
+                Email = model.Email,
+                Password = model.Password
+            };
 
-                var claim = await _userService.Authenticate(user);
-                AuthenticationManager.SignIn(new AuthenticationProperties {IsPersistent = true}, claim);
-            }
-            catch
+            var claim = await _userService.Authenticate(user);
+            AuthenticationManager.SignIn(new AuthenticationProperties { IsPersistent = true }, claim);
+
+            var createdUser = _userService.GetUserByEmail(user.Email);
+
+            return new UserVm
             {
-                throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.BadRequest)
-                {
-                    Content = new StringContent("Wrong email or password!")
-                });
-            }
+                Id = createdUser.Id,
+                UserName = createdUser.UserName
+            }.AsApiResult();
         }
 
         [HttpPost]
-        [Route("api/account/register")]
+        [Route("register")]
         public async Task<ApiResult> Register(RegisterVm model)
         {
             if (!ModelState.IsValid)
@@ -93,11 +92,17 @@ namespace Instagram.WEB.Controllers
                 });
             }
 
-            return ApiResult.Ok;
+            var createdUser = _userService.GetUserByEmail(user.Email);
+
+            return new UserVm
+            {
+                Id = createdUser.Id,
+                UserName = createdUser.UserName
+            }.AsApiResult();
         }
 
         [HttpPost]
-        [Route("api/account/logout")]
+        [Route("logout")]
         public ApiResult Logout()
         {
             AuthenticationManager.SignOut();

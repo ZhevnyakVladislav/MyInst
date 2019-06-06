@@ -16,9 +16,9 @@ namespace Instagram.BusinessLogic.Services
     {
         private readonly IProfileProvider _profileManager;
 
-        private UserManager<User, int> _userManager;
+        private readonly UserManager<User, int> _userManager;
 
-        private RoleManager<Role, int> _roleManager;
+        private readonly RoleManager<Role, int> _roleManager;
 
         public UserService() : this(IoContainer.Resolve<UserManager<User, int>>(), IoContainer.Resolve<RoleManager<Role, int>>(), IoContainer.Resolve<IProfileProvider>()) {}
 
@@ -41,7 +41,7 @@ namespace Instagram.BusinessLogic.Services
                 user = new User
                 {
                     Email = userDto.Email,
-                    UserName = userDto.Email,
+                    UserName = userDto.UserName,
                     RoleId = role.Id
                 };
 
@@ -52,9 +52,7 @@ namespace Instagram.BusinessLogic.Services
                     var userProfile = new UserProfile
                     {
                         Id = user.Id,
-                        Email = userDto.Email,
                         FullName = userDto.FullName,
-                        UserName = userDto.UserName,
                     };
 
                     _profileManager.Create(userProfile);
@@ -84,6 +82,18 @@ namespace Instagram.BusinessLogic.Services
             }
 
             return claim;
+        }
+
+        public UserDTO GetUserByEmail(string email)
+        {
+            var user = _userManager.FindByEmailAsync(email).Result;
+
+            return  new UserDTO
+            {
+                Id = user.Id,
+                Email = user.Email,
+                UserName = user.UserName
+            };
         }
     }
 }

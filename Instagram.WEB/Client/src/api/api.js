@@ -5,11 +5,6 @@ const BASE_URL = '//myinstagram.com';
 
 const axiosInstance = axios.create({
     baseURL: BASE_URL,
-    // headers: {
-    //   common: {
-    //     Authorization: getAccessToken()
-    //   }
-    // }
 });
 
 const get = async (path, params) => {
@@ -26,7 +21,7 @@ const post = async (path, body, params) => {
         const response = await axiosInstance.post(path, body, { params });
         return response;
     } catch (err) {
-        throw new ApiError(err.response.data);
+        throw new ApiError(err.response);
     }
 };
 

@@ -64,7 +64,7 @@ namespace Instagram.DBProviders
                 return Task.FromResult(context
                     .Set<User>()
                     .Include(item => item.Role)
-                    .FirstOrDefault(item => item.Email == userName)
+                    .FirstOrDefault(item => item.UserName == userName)
                 );
             }
         }
@@ -180,7 +180,14 @@ namespace Instagram.DBProviders
 
         public Task<User> FindByEmailAsync(string email)
         {
-            return FindByNameAsync(email);
+            using (var context = IoContainer.Resolve<AppDbContext>())
+            {
+                return Task.FromResult(context
+                    .Set<User>()
+                    .Include(item => item.Role)
+                    .FirstOrDefault(item => item.Email == email)
+                );
+            }
         }
 
         #endregion

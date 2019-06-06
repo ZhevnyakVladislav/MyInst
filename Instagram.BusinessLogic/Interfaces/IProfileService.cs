@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Instagram.BusinessLogic.Entities;
+using Instagram.Common.Models;
 
 namespace Instagram.BusinessLogic.Interfaces
 {
     public interface IProfileService
     {
-        Task Create(UserDTO userDto);
+        void Create(UserDTO userDto);
+
+        UserProfile GetProfileByUserName(string userName);
     }
 }

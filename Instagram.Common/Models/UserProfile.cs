@@ -9,11 +9,17 @@ namespace Instagram.Common.Models
         [ForeignKey("User")]
         public int Id { get; set; }
 
-        public string Email { get; set; }
-
         public string FullName { get; set; }
 
-        public string UserName { get; set; }
+        public string Website { get; set; }
+
+        public string Bio { get; set; }
+
+        public string PhoneNumber { get; set; }
+
+        public string Gernder { get; set; }
+
+        public string Photo { get; set; }
 
         public virtual User User { get; set; }
     }

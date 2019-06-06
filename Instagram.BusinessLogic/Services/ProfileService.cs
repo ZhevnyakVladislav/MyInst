@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Instagram.BusinessLogic.Entities;
 using Instagram.BusinessLogic.Interfaces;
+using Instagram.Common.Extensions;
 using Instagram.Common.IoContainer;
 using Instagram.Common.Models;
 using Instagram.DBProviders.Interfaces;
@@ -19,18 +20,30 @@ namespace Instagram.BusinessLogic.Services
             _profileProvider = profileProvider ?? throw new ArgumentException(nameof(profileProvider));
         }
 
-        public async Task Create(UserDTO user)
+        public void Create(UserDTO user)
         {
             if(user == null) throw new ArgumentNullException(nameof(user));
 
-            UserProfile userProfile = new UserProfile()
+            UserProfile userProfile = new UserProfile
             {
-                Email = user.Email,
                 FullName = user.FullName,
-                UserName = user.UserName
             };
 
             _profileProvider.Create(userProfile);
+        }
+
+        public UserProfile GetProfileByUserName(string userName)
+        {
+            if(userName.IsNullOrEmpty()) throw new ArgumentNullException(nameof(userName));
+
+            var profile = _profileProvider.GetProfileByUserName(userName);
+
+            if (profile == null)
+            {
+                throw  new BusinesslogicException($"Profile with userName={userName} was not found.");
+            }
+
+            return profile;
         }
     }
 }

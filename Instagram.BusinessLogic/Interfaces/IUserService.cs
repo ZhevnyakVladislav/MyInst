@@ -11,5 +11,7 @@ namespace Instagram.BusinessLogic.Interfaces
         Task<IdentityResult> CreateAsync(UserDTO user);
 
         Task<ClaimsIdentity> Authenticate(UserDTO userDto);
+
+        UserDTO GetUserByEmail(string email);
     }
 }

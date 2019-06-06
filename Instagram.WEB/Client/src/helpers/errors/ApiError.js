@@ -1,6 +1,6 @@
 export default class ApiError extends Error {
-    constructor(data) {
+    constructor(response) {
         super();
-        this.message = data.Message || 'Something went wrong.';
+        this.message = response.data.Message || 'Something went wrong.';
     }
 }

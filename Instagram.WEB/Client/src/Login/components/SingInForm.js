@@ -1,50 +1,123 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import 'react-bulma-components/dist/react-bulma-components.min.css';
+import validationForm from '../../common/components/validation/ValidationForm';
+import PropTypes from 'prop-types';
+import Section from 'react-bulma-components/lib/components/section';
+import Container from 'react-bulma-components/lib/components/container';
+import Columns from 'react-bulma-components/lib/components/columns';
+import Box from 'react-bulma-components/lib/components/box';
+import Heading from 'react-bulma-components/lib/components/heading';
+import {
+    Field,
+    Control,
+} from 'react-bulma-components/lib/components/form';
+import Button from 'react-bulma-components/lib/components/button';
+import Message from 'react-bulma-components/lib/components/message';
+import Joi from 'joi';
+import TextField from '../../common/components/TextField';
 
-export default class SignInForm extends React.Component {
+class SignInForm extends React.Component {
 
     state = {
         email: '',
         password: '',
     }
 
+    static getDerivedStateFromProps(props) {
+        if (props.isUserAuth) {
+            props.history.push('/');
+        }
+        return null;
+    }
+
     handleSubmit = (e) => {
         e.preventDefault();
-        this.props.signIn({
-            email: '123@gmail.com',
-            password: 'Wtest100*',
-        });
+        this.props.signIn(this.state);
+    }
+
+    handleChange = (field) => e => {
+        this.setState({
+            [field]: e.target.value
+        }, () => this.props.handleValidateField(field));
+    }
+
+    getValidationSchema = () => {
+        return {
+            email: Joi.string().required().email().label('Email'),
+            password: Joi.string().required().min(8).label('Password'),
+        };
+    }
+
+    getValidationData = () => {
+        return this.state;
     }
 
     render() {
+        const { email, password } = this.state;
+        const { handleSubmit, renderErrors, isFieldValid } = this.props;
         return (
-            <div className="section">
-                <div className="container">
-                    <div className="columns is-centered">
-                        <div className="column is-5">
-                            <div className="box is-centered">
-                                <h1 className="is-size-3 has-text-centered">Instagram</h1>
-                                <form onSubmit={this.handleSubmit} className="margin-top-two" >
-                                    <div className="field">
-                                        <div className="control">
-                                            <input className="input" type="email" placeholder="Email" />
-                                        </div>
-                                    </div>
-                                    <div className="field">
-                                        <div className="control">
-                                            <input className="input" type="password" placeholder="Password" />
-                                        </div>
-                                    </div>
-                                    <button className="button is-half">Log In</button>
+            <Section>
+                <Container>
+                    <Columns>
+                        <Columns.Column size={5} offset="one-quarter">
+                            <Box>
+                                <Heading className="has-text-centered">Instagram</Heading>
+                                <p className="has-text-centered">Sign up to see photos and videos from your friends</p>
+                                {this.props.errorMessage &&
+                                    <Message color="danger">
+                                        <Message.Body>
+                                            {this.props.errorMessage}
+                                        </Message.Body>
+                                    </Message>}
+                                <form onSubmit={handleSubmit} className="margin-top-two" >
+                                    <TextField
+                                        name="email"
+                                        type="email"
+                                        placeholder="Email"
+                                        value={email}
+                                        isFieldValid={isFieldValid}
+                                        handleChange={this.handleChange}
+                                        renderErrors={renderErrors}
+                                    />
+                                    <TextField
+                                        name="password"
+                                        type="password"
+                                        placeholder="Password"
+                                        value={password}
+                                        isFieldValid={isFieldValid}
+                                        handleChange={this.handleChange}
+                                        renderErrors={renderErrors}
+                                    />
+                                    <Field>
+                                        <Control>
+                                            <Button className="is-half" onClick={handleSubmit}> Sign up</Button>
+                                        </Control>
+                                    </Field>
                                 </form>
-                            </div>
-                            <div className="box is-centered">
+                            </Box>
+                            <Box>
                                 <p>Don't have an account? <Link to="/account/register">Sign up</Link></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                            </Box>
+                        </Columns.Column>
+                    </Columns>
+                </Container>
+            </Section>
         );
     }
 }
+
+SignInForm.propTypes = {
+    signIn: PropTypes.func,
+    handleSubmit: PropTypes.func,
+    getErrorMessage: PropTypes.func,
+    renderErrors: PropTypes.func,
+    handleValidateField: PropTypes.func,
+    isFieldValid: PropTypes.func,
+    errorMessage: PropTypes.string,
+    isUserAuth: PropTypes.bool,
+    history: PropTypes.object
+};
+
+export default validationForm(SignInForm);
+
