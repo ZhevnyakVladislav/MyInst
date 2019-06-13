@@ -13,5 +13,7 @@ namespace Instagram.BusinessLogic.Interfaces
         Task<ClaimsIdentity> Authenticate(UserDTO userDto);
 
         UserDTO GetUserByEmail(string email);
+
+        UserDTO GetUserByUserName(string userName);
     }
 }

@@ -5,7 +5,7 @@ import types from './types';
 
 function* callLoadProfileData(action) {
     try {
-        var response = yield call(api.call.get, `${api.urls.profile.profileData}?username=${action.payload}`);
+        const response = yield call(api.call.get, `${api.urls.profile.profileData_get}?username=${action.payload}`);
         yield put(loadProfileDataSuccess(response.data.model));
     } catch (e) {
         yield put(loadProfileDataError(e));

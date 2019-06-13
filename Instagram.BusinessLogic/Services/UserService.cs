@@ -74,7 +74,7 @@ namespace Instagram.BusinessLogic.Services
         {
             ClaimsIdentity claim = null;
 
-            var user = await _userManager.FindAsync(userDto.Email, userDto.Password);
+            var user = await _userManager.FindAsync(userDto.UserName, userDto.Password);
 
             if (user != null)
             {
@@ -88,7 +88,29 @@ namespace Instagram.BusinessLogic.Services
         {
             var user = _userManager.FindByEmailAsync(email).Result;
 
+            if (user == null)
+            {
+                throw new BusinesslogicException($"user with email={email} was not found.");
+            }
+
             return  new UserDTO
+            {
+                Id = user.Id,
+                Email = user.Email,
+                UserName = user.UserName
+            };
+        }
+
+        public UserDTO GetUserByUserName(string userName)
+        {
+            var user = _userManager.FindByNameAsync(userName).Result;
+
+            if (user == null)
+            {
+                throw new BusinesslogicException($"user with userName={userName} was not found.");
+            }
+
+            return new UserDTO
             {
                 Id = user.Id,
                 Email = user.Email,

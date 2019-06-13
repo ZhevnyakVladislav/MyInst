@@ -1,22 +1,27 @@
 ﻿using System;
 using System.Web.Http;
 using Instagram.BusinessLogic.Interfaces;
+using Instagram.Common.Enums;
 using Instagram.Common.IoContainer;
 using Instagram.WEB.Models;
 using Instagram.WEB.Utils.WebApi;
 
 namespace Instagram.WEB.Controllers
 {
+    [Authorize]
     [RoutePrefix("api/profile")]
     public class ProfileController : ApiController
     {
         private readonly IProfileService _profileService;
 
-        public ProfileController() : this(IoContainer.Resolve<IProfileService>()) { }
+        private readonly IUserService _userService;
 
-        public ProfileController(IProfileService profileService)
+        public ProfileController() : this(IoContainer.Resolve<IProfileService>(), IoContainer.Resolve<IUserService>()) { }
+
+        public ProfileController(IProfileService profileService, IUserService userService)
         {
             _profileService = profileService ?? throw new ArgumentException(nameof(profileService));
+            _userService = userService ?? throw new ArgumentException(nameof(userService));
         }
 
         [HttpGet]
@@ -24,10 +29,12 @@ namespace Instagram.WEB.Controllers
         public ApiResult<ProfileVm> Get([FromUri]string username)
         {
             var profile = _profileService.GetProfileByUserName(username);
+            var user = _userService.GetUserByUserName(username);
 
             return new ProfileVm
             {
-                FullName = profile.FullName
+                UserName = user.UserName,
+                FullName = profile.FullName,
             }.AsApiResult();
         }
     }

@@ -1,24 +1,43 @@
 import types from './types';
-import { handleActions } from 'redux-actions';
+import { handleActions, combineActions } from 'redux-actions';
 
-const initialState = () => ({
-    isUserAuth: false,
+const createInitialState = () => ({
+    isUserAuth: true,
     id: null,
     errorMessage: null,
     userName: '',
-
 });
 
 export default handleActions({
-    [types.USER_SIGN_UP]: () => initialState(),
-    [types.USER_SIGN_UP_SUCCESS]: (state, actions) => ({
+    [combineActions(
+        types.USER_SIGN_IN,
+        types.USER_SIGN_UP,
+        types.LOAD_USER_DATA
+    )]: () => createInitialState(),
+
+    [combineActions(
+        types.USER_SIGN_IN_SUCCESS,
+        types.USER_SIGN_UP_SUCCESS,
+        types.LOAD_USER_DATA_SUCCESS
+    )]: (state, actions) => ({
         ...state,
         ...actions.payload,
         isUserAuth: true
     }),
-    [types.USER_SIGN_UP_ERROR]: (state, actions) => ({
+    [combineActions(
+        types.USER_SIGN_IN_ERROR,
+        types.USER_SIGN_UP_ERROR,
+        types.LOAD_USER_DATA_ERROR
+    )]: (state, actions) => ({
         ...state,
         errorMessage: actions.payload.message,
-        isUserAuth: false
+        isUserAuth: false,
     }),
-}, initialState());
+    [combineActions(
+        types.USER_UNAUTHORIZED,
+        types.USER_LOGOUT_SUCCESS,
+    )]: () => ({
+        ...createInitialState(),
+        isUserAuth: false,
+    }),
+}, createInitialState());

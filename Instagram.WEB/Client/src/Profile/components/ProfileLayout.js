@@ -8,7 +8,7 @@ import Button from 'react-bulma-components/lib/components/button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCog } from '@fortawesome/free-solid-svg-icons';
 
-const ProfileLayout = ({ profileData }) => {
+const ProfileLayout = ({ profileData, isUserAuth, openSettingsModal }) => {
     return (
         <Container>
             <Columns>
@@ -24,16 +24,25 @@ const ProfileLayout = ({ profileData }) => {
                             </Media>
                         </Columns.Column>
                         <Columns.Column size={8}>
+
                             <Content className="is-flex is-marginless">
-                                <h2>User Name</h2>
-                                <Button
+                                <h2>{profileData.userName}</h2>
+                                {isUserAuth ? <>
+                                    <Button
+                                        className="has-max-width-100 has-margin-left-10"
+                                        renderAs="a"
+                                        color="light"
+                                    >
+                                        Edit Profile
+                                    </Button>
+                                    <FontAwesomeIcon className="has-margin-left-10" icon={faCog} size="2x" onClick={openSettingsModal} />
+                                </> : <Button
                                     className="has-max-width-100 has-margin-left-10"
                                     renderAs="a"
-                                    color="light"
                                 >
-                                    Edit Profile
+                                        Follow
                                 </Button>
-                                <FontAwesomeIcon className="has-margin-left-10" icon={faCog} size="2x" />
+                                }
                             </Content>
                             <Content className="is-flex is-marginless">
                                 <p className="has-margin-right-20"><strong>12</strong> posts</p>
@@ -52,12 +61,17 @@ const ProfileLayout = ({ profileData }) => {
 };
 
 ProfileLayout.propTypes = {
-    image: PropTypes.string,
-    userName: PropTypes.string,
-    fullName: PropTypes.string,
-    postsCount: PropTypes.number,
-    followersCount: PropTypes.number,
-    followingCount: PropTypes.number,
+    profileData: PropTypes.shape({
+        image: PropTypes.string,
+        userName: PropTypes.string,
+        fullName: PropTypes.string,
+        postsCount: PropTypes.number,
+        followersCount: PropTypes.number,
+        followingCount: PropTypes.number,
+    }),
+    isUserAuth: PropTypes.bool,
+
+    openSettingsModal: PropTypes.func
 };
 
 export default ProfileLayout;

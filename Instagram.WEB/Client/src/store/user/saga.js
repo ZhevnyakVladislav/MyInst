@@ -7,7 +7,9 @@ import {
     signUpSuccess,
     signUpError,
     logOutSuccess,
-    logOutError
+    logOutError,
+    getUserDataSuccess,
+    getUserDataError
 } from './actions';
 
 function* callSignIn(action) {
@@ -33,13 +35,23 @@ function* callLogOut() {
         yield call(api.call.post, api.urls.user.logOut_post);
         yield put(logOutSuccess());
     } catch (e) {
-        yield put(logOutError());
+        yield put(logOutError(e));
     }
 }
+
+function* callLoadUserData() {
+    try {
+        const response = yield call(api.call.get, api.urls.user.userData_get);
+        yield put(getUserDataSuccess(response.data.model));
+    } catch (e) {
+        yield put(getUserDataError(e));
+    }
+}
+
 
 export default [
     takeEvery(types.USER_SIGN_UP, callSignUp),
     takeEvery(types.USER_SIGN_IN, callSignIn),
-    takeEvery(types.USER_LOGOUT, callLogOut)
-
+    takeEvery(types.USER_LOGOUT, callLogOut),
+    takeEvery(types.LOAD_USER_DATA, callLoadUserData)
 ];

@@ -63,7 +63,6 @@ namespace Instagram.DBProviders
             {
                 return Task.FromResult(context
                     .Set<User>()
-                    .Include(item => item.Role)
                     .FirstOrDefault(item => item.UserName == userName)
                 );
             }

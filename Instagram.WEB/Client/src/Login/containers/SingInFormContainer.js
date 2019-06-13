@@ -1,18 +1,16 @@
-import { connect } from 'react-redux';
 import React from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import SignUpForm from '../components/SignUpForm';
-import { signUp } from '../../../store/user/actions';
+import SignInForm from '../components/SignInForm';
+import { signIn } from '../../store/user/actions';
+import validationForm from '../../common/components/validation/ValidationForm';
 import Joi from 'joi';
-import validationForm from '../../components/validation/ValidationForm';
 
-class SignUpFormContainer extends React.PureComponent {
+class SignInFormContainer extends React.PureComponent {
     state = {
-        email: '',
-        password: '',
-        fullName: '',
         userName: '',
-    };
+        password: '',
+    }
 
     static getDerivedStateFromProps(props) {
         if (props.isUserAuth) {
@@ -22,7 +20,7 @@ class SignUpFormContainer extends React.PureComponent {
     }
 
     handleSubmit = () => {
-        this.props.signUp(this.state);
+        this.props.signIn(this.state);
     }
 
     handleChange = (field) => e => {
@@ -33,15 +31,13 @@ class SignUpFormContainer extends React.PureComponent {
 
     getValidationSchema = () => {
         return {
-            email: Joi.string().required().email().label('Email'),
+            // email: Joi.string().required().email().label('Email'),
             password: Joi.string().required().min(8).label('Password'),
-            fullName: Joi.string().required().label('Full name'),
-            userName: Joi.string().required().label('User name'),
         };
     }
 
     getValidationData = () => {
-        return this.state;
+        return { password: this.state.password };
     }
 
     render() {
@@ -54,16 +50,18 @@ class SignUpFormContainer extends React.PureComponent {
             handleChange: this.handleChange
         };
         return (
-            <SignUpForm {...props} {...this.state} />
+            <SignInForm {...props} {...this.state} />
         );
     }
+
 }
 
-SignUpFormContainer.propTypes = {
+SignInFormContainer.propTypes = {
     isUserAuth: PropTypes.bool,
     errorMessage: PropTypes.string,
-    signUp: PropTypes.func,
     history: PropTypes.object,
+
+    signIn: PropTypes.func,
     handleValidateField: PropTypes.func,
     renderErrors: PropTypes.func,
     isFieldValid: PropTypes.func,
@@ -76,7 +74,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    signUp: (data) => dispatch(signUp(data))
+    signIn: (data) => dispatch(signIn(data))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(validationForm(SignUpFormContainer));
+export default connect(mapStateToProps, mapDispatchToProps)(validationForm(SignInFormContainer)); 

@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { getUserData } from '../../../store/user/actions';
 
 export default function (ComposedComponent) {
     class Authenticate extends React.Component {
@@ -14,16 +15,41 @@ export default function (ComposedComponent) {
             return null;
         }
 
+        componentDidMount() {
+            if (!this.props.userId) {
+                this.props.getUserData();
+            }
+        }
+
+        componentDidUpdate() {
+            if (!this.props.isUserAuth) {
+                this.props.history.push('/account/login');
+            }
+        }
+
         render() {
-            return <ComposedComponent {...this.props} />;
+            return (this.props.userId && <ComposedComponent {...this.props} />);
         }
     }
 
-    Authenticate.propsTypes = {
-        isUserAuth: PropTypes.bool.isRequired,
+    Authenticate.propTypes = {
+        isUserAuth: PropTypes.bool,
+        history: PropTypes.object,
+        userId: PropTypes.number,
+
+        getUserData: PropTypes.func
     };
 
-    return connect(state => ({ isUserAuth: state.user.isUserAuth }))(Authenticate);
+    const mapStateToProps = (state) => ({
+        isUserAuth: state.user.isUserAuth,
+        userId: state.user.id,
+    });
+
+    const mapDispatchToProps = (dispatch) => ({
+        getUserData: () => dispatch(getUserData())
+    });
+
+    return connect(mapStateToProps, mapDispatchToProps)(Authenticate);
 }
 
 

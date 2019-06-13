@@ -10,6 +10,7 @@ using Instagram.Common.Enums;
 using Instagram.Common.IoContainer;
 using Instagram.WEB.Models;
 using Instagram.WEB.Utils.WebApi;
+using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
 
 namespace Instagram.WEB.Controllers
@@ -45,20 +46,14 @@ namespace Instagram.WEB.Controllers
 
             var user = new UserDTO
             {
-                Email = model.Email,
+                UserName = model.Username,
                 Password = model.Password
             };
 
             var claim = await _userService.Authenticate(user);
             AuthenticationManager.SignIn(new AuthenticationProperties { IsPersistent = true }, claim);
-
-            var createdUser = _userService.GetUserByEmail(user.Email);
-
-            return new UserVm
-            {
-                Id = createdUser.Id,
-                UserName = createdUser.UserName
-            }.AsApiResult();
+            
+            return ApiResult.Ok;
         }
 
         [HttpPost]
@@ -92,13 +87,7 @@ namespace Instagram.WEB.Controllers
                 });
             }
 
-            var createdUser = _userService.GetUserByEmail(user.Email);
-
-            return new UserVm
-            {
-                Id = createdUser.Id,
-                UserName = createdUser.UserName
-            }.AsApiResult();
+            return ApiResult.Ok;
         }
 
         [HttpPost]
@@ -108,6 +97,20 @@ namespace Instagram.WEB.Controllers
             AuthenticationManager.SignOut();
 
             return ApiResult.Ok;
+        }
+
+        [HttpGet]
+        [Route("user")]
+        [Authorize]
+        public ApiResult GetCurrentUserData()
+        {
+            var user = _userService.GetUserByUserName(User.Identity.Name);
+
+            return new UserVm
+            {
+                Id = user.Id,
+                UserName = user.UserName,
+            }.AsApiResult();
         }
     }
 }
