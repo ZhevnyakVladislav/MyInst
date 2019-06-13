@@ -1,7 +1,7 @@
 import axios from 'axios';
 import ApiError from '../helpers/errors/ApiError';
 
-const BASE_URL = 'https://myinstagram.azurewebsites.net/';
+const BASE_URL = '//myinstagram.com';
 
 const axiosInstance = axios.create({
     baseURL: BASE_URL,
