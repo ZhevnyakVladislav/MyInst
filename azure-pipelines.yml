@@ -53,7 +53,7 @@ steps:
     SourceFolder: '$(System.DefaultWorkingDirectory)/dist'
     TargetFolder: '$(Build.ArtifactStagingDirectory)/dist'
 
-- task: ArchiveFiles@2
+- task: PublishPipelineArtifact@0
   inputs:
-    rootFolderOrFile: '$(Build.DefaultWorkingDirectory)'
-    includeRootFolder: true
+    artifactName: 'drop'
+    targetPath: '$(build.artifactStagingDirectory)'
