@@ -24,6 +24,17 @@ steps:
     feedsToUse: 'select'
     vstsFeed: '/b4a08098-fdc1-4d12-a773-3fb87794c243'
 
+- task: Npm@1
+  inputs:
+    command: 'install'
+    workingDir: 'Instagram.WEB/Client'
+
+- task: Npm@1
+  inputs:
+    command: 'custom'
+    workingDir: 'Instagram.WEB/Client'
+    customCommand: 'run build_prod'
+
 - task: VSBuild@1
   displayName: 'Build solution'
   inputs:
@@ -37,16 +48,6 @@ steps:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
-- task: Npm@1
-  inputs:
-    command: 'install'
-    workingDir: 'Instagram.WEB/Client'
-
-- task: Npm@1
-  inputs:
-    command: 'custom'
-    workingDir: 'Instagram.WEB/Client'
-    customCommand: 'run build_prod'
 - task: ArchiveFiles@2
   inputs:
     rootFolderOrFile: '$(Build.BinariesDirectory)'
