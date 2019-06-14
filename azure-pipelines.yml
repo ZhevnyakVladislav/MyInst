@@ -32,6 +32,11 @@ steps:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
+- task: VSTest@2
+  inputs:
+    platform: '$(buildPlatform)'
+    configuration: '$(buildConfiguration)'
+
 - task: Npm@1
   inputs:
     command: 'install'
@@ -43,13 +48,17 @@ steps:
     workingDir: 'Instagram.WEB/Client'
     customCommand: 'run build_prod'
 
-- task: VSTest@2
-  inputs:
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+# - task: ArchiveFiles@2
+#   inputs:
+#     rootFolderOrFile: ''
+#     includeRootFolder: false
 
-- task: PublishPipelineArtifact@0
+- task: PublishBuildArtifacts@1
   inputs:
-    artifactName: 'drop'
-    targetPath: '$(build.artifactStagingDirectory)'
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'drop'
 
+# - task: PublishPipelineArtifact@0
+#   inputs:
+#     artifactName: 'drop'
+#     targetPath: '$(build.artifactStagingDirectory)'
