@@ -58,6 +58,11 @@ steps:
     rootFolderOrFile: ''
     includeRootFolder: false
 
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'drop'
+
 # - task: PublishPipelineArtifact@0
 #   inputs:
 #     artifactName: 'drop'
