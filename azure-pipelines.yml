@@ -48,11 +48,6 @@ steps:
     workingDir: 'Instagram.WEB/Client'
     customCommand: 'run build_prod'
 
-- task: CopyFiles@2
-  inputs:
-    SourceFolder: '$(System.DefaultWorkingDirectory)/Instagram.WEB/dist'
-    TargetFolder: '$(Build.ArtifactStagingDirectory)/dist'
-
 # - task: ArchiveFiles@2
 #   inputs:
 #     rootFolderOrFile: ''
