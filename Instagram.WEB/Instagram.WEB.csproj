@@ -186,6 +186,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="dist\bundle.js" />
+    <Content Include="dist\styles.css" />
     <Content Include="Global.asax" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -213,6 +215,8 @@
     <Compile Include="Utils\WebApi\ApiResultExtentions.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="dist\bundle.js.map" />
+    <Content Include="dist\styles.css.map" />
     <None Include="packages.config" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\web.config" />
