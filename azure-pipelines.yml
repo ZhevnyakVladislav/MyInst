@@ -50,12 +50,8 @@ steps:
 
 - task: CopyFiles@2
   inputs:
-    SourceFolder: '$(System.DefaultWorkingDirectory)'
-    Contents: |
-      **\*.js
+    SourceFolder: '$(System.DefaultWorkingDirectory)/dist'
     TargetFolder: '$(Build.ArtifactStagingDirectory)/dist'
-
-- task: PublishBuildArtifacts@1
 
 - task: ArchiveFiles@2
   inputs:
