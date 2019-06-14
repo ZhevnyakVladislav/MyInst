@@ -53,10 +53,10 @@ steps:
     SourceFolder: '$(System.DefaultWorkingDirectory)/Instagram.WEB/dist'
     TargetFolder: '$(Build.ArtifactStagingDirectory)/dist'
 
-- task: ArchiveFiles@2
-  inputs:
-    rootFolderOrFile: ''
-    includeRootFolder: false
+# - task: ArchiveFiles@2
+#   inputs:
+#     rootFolderOrFile: ''
+#     includeRootFolder: false
 
 - task: PublishBuildArtifacts@1
   inputs:
