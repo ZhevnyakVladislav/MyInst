@@ -48,10 +48,14 @@ steps:
     workingDir: 'Instagram.WEB/Client'
     customCommand: 'run build_prod'
 
-- task: Npm@1
+- task: CopyFiles@2
   inputs:
-    command: 'publish'
-    workingDir: 'Instagram.WEB/Client'
+    SourceFolder: '$(System.DefaultWorkingDirectory)'
+    Contents: |
+      **\*.js
+    TargetFolder: '$(Build.ArtifactStagingDirectory)/dist'
+
+- task: PublishBuildArtifacts@1
 
 - task: PublishPipelineArtifact@0
   inputs:
