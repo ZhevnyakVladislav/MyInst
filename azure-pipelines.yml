@@ -53,7 +53,12 @@ steps:
     SourceFolder: '$(System.DefaultWorkingDirectory)/Instagram.WEB/dist'
     TargetFolder: '$(Build.ArtifactStagingDirectory)/dist'
 
-- task: PublishPipelineArtifact@0
+- task: ArchiveFiles@2
   inputs:
-    artifactName: 'drop'
-    targetPath: '$(build.artifactStagingDirectory)'
+    rootFolderOrFile: '$(Build.DefaultWorkingDirectory)'
+    includeRootFolder: false
+
+# - task: PublishPipelineArtifact@0
+#   inputs:
+#     artifactName: 'drop'
+#     targetPath: '$(build.artifactStagingDirectory)'
