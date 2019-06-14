@@ -52,12 +52,6 @@ steps:
   inputs:
     command: 'publish'
     workingDir: 'Instagram.WEB/Client'
-    
-- task: CopyFiles@2
-  inputs:
-    SourceFolder: 'dist'
-    Contents: '**'
-    TargetFolder: 'dist'
 
 - task: PublishPipelineArtifact@0
   inputs:
