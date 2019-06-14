@@ -1,5 +1,4 @@
 # ASP.NET
-
 # Build and test ASP.NET projects.
 # Add steps that publish symbols, save build artifacts, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/apps/aspnet/build-aspnet-4
@@ -33,6 +32,17 @@ steps:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
+- task: Npm@1
+  inputs:
+    command: 'install'
+    workingDir: 'Instagram.WEB/Client'
+
+- task: Npm@1
+  inputs:
+    command: 'custom'
+    workingDir: 'Instagram.WEB/Client'
+    customCommand: 'run build_prod'
+
 - task: VSTest@2
   inputs:
     platform: '$(buildPlatform)'
@@ -42,3 +52,4 @@ steps:
   inputs:
     artifactName: 'drop'
     targetPath: '$(build.artifactStagingDirectory)'
+
