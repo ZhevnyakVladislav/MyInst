@@ -50,8 +50,8 @@ steps:
 
 - task: CopyFiles@2
   inputs:
-    SourceFolder: '$(System.DefaultWorkingDirectory)'
-    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+    SourceFolder: '$(System.DefaultWorkingDirectory)/Instagram.WEB/dist'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)/dist'
 
 - task: PublishPipelineArtifact@0
   inputs:
