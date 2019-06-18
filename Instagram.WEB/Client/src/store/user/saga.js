@@ -8,14 +8,12 @@ import {
     signUpError,
     logOutSuccess,
     logOutError,
-    getUserDataSuccess,
-    getUserDataError
 } from './actions';
 
 function* callSignIn(action) {
     try {
-        yield call(api.call.post, api.urls.user.signIn_post, action.payload);
-        yield put(signInSuccess());
+        const response = yield call(api.call.post, api.urls.user.signIn_post, action.payload);
+        yield put(signInSuccess(response.data.model));
     } catch (e) {
         yield put(signInError(e));
     }
@@ -39,19 +37,8 @@ function* callLogOut() {
     }
 }
 
-function* callLoadUserData() {
-    try {
-        const response = yield call(api.call.get, api.urls.user.userData_get);
-        yield put(getUserDataSuccess(response.data.model));
-    } catch (e) {
-        yield put(getUserDataError(e));
-    }
-}
-
-
 export default [
     takeEvery(types.USER_SIGN_UP, callSignUp),
     takeEvery(types.USER_SIGN_IN, callSignIn),
     takeEvery(types.USER_LOGOUT, callLogOut),
-    takeEvery(types.LOAD_USER_DATA, callLoadUserData)
 ];

@@ -1,6 +1,5 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
-
 import RequireAuth from './common/components/auth/RequireAuth';
 import SingInFormContainer from './Login/containers/SingInFormContainer';
 import SingUpFormContainer from './common/SignUpForm/containers/SingUpFormContainer';
@@ -19,15 +18,14 @@ const withHeader = (ComposedComponent, props) =>
         </>
     );
 
-
 const App = () => {
     return (
         <div>
             <Switch>
                 <Route path="/account/login" component={SingInFormContainer} />
                 <Route path="/account/register" component={SingUpFormContainer} />
-                <Route path="/notFound" component={RequireAuth((props) => withHeader(NotFoundPage, props))} />
-                <Route path="/:username" component={RequireAuth((props) => withHeader(Profile, props))} />
+                <Route path="/users/:username" component={RequireAuth((props) => withHeader(Profile, props))} />
+                <Route path="*" component={RequireAuth((props) => withHeader(NotFoundPage, props))} />
             </Switch>
         </div>);
 };

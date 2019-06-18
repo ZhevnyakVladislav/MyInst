@@ -14,7 +14,3 @@ export const logOutSuccess = createAction(types.USER_LOGOUT_SUCCESS);
 export const logOutError = createAction(types.USER_LOGOUT_ERROR, error => error);
 
 export const userUnauthorized = createAction(types.USER_UNAUTHORIZED);
-
-export const getUserData = createAction(types.LOAD_USER_DATA);
-export const getUserDataSuccess = createAction(types.LOAD_USER_DATA_SUCCESS);
-export const getUserDataError = createAction(types.LOAD_USER_DATA_ERROR);

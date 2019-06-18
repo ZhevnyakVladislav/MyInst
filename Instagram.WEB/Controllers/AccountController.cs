@@ -35,15 +35,6 @@ namespace Instagram.WEB.Controllers
         {
             if (User.Identity.IsAuthenticated) return new ApiResult { StatusCode = 404, Message = "User is already authenticated" };
 
-            if (!ModelState.IsValid)
-            {
-
-                throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.BadRequest)
-                {
-                    Content = new StringContent("Model state is not valid!")
-                });
-            }
-
             var user = new UserDTO
             {
                 UserName = model.Username,
@@ -52,21 +43,19 @@ namespace Instagram.WEB.Controllers
 
             var claim = await _userService.Authenticate(user);
             AuthenticationManager.SignIn(new AuthenticationProperties { IsPersistent = true }, claim);
-            
-            return ApiResult.Ok;
+
+            var createdUser = _userService.GetUserByUserName(user.UserName);
+
+            return new UserVm
+            {
+                UserName = createdUser.UserName
+            }.AsApiResult();
         }
 
         [HttpPost]
         [Route("register")]
         public async Task<ApiResult> Register(RegisterVm model)
         {
-            if (!ModelState.IsValid)
-            {
-                throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.BadRequest)
-                {
-                    Content = new StringContent("Model state is not valid!")
-                });
-            }
 
             var user = new UserDTO
             {
@@ -77,15 +66,7 @@ namespace Instagram.WEB.Controllers
                 Role = Roles.Admin
             };
 
-            var result = await _userService.CreateAsync(user);
-
-            if (!result.Succeeded)
-            {
-                throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.BadRequest)
-                {
-                    Content = new StringContent(result.Errors.ToString())
-                });
-            }
+            await _userService.CreateAsync(user);
 
             return ApiResult.Ok;
         }
@@ -97,20 +78,6 @@ namespace Instagram.WEB.Controllers
             AuthenticationManager.SignOut();
 
             return ApiResult.Ok;
-        }
-
-        [HttpGet]
-        [Route("user")]
-        [Authorize]
-        public ApiResult GetCurrentUserData()
-        {
-            var user = _userService.GetUserByUserName(User.Identity.Name);
-
-            return new UserVm
-            {
-                Id = user.Id,
-                UserName = user.UserName,
-            }.AsApiResult();
         }
     }
 }

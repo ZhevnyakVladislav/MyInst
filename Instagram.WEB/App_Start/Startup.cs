@@ -1,4 +1,5 @@
-﻿using Instagram.BusinessLogic;
+﻿using System;
+using Instagram.BusinessLogic;
 using Instagram.DBProviders;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin;
@@ -15,8 +16,8 @@ namespace Instagram.WEB
             {
                 AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
                 LoginPath = PathString.Empty,
+                ExpireTimeSpan = TimeSpan.FromDays(14),
             });
-
 
             ProviderServiceRegistrator.RegisterServices();
             BusinesslogicServiceRegistrator.RegisterServices();

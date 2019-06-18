@@ -6,6 +6,7 @@ namespace Instagram.WEB.Controllers
     {
         public ActionResult Index()
         {
+            Response.Cookies["userName"].Value = User.Identity.Name;
             return View();
         }
     }

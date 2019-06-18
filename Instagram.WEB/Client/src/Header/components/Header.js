@@ -42,7 +42,7 @@ const Header = ({ isUserAuth, userName }) => {
                                     <FontAwesomeIcon icon={faHeart} size="2x" />
                                 </Navbar.Item>
                                 {/* <Navbar.Item> */}
-                                <Link to={`/${userName}`}><FontAwesomeIcon icon={faUserAlt} size="2x" /></Link>
+                                <Link to={`/users/${userName}`}><FontAwesomeIcon icon={faUserAlt} size="2x" /></Link>
                                 {/* </Navbar.Item> */}
                             </>
                             :

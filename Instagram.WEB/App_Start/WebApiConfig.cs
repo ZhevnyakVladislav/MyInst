@@ -1,5 +1,6 @@
 ﻿using System.Web.Http;
 using System.Web.Http.ExceptionHandling;
+using Instagram.WEB.Utils.CookieHandler;
 using Instagram.WEB.Utils.ErrorHandling;
 using Newtonsoft.Json.Serialization;
 
@@ -20,6 +21,7 @@ namespace Instagram.WEB
                 defaults: new { id = RouteParameter.Optional }
             );
 
+            config.MessageHandlers.Add(new CookieHandler());
             config.Services.Replace(typeof(IExceptionHandler), new ApiErrorHandler());
             config.Services.Add(typeof(IExceptionLogger), new AiExceptionLogger());
         }

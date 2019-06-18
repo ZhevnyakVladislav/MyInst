@@ -11,7 +11,7 @@ const createInitialState = () => ({
     error: null
 });
 export default handleActions({
-    [types.LOAD_PROFILE_DATA]: () => createInitialState(),
+    [types.LOAD_PROFILE_DATA]: (state) => ({ ...state }),
     [types.LOAD_PROFILE_DATA_SUCCESS]: (state, actions) => ({
         ...state,
         ...actions.payload,

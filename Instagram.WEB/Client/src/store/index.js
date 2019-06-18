@@ -3,8 +3,15 @@ import rootReducer from './reducers';
 import createSagaMiddleware from 'redux-saga';
 import rootSaga from './sagas';
 import { composeWithDevTools } from 'redux-devtools-extension';
+import getCookie from '../helpers/cookie/index';
 
-const initialState = {};
+const userName = getCookie('userName');
+const initialState = {
+    user: {
+        isUserAuth: !!userName,
+        userName: userName
+    }
+};
 const sagaMiddleware = createSagaMiddleware();
 const composeEnhansers = process.env.NODE_ENV === 'production' ? compose : composeWithDevTools;
 const store = createStore(

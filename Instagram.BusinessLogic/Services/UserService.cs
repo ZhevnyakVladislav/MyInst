@@ -80,6 +80,10 @@ namespace Instagram.BusinessLogic.Services
             {
                 claim = await _userManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
             }
+            else
+            {
+                throw new BusinesslogicException($"Wrong email or password. Please try again.");
+            }
 
             return claim;
         }
