@@ -42,6 +42,7 @@ namespace Instagram.WEB.Controllers
             };
 
             var claim = await _userService.Authenticate(user);
+
             AuthenticationManager.SignIn(new AuthenticationProperties { IsPersistent = true }, claim);
 
             var createdUser = _userService.GetUserByUserName(user.UserName);
@@ -68,7 +69,16 @@ namespace Instagram.WEB.Controllers
 
             await _userService.CreateAsync(user);
 
-            return ApiResult.Ok;
+            var claim = await _userService.Authenticate(user);
+
+            AuthenticationManager.SignIn(new AuthenticationProperties { IsPersistent = true }, claim);
+
+            var createdUser = _userService.GetUserByUserName(user.UserName);
+
+            return new UserVm
+            {
+                UserName = createdUser.UserName
+            }.AsApiResult();
         }
 
         [HttpPost]

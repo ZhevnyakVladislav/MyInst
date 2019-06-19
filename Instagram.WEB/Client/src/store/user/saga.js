@@ -21,8 +21,8 @@ function* callSignIn(action) {
 
 function* callSignUp(action) {
     try {
-        yield call(api.call.post, api.urls.user.signUp_post, action.payload);
-        yield put(signUpSuccess());
+        const response = yield call(api.call.post, api.urls.user.signUp_post, action.payload);
+        yield put(signUpSuccess(response.data.model));
     } catch (e) {
         yield put(signUpError(e));
     }
