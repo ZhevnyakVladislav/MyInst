@@ -4,10 +4,12 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
+using AutoMapper;
 using Instagram.BusinessLogic.Entities;
 using Instagram.BusinessLogic.Interfaces;
 using Instagram.Common.Enums;
 using Instagram.Common.IoContainer;
+using Instagram.Common.Models;
 using Instagram.WEB.Models;
 using Instagram.WEB.Utils.WebApi;
 using Microsoft.AspNet.Identity;
@@ -22,11 +24,14 @@ namespace Instagram.WEB.Controllers
 
         private readonly IUserService _userService;
 
-        public AccountController() : this(IoContainer.Resolve<IUserService>()) { }
+        private readonly IMapper _mapper;
 
-        public AccountController(IUserService userService)
+        public AccountController() : this(IoContainer.Resolve<IUserService>(), IoContainer.Resolve<IMapper>()) { }
+
+        public AccountController(IUserService userService, IMapper mapper)
         {
             _userService = userService ?? throw new ArgumentException(nameof(userService));
+            _mapper = mapper ?? throw new ArgumentException(nameof(mapper));
         }
 
         [HttpPost]
@@ -35,50 +40,24 @@ namespace Instagram.WEB.Controllers
         {
             if (User.Identity.IsAuthenticated) return new ApiResult { StatusCode = 404, Message = "User is already authenticated" };
 
-            var user = new UserDTO
-            {
-                UserName = model.Username,
-                Password = model.Password
-            };
+            var user = _mapper.Map<UserDto>(model);
+            var authenticatedUser =  await AuthenticateUser(user);
 
-            var claim = await _userService.Authenticate(user);
-
-            AuthenticationManager.SignIn(new AuthenticationProperties { IsPersistent = true }, claim);
-
-            var createdUser = _userService.GetUserByUserName(user.UserName);
-
-            return new UserVm
-            {
-                UserName = createdUser.UserName
-            }.AsApiResult();
+            return _mapper.Map<UserVm>(authenticatedUser).AsApiResult();
+           
         }
 
         [HttpPost]
         [Route("register")]
         public async Task<ApiResult> Register(RegisterVm model)
         {
+            var user = _mapper.Map<UserDto>(model);
+            user.Role = Roles.Admin;
 
-            var user = new UserDTO
-            {
-                Email = model.Email,
-                Password = model.Password,
-                UserName = model.UserName,
-                FullName = model.FullName,
-                Role = Roles.Admin
-            };
+            await _userService.CreateUserAsync(user);
+            var authenticatedUser = await AuthenticateUser(user);
 
-            await _userService.CreateAsync(user);
-
-            var claim = await _userService.Authenticate(user);
-
-            AuthenticationManager.SignIn(new AuthenticationProperties { IsPersistent = true }, claim);
-
-            var createdUser = _userService.GetUserByUserName(user.UserName);
-
-            return new UserVm
-            {
-                UserName = createdUser.UserName
-            }.AsApiResult();
+            return _mapper.Map<UserVm>(authenticatedUser).AsApiResult();
         }
 
         [HttpPost]
@@ -88,6 +67,14 @@ namespace Instagram.WEB.Controllers
             AuthenticationManager.SignOut();
 
             return ApiResult.Ok;
+        }
+
+        private async Task<UserDto> AuthenticateUser(UserDto user)
+        {
+            var claim = await _userService.AuthenticateUser(user);
+            AuthenticationManager.SignIn(new AuthenticationProperties { IsPersistent = true }, claim);
+
+            return _userService.GetUserByUserName(user.UserName);
         }
     }
 }

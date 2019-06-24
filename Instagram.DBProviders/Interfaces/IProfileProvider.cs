@@ -7,6 +7,6 @@ namespace Instagram.DBProviders.Interfaces
     {
         void Create(UserProfile item);
 
-        UserProfile GetProfileByUserName(string userName);
+        UserProfile GetProfileByUserId(int userId);
     }
 }

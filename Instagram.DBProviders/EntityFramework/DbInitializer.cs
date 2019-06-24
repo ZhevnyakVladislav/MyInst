@@ -8,7 +8,6 @@ namespace Instagram.DBProviders.EntityFramework
 {
     public class DbInitializer : DropCreateDatabaseIfModelChanges<AppDbContext>
     {
-
         protected override void Seed(AppDbContext db)
         {
             var role = new Role

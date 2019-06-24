@@ -19,6 +19,7 @@ namespace Instagram.WEB
                 ExpireTimeSpan = TimeSpan.FromDays(14),
             });
 
+            AutoMapperConfig.RegisterAutoMapper();
             ProviderServiceRegistrator.RegisterServices();
             BusinesslogicServiceRegistrator.RegisterServices();
         }

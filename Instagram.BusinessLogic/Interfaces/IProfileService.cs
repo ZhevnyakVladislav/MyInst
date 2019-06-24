@@ -7,8 +7,8 @@ namespace Instagram.BusinessLogic.Interfaces
 {
     public interface IProfileService
     {
-        void Create(UserDTO userDto);
+        void CreateProfile(ProfileDto profile);
 
-        UserProfile GetProfileByUserName(string userName);
+        ProfileDto GetProfileByUserName(string userName);
     }
 }

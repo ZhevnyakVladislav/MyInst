@@ -12,7 +12,7 @@ using Microsoft.AspNet.Identity;
 
 namespace Instagram.DBProviders
 {
-    public class UserStore : IUserStore<User, int>, IUserPasswordStore<User, int>, IUserRoleStore<User, int>, IUserEmailStore<User, int>
+    public class UserStore : IUserPasswordStore<User, int>, IUserRoleStore<User, int>, IUserEmailStore<User, int>
     {
         public void Dispose()
         {

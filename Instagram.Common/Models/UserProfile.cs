@@ -5,7 +5,6 @@ namespace Instagram.Common.Models
 {
     public class UserProfile : BaseModel
     {
-        [Key]
         [ForeignKey("User")]
         public int Id { get; set; }
 

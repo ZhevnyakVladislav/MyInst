@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Web.Http;
+using AutoMapper;
 using Instagram.BusinessLogic.Interfaces;
 using Instagram.Common.Enums;
 using Instagram.Common.IoContainer;
@@ -16,12 +17,15 @@ namespace Instagram.WEB.Controllers
 
         private readonly IUserService _userService;
 
-        public ProfileController() : this(IoContainer.Resolve<IProfileService>(), IoContainer.Resolve<IUserService>()) { }
+        private readonly IMapper _mapper;
 
-        public ProfileController(IProfileService profileService, IUserService userService)
+        public ProfileController() : this(IoContainer.Resolve<IProfileService>(), IoContainer.Resolve<IUserService>(), IoContainer.Resolve<IMapper>()) { }
+
+        public ProfileController(IProfileService profileService, IUserService userService, IMapper mapper)
         {
             _profileService = profileService ?? throw new ArgumentException(nameof(profileService));
             _userService = userService ?? throw new ArgumentException(nameof(userService));
+            _mapper = mapper ?? throw new ArgumentException(nameof(mapper));
         }
 
         [HttpGet]
@@ -29,13 +33,8 @@ namespace Instagram.WEB.Controllers
         public ApiResult<ProfileVm> Get([FromUri]string username)
         {
             var profile = _profileService.GetProfileByUserName(username);
-            var user = _userService.GetUserByUserName(username);
 
-            return new ProfileVm
-            {
-                UserName = user.UserName,
-                FullName = profile.FullName,
-            }.AsApiResult();
+            return _mapper.Map<ProfileVm>(profile).AsApiResult();
         }
     }
 }
