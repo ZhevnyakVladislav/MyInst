@@ -49,7 +49,7 @@ steps:
     testAssemblyVer2: '**\*test*.dll
       !**\*TestAdapter.dll
       !**\obj\**'
-    searchFolder: '$(System.DefaultWorkingDirectory)/Instagram.Test.Unit.BusinessLogic/bin'
+    searchFolder: '$(System.DefaultWorkingDirectory)/Instagram.Test.Unit.BusinessLogic/bin/Release'
     vsTestVersion: '15.0'
 
 # - task: ArchiveFiles@2
