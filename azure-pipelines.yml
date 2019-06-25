@@ -15,7 +15,6 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
-# - task: NuGetToolInstaller@1
 
 - task: NuGetCommand@2
   inputs:
@@ -24,16 +23,16 @@ steps:
     feedsToUse: 'select'
     vstsFeed: '/b4a08098-fdc1-4d12-a773-3fb87794c243'
 
-- task: Npm@1
-  inputs:
-    command: 'install'
-    workingDir: 'Instagram.WEB/Client'
+# - task: Npm@1
+#   inputs:
+#     command: 'install'
+#     workingDir: 'Instagram.WEB/Client'
 
-- task: Npm@1
-  inputs:
-    command: 'custom'
-    workingDir: 'Instagram.WEB/Client'
-    customCommand: 'run build_prod'
+# - task: Npm@1
+#   inputs:
+#     command: 'custom'
+#     workingDir: 'Instagram.WEB/Client'
+#     customCommand: 'run build_prod'
 
 - task: VSBuild@1
   displayName: 'Build solution'
@@ -46,21 +45,12 @@ steps:
 - task: VSTest@2
   inputs:
     testSelector: 'testAssemblies'
-    testAssemblyVer2: '**\*test*.dll;-:**\obj\**'
+    testAssemblyVer2: 'bin\Release\Instagram.Test.Unit.BusinessLogic.dll
+      !**\*TestAdapter.dll
+      !**\obj\**'
     searchFolder: '$(System.DefaultWorkingDirectory)'
-    vsTestVersion: '15.0'
-
-# - task: ArchiveFiles@2
-#   inputs:
-#     rootFolderOrFile: ''
-#     includeRootFolder: false
 
 - task: PublishBuildArtifacts@1
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'drop'
-
-# - task: PublishPipelineArtifact@0
-#   inputs:
-#     artifactName: 'drop'
-#     targetPath: '$(build.artifactStagingDirectory)'
