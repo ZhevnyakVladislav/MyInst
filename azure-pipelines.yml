@@ -46,9 +46,10 @@ steps:
   inputs:
     testSelector: 'testAssemblies'
     testAssemblyVer2: '**\*test*.dll
-      **\obj\**'
+      !**\*TestAdapter.dll
+      !**\obj\**'
     searchFolder: '$(System.DefaultWorkingDirectory)'
-
+    
 - task: PublishBuildArtifacts@1
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
