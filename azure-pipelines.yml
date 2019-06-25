@@ -45,9 +45,7 @@ steps:
 - task: VSTest@2
   inputs:
     testSelector: 'testAssemblies'
-    testAssemblyVer2: 'Instagram.Test.Unit.BusinessLogic\bin\Release\Instagram.Test.Unit.BusinessLogic.dll
-      !**\*TestAdapter.dll
-      !**\obj\**'
+    testAssemblyVer2: 'Instagram.Test.Unit.BusinessLogic\bin\Release\Instagram.Test.Unit.BusinessLogic.dll'
     searchFolder: '$(System.DefaultWorkingDirectory)'
     
 - task: PublishBuildArtifacts@1
