@@ -17,18 +17,26 @@ namespace Instagram.Common.Services
 
         private async Task SendEmailAsync(IdentityMessage message)
         {
-            var apiKey = "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";
-            var client = new SendGridClient(apiKey);
-                var msg = new SendGridMessage
+            using (var smtp = new SmtpClient())
+            {
+                smtp.Host = "smtp.gmail.com";
+                smtp.Port = 587;
+
+                smtp.UseDefaultCredentials = false;
+                smtp.Credentials = new NetworkCredential("uladzislauzhauniak@gmail.com", "Delovayakolbasa1");
+                smtp.EnableSsl = true;
+
+                var mail = new MailMessage()
                 {
-                    From = new EmailAddress("support@myinstagram.com"),
+                    Body = message.Body,
+                    From = new MailAddress("support@myinst.com"),
                     Subject = message.Subject,
-                    PlainTextContent = message.Body,
+                    IsBodyHtml = true,
+                    To = { message.Destination }
                 };
 
-                msg.AddTo(new EmailAddress(message.Destination));
-
-               var response = await client.SendEmailAsync(msg);
+                smtp.Send(mail);
+            }
         }
     }
 }
