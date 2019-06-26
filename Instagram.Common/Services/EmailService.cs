@@ -17,7 +17,7 @@ namespace Instagram.Common.Services
 
         private async Task SendEmailAsync(IdentityMessage message)
         {
-            var apiKey = "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";
+            var apiKey = "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";
             var client = new SendGridClient(apiKey);
                 var msg = new SendGridMessage
                 {
