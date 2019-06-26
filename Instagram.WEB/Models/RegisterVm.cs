@@ -22,6 +22,9 @@ namespace Instagram.WEB.Models
         [Display(Name = "Password")]
         public string Password { get; set; }
 
+        [Required]
+        [Display(Name = "VerificationCode")]
+        public string VerificationCode { get; set; }
 
     }
 }

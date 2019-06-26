@@ -1,5 +1,7 @@
 ﻿using System;
 using Instagram.BusinessLogic;
+using Instagram.Common;
+using Instagram.Common.IoContainer;
 using Instagram.DBProviders;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin;
@@ -20,6 +22,7 @@ namespace Instagram.WEB
             });
 
             AutoMapperConfig.RegisterAutoMapper();
+            CommonRegistrator.Register();
             ProviderServiceRegistrator.RegisterServices();
             BusinesslogicServiceRegistrator.RegisterServices();
         }

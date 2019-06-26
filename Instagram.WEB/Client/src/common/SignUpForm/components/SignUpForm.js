@@ -24,7 +24,9 @@ const SignUpForm = ({
     renderErrors,
     isFieldValid,
     errorMessage,
-    handleChange
+    handleChange,
+    isShowVerification,
+    verificationCode,
 }) => {
     return (
         <Section>
@@ -75,11 +77,22 @@ const SignUpForm = ({
                                     handleChange={handleChange}
                                     renderErrors={renderErrors}
                                 />
-                                <Field>
+                                {isShowVerification &&
+                                    <TextField
+                                        name="verificationCode"
+                                        type="text"
+                                        placeholder="Code"
+                                        value={verificationCode}
+                                        isFieldValid={isFieldValid}
+                                        handleChange={handleChange}
+                                        renderErrors={renderErrors}
+                                    />}
+                                <Field >
                                     <Control>
-                                        <Button className="is-half" onClick={handleSubmit}> Sign up</Button>
+                                        <Button className="is-full-width" onClick={handleSubmit}> {isShowVerification ? 'Continue' : 'Sign up'}</Button>
                                     </Control>
                                 </Field>
+
                             </form>
                             <p className="has-text-centered">By signing up, you agree to our <b>Terms</b>, <b>Data Policy</b> and <b>Cookies Policy</b>.</p>
                         </Box>
@@ -99,6 +112,8 @@ SignUpForm.propTypes = {
     password: PropTypes.string,
     fullName: PropTypes.string,
     errorMessage: PropTypes.string,
+    isShowVerification: PropTypes.bool,
+    verificationCode: PropTypes.string,
 
     handleSubmit: PropTypes.func,
     renderErrors: PropTypes.func,
