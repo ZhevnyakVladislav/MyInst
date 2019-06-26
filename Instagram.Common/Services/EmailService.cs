@@ -24,7 +24,6 @@ namespace Instagram.Common.Services
 
                 smtp.UseDefaultCredentials = false;
                 smtp.Credentials = new NetworkCredential("uladzislauzhauniak@gmail.com", "Delovayakolbasa1");
-                smtp.EnableSsl = true;
 
                 var mail = new MailMessage()
                 {
