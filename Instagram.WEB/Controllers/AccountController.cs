@@ -76,6 +76,7 @@ namespace Instagram.WEB.Controllers
 
         [HttpPost]
         [Route("confirmEmail")]
+        [AllowAnonymous]
         public async Task<ApiResult> ConfirmEmail(RegisterVm model)
         {
             var user = await _userService.ConfirmUserEmailAsync(model.UserName, model.VerificationCode);

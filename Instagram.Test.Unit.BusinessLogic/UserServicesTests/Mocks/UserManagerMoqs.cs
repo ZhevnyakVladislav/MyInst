@@ -29,6 +29,8 @@ namespace Instagram.Test.Unit.BusinessLogic.UserServicesTests.Mocks
 
             manager.FindByEmailAsync(Arg.Any<string>()).Returns(x => testInfo.ExitedUsers.FirstOrDefault(u => u.Email == (string)x[0]));
 
+            manager.IsEmailConfirmedAsync(Arg.Any<int>()).Returns(x => testInfo.IsEmailConfirmed);
+
             return manager;
         }
     }

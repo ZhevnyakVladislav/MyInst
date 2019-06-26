@@ -59,7 +59,8 @@ namespace Instagram.Test.Unit.BusinessLogic.UserServicesTests
                 ExitedUsers = UserGenerator.GetFakeUsers(2),
                 NewUser = DtoUserGenerator.GetUserWithRole(Roles.Admin),
                 Roles = RoleGenerator.GetFakeRole(1),
-                IsPasswordValid = true
+                IsPasswordValid = true,
+                IsEmailConfirmed = true
             };
         }
 
@@ -139,6 +140,7 @@ namespace Instagram.Test.Unit.BusinessLogic.UserServicesTests
             Assert.DoesNotThrowAsync(() => _testObject.AuthenticateUserAsync(testInfo.GetExitedUser(_mapper)));
 
             _userManager.Received().FindByNameAsync(Arg.Any<string>());
+            _userManager.Received().IsEmailConfirmedAsync(Arg.Any<int>());
             _userManager.Received().CheckPasswordAsync(Arg.Any<User>(), Arg.Any<string>());
             _userManager.Received().CreateIdentityAsync(Arg.Any<User>(), Arg.Any<string>());
         }
@@ -150,6 +152,7 @@ namespace Instagram.Test.Unit.BusinessLogic.UserServicesTests
             Assert.ThrowsAsync<ArgumentNullException>(() => _testObject.AuthenticateUserAsync(null));
 
             _userManager.DidNotReceive().FindByNameAsync(Arg.Any<string>());
+            _userManager.DidNotReceive().IsEmailConfirmedAsync(Arg.Any<int>());
             _userManager.DidNotReceive().CheckPasswordAsync(Arg.Any<User>(), Arg.Any<string>());
             _userManager.DidNotReceive().CreateIdentityAsync(Arg.Any<User>(), Arg.Any<string>());
         }
@@ -165,6 +168,24 @@ namespace Instagram.Test.Unit.BusinessLogic.UserServicesTests
             Assert.ThrowsAsync<BusinesslogicException>(() => _testObject.AuthenticateUserAsync(testInfo.NewUser));
 
             _userManager.Received().FindByNameAsync(Arg.Any<string>());
+            _userManager.DidNotReceive().IsEmailConfirmedAsync(Arg.Any<int>());
+            _userManager.DidNotReceive().CheckPasswordAsync(Arg.Any<User>(), Arg.Any<string>());
+            _userManager.DidNotReceive().CreateIdentityAsync(Arg.Any<User>(), Arg.Any<string>());
+        }
+
+        [Category("AuthenticateUserAsync")]
+        [Test]
+        public void AuthenticateUser_EmailNotCorfimedBusinessLogicExceptionTest()
+        {
+            TestInfo testInfo = GetDefaultTestInfo();
+            _userManager = UserManagerMoqs.GetImplemented(testInfo);
+            _testObject = new UserService(_userManager, _roleManager, _profileService, _mapper);
+            testInfo.IsEmailConfirmed = false;
+
+            Assert.ThrowsAsync<BusinesslogicException>(() => _testObject.AuthenticateUserAsync(testInfo.GetExitedUser(_mapper)));
+
+            _userManager.Received().FindByNameAsync(Arg.Any<string>());
+            _userManager.Received().IsEmailConfirmedAsync(Arg.Any<int>());
             _userManager.DidNotReceive().CheckPasswordAsync(Arg.Any<User>(), Arg.Any<string>());
             _userManager.DidNotReceive().CreateIdentityAsync(Arg.Any<User>(), Arg.Any<string>());
         }
@@ -181,6 +202,7 @@ namespace Instagram.Test.Unit.BusinessLogic.UserServicesTests
             Assert.ThrowsAsync<BusinesslogicException>(() => _testObject.AuthenticateUserAsync(testInfo.GetExitedUser(_mapper)));
 
             _userManager.Received().FindByNameAsync(Arg.Any<string>());
+            _userManager.Received().IsEmailConfirmedAsync(Arg.Any<int>());
             _userManager.Received().CheckPasswordAsync(Arg.Any<User>(), Arg.Any<string>());
             _userManager.DidNotReceive().CreateIdentityAsync(Arg.Any<User>(), Arg.Any<string>());
         }

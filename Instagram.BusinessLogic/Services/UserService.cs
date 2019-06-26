@@ -34,7 +34,7 @@ namespace Instagram.BusinessLogic.Services
             _mapper = mapper ?? throw new ArgumentException(nameof(mapper));
         }
 
-        public async Task<IdentityResult> CreateUserAsync(UserDto userDto)
+        public async Task CreateUserAsync(UserDto userDto)
         {
             if (userDto == null) throw new ArgumentNullException(nameof(userDto));
 
@@ -60,19 +60,24 @@ namespace Instagram.BusinessLogic.Services
                     userProfile.Id = user.Id;
 
                     _profileService.CreateProfile(userProfile);
+
+                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    await _userManager.SendEmailAsync(user.Id,
+                        "Confirm your account",
+                        $"Your verification code: {code}");
                 }
                 else
                 {
                     throw new BusinesslogicException(result.Errors.First());
                 }
-
-                return result;
             }
-
-            throw new BusinesslogicException($"User with email = {userDto.Email} already exists.");
+            else
+            {
+                throw new BusinesslogicException($"User with userName = {userDto.UserName} already exists.");
+            }
         }
 
-        public async Task<ClaimsIdentity> AuthenticateUser(UserDto userDto)
+        public async Task<ClaimsIdentity> AuthenticateUserAsync(UserDto userDto)
         {
             if (userDto == null) throw new ArgumentNullException(nameof(userDto));
 
@@ -82,6 +87,11 @@ namespace Instagram.BusinessLogic.Services
 
             if (user != null)
             {
+                if (!await _userManager.IsEmailConfirmedAsync(user.Id))
+                {
+                    throw new BusinesslogicException($"You must have a confirmed email to log on.");
+                }
+
                 if (await _userManager.CheckPasswordAsync(user, userDto.Password))
                 {
                     claim = await _userManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
@@ -125,6 +135,20 @@ namespace Instagram.BusinessLogic.Services
             }
 
             return _mapper.Map<UserDto>(user);
+        }
+
+        public async Task<UserDto> ConfirmUserEmailAsync(string userName, string code)
+        {
+            var user = GetUserByUserName(userName);
+
+            var result = await _userManager.ConfirmEmailAsync(user.Id, code);
+
+            if (!result.Succeeded)
+            {
+                throw new BusinesslogicException("Wrong verification code! Please try again.");
+            }
+
+            return user;
         }
     }
 }
