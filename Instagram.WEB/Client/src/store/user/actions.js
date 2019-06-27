@@ -18,3 +18,7 @@ export const userUnauthorized = createAction(types.USER_UNAUTHORIZED);
 export const confirmEmail = createAction(types.CONFIRM_EMAIL);
 export const confirmEmailSuccess = createAction(types.CONFIRM_EMAIL_SUCCESS);
 export const confirmEmailError = createAction(types.CONFIRM_EMAIL_ERROR, error => error);
+
+export const confirmResetPassword = createAction(types.CONFIRM_RESET_PASSWORD);
+export const confirmResetPasswordSuccess = createAction(types.CONFIRM_RESET_PASSWORD_SUCCESS);
+export const confirmResetPasswordError = createAction(types.CONFIRM_RESET_PASSWORD_ERROR, error => error);
