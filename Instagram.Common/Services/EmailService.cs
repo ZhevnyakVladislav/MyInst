@@ -19,8 +19,10 @@ namespace Instagram.Common.Services
         {
             using (var client = new SmtpClient("smtp.office365.com", 587))
             {
+                var userName = Environment.GetEnvironmentVariable("EMAIL_SERVICE_USER_NAME");
+                var password = Environment.GetEnvironmentVariable("EMAIL_SERVICE_PASSWORD");
                 client.UseDefaultCredentials = false;
-                client.Credentials = new NetworkCredential("vladislavzhevnyak@gmail.com", "cxyfmbokzfautvtt");
+                client.Credentials = new NetworkCredential(userName, password);
                 client.EnableSsl = true;
                 client.DeliveryMethod = SmtpDeliveryMethod.Network;
 
@@ -29,10 +31,9 @@ namespace Instagram.Common.Services
                     Body = message.Body,
                     Subject = message.Subject,
                     IsBodyHtml = true,
-                    From = new MailAddress("vladislavzhevnyak@gmail.com")
+                    From = new MailAddress("vladislavzhevnyak@gmail.com"),
+                    To = { message.Destination }
                 };
-
-                msg.To.Add(message.Destination);
 
                 client.Send(msg);
             }
