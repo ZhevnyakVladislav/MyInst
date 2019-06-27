@@ -139,16 +139,47 @@ namespace Instagram.BusinessLogic.Services
 
         public async Task<UserDto> ConfirmUserEmailAsync(string userName, string code)
         {
+            if (userName.IsNullOrEmpty()) throw new ArgumentNullException(userName);
+            if (code.IsNullOrEmpty()) throw new ArgumentNullException(code);
+
             var user = GetUserByUserName(userName);
 
             var result = await _userManager.ConfirmEmailAsync(user.Id, code);
 
             if (!result.Succeeded)
             {
-                throw new BusinesslogicException("Wrong verification code! Please try again.");
+                throw new BusinesslogicException(result.Errors.FirstOrDefault());
             }
 
             return user;
+        }
+
+        public async Task RecoverUserAsync(string userName)
+        {
+            if(userName.IsNullOrEmpty()) throw  new ArgumentNullException(userName);
+
+            var user = GetUserByUserName(userName);
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user.Id);
+
+            await _userManager.SendEmailAsync(user.Id,
+                "Confirm your account",
+                $"Your verification code: {token}");
+        }
+
+        public async Task ResetPasswordAsync(string userName, string token, string newPassword)
+        {
+            if(userName.IsNullOrEmpty()) throw  new ArgumentNullException();
+            if (token.IsNullOrEmpty()) throw new ArgumentNullException(token);
+            if (newPassword.IsNullOrEmpty()) throw new ArgumentNullException(newPassword);
+
+            var user = GetUserByUserName(userName);
+
+            var result = await _userManager.ResetPasswordAsync(user.Id, token, newPassword);
+
+            if (!result.Succeeded)
+            {
+                throw new BusinesslogicException(result.Errors.FirstOrDefault());
+            }
         }
     }
 }

@@ -17,5 +17,9 @@ namespace Instagram.BusinessLogic.Interfaces
         UserDto GetUserByUserName(string userName);
 
         Task<UserDto> ConfirmUserEmailAsync(string userName, string code);
+
+        Task RecoverUserAsync(string userName);
+
+        Task ResetPasswordAsync(string userName, string token, string newPassword);
     }
 }
