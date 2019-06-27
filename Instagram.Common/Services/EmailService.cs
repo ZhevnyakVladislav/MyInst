@@ -21,15 +21,16 @@ namespace Instagram.Common.Services
             {
 
                 client.UseDefaultCredentials = false;
-                client.Credentials = new NetworkCredential("uladzislauzhauniak@gmail.com", "Delovayakolbasa0");
+                client.Credentials = new NetworkCredential("vladislavzhevnyak@gmail.com", "Delovayakolbasa1");
                 client.EnableSsl = true;
+                client.DeliveryMethod = SmtpDeliveryMethod.Network;
 
                 var msg = new MailMessage()
                 {
                     Body = message.Body,
                     Subject = message.Subject,
                     IsBodyHtml = true,
-                    From = new MailAddress("uladzislauzhauniak@gmail.com")
+                    From = new MailAddress("vladislavzhevnyak@gmail.com")
                 };
 
                 msg.To.Add(message.Destination);
