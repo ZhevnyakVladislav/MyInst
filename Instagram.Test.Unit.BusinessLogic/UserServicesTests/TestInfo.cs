@@ -20,6 +20,8 @@ namespace Instagram.Test.Unit.BusinessLogic.UserServicesTests
 
         public bool IsEmailConfirmed { get; set; }
 
+        public string Error { get; set; }
+
         public UserDto GetExitedUser(IMapper mapper)
         {
             return mapper.Map<UserDto>(ExitedUsers.FirstOrDefault());

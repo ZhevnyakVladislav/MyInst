@@ -89,5 +89,25 @@ namespace Instagram.WEB.Controllers
 
             return _mapper.Map<UserVm>(user).AsApiResult();
         }
+
+        [HttpPost]
+        [Route("recover")]
+        [AllowAnonymous]
+        public async Task<ApiResult> RecoverAccount(ResetPasswordVm model)
+        {
+            await _userService.RecoverUserAsync(model.UserName);
+
+            return ApiResult.Ok;
+        }
+
+        [HttpPost]
+        [Route("recover")]
+        [AllowAnonymous]
+        public async Task<ApiResult> ResetPassword(ResetPasswordVm model)
+        {
+            await _userService.ResetPasswordAsync(model.UserName, model.Token, model.NewPassword);
+
+            return ApiResult.Ok;
+        }
     }
 }
