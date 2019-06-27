@@ -19,9 +19,8 @@ namespace Instagram.Common.Services
         {
             using (var client = new SmtpClient("smtp.office365.com", 587))
             {
-
                 client.UseDefaultCredentials = false;
-                client.Credentials = new NetworkCredential("vladislavzhevnyak@gmail.com", "Delovayakolbasa1");
+                client.Credentials = new NetworkCredential("vladislavzhevnyak@gmail.com", "cxyfmbokzfautvtt");
                 client.EnableSsl = true;
                 client.DeliveryMethod = SmtpDeliveryMethod.Network;
 
