@@ -7,7 +7,8 @@ const createInitialState = () => ({
     isUserAuth: !!userName,
     userName: getCookie('userName'),
     errorMessage: null,
-    isShowVerification: false
+    isAccountCorfimed: false,
+    isPasswordReseted: false,
 });
 
 export default handleActions({
@@ -19,11 +20,11 @@ export default handleActions({
         isUserAuth: false
     }),
     [combineActions(
-        types.CONFIRM_EMAIL,
-        types.USER_SIGN_UP_SUCCESS
+        types.USER_SIGN_UP_SUCCESS,
+        types.CONFIRM_RESET_PASSWORD_SUCCESS
     )]: (state) => ({
         ...state,
-        isShowVerification: true
+        isAccountCorfimed: true
     }),
     [combineActions(
         types.USER_SIGN_IN_SUCCESS,
@@ -36,15 +37,19 @@ export default handleActions({
     [combineActions(
         types.USER_SIGN_IN_ERROR,
         types.USER_SIGN_UP_ERROR,
-        types.CONFIRM_EMAIL_ERROR
+        types.CONFIRM_EMAIL_ERROR,
+        types.CONFIRM_RESET_PASSWORD_ERROR,
+        types.RESET_PASSWORD_ERROR
     )]: (state, actions) => ({
         ...state,
         errorMessage: actions.payload.message,
+        isAccountCorfimed: false,
         isUserAuth: false,
     }),
     [combineActions(
         types.USER_UNAUTHORIZED,
         types.USER_LOGOUT_SUCCESS,
+        types.RESET_PASSWORD_SUCCESS
     )]: () => ({
         ...createInitialState(),
         isUserAuth: false,

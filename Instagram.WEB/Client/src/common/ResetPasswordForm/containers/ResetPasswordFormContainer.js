@@ -3,22 +3,31 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Joi from 'joi';
 import validationForm from '../../components/validation/ValidationForm';
-import VerificationCodeForm from '../conponents/VerificationCodeForm';
+import ResetPasswordForm from '../conponents/ResetPasswordForm';
+import { confirmResetPassword, resetPassword } from '../../../store/user/actions';
 
 class VerificationCodeFormContainer extends React.PureComponent {
     state = {
-        verificationCode: ''
+        userName: '',
+        verificationCode: '',
+        password: ''
     }
 
     static getDerivedStateFromProps(props) {
         if (props.isUserAuth) {
             props.history.push('/');
         }
+
         return null;
     }
 
     handleSubmit = () => {
-       
+        this.props.isAccountCorfimed
+            ? Promise.resolve(this.props.resetPassword({
+                ...this.state,
+                token: this.state.verificationCode
+            })).then(() => this.props.history.push('/account/login'))
+            : this.props.confirmResetPassword({ userName: this.state.userName });
     }
 
     handleChange = (field) => e => {
@@ -28,26 +37,38 @@ class VerificationCodeFormContainer extends React.PureComponent {
     }
 
     getValidationSchema = () => {
-        return {
-            verificationCode: Joi.string().required().length(8).label('Code'),
+        const result = {
+            userName: Joi.string().required().label('User name')
         };
+
+        if (this.props.isAccountCorfimed) {
+            result.verificationCode = Joi.string().required().length(6).label('Verification code');
+            result.password = Joi.string().required().min(8).label('Password');
+        }
+
+        return result;
     }
 
     getValidationData = () => {
-        return this.state;
+        const result = {
+            userName: this.state.userName
+        };
+
+        return this.props.isAccountCorfimed ? this.state : result;
     }
 
     render() {
-        const { renderErrors, isFieldValid, errorMessage, handleSubmit } = this.props;
+        const { renderErrors, isFieldValid, errorMessage, handleSubmit, isAccountCorfimed } = this.props;
         const props = {
             renderErrors,
             isFieldValid,
             errorMessage,
             handleSubmit,
+            isAccountCorfimed,
             handleChange: this.handleChange
         };
         return (
-            <VerificationCodeForm {...props} {...this.state} />
+            <ResetPasswordForm {...props} {...this.state} />
         );
     }
 }
@@ -55,18 +76,23 @@ class VerificationCodeFormContainer extends React.PureComponent {
 const mapStateToProps = (state) => ({
     isUserAuth: state.user.isUserAuth,
     errorMessage: state.user.errorMessage,
+    isAccountCorfimed: state.user.isAccountCorfimed,
 });
 
 const mapDispatchToProps = ({
-    // confirmEmail: confirmEmail
+    confirmResetPassword,
+    resetPassword
 });
 
 VerificationCodeFormContainer.propTypes = {
     isUserAuth: PropTypes.bool,
     errorMessage: PropTypes.string,
     history: PropTypes.object,
-    isShowVerification: PropTypes.bool,
+    isAccountCorfimed: PropTypes.bool,
+    isPasswordReseted: PropTypes.bool,
 
+    resetPassword: PropTypes.func,
+    confirmResetPassword: PropTypes.func,
     handleValidateField: PropTypes.func,
     renderErrors: PropTypes.func,
     isFieldValid: PropTypes.func,

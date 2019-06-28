@@ -59,9 +59,12 @@ const SignInForm = ({
                                 />
                                 <Field>
                                     <Control>
-                                        <Button className="is-half" onClick={handleSubmit}> Sign in</Button>
+                                        <Button className="is-full-width" onClick={handleSubmit}> Sign in</Button>
                                     </Control>
                                 </Field>
+                                <div className="has-text-centered">
+                                    <Link to="/account/password/reset">Forgot password?</Link>
+                                </div>
                             </form>
                         </Box>
                         <Box>

@@ -96,7 +96,7 @@ SignUpFormContainer.propTypes = {
 const mapStateToProps = (state) => ({
     isUserAuth: state.user.isUserAuth,
     errorMessage: state.user.errorMessage,
-    isShowVerification: state.user.isShowVerification
+    isShowVerification: state.user.isAccountCorfimed
 });
 
 const mapDispatchToProps = ({

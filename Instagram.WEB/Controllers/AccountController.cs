@@ -91,7 +91,7 @@ namespace Instagram.WEB.Controllers
         }
 
         [HttpPost]
-        [Route("recover")]
+        [Route("password/recover")]
         [AllowAnonymous]
         public async Task<ApiResult> RecoverAccount(ResetPasswordVm model)
         {
@@ -101,11 +101,11 @@ namespace Instagram.WEB.Controllers
         }
 
         [HttpPost]
-        [Route("recover")]
+        [Route("password/reset")]
         [AllowAnonymous]
         public async Task<ApiResult> ResetPassword(ResetPasswordVm model)
         {
-            await _userService.ResetPasswordAsync(model.UserName, model.Token, model.NewPassword);
+            await _userService.ResetPasswordAsync(model.UserName, model.Token, model.Password);
 
             return ApiResult.Ok;
         }

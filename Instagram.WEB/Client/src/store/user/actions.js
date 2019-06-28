@@ -22,3 +22,7 @@ export const confirmEmailError = createAction(types.CONFIRM_EMAIL_ERROR, error =
 export const confirmResetPassword = createAction(types.CONFIRM_RESET_PASSWORD);
 export const confirmResetPasswordSuccess = createAction(types.CONFIRM_RESET_PASSWORD_SUCCESS);
 export const confirmResetPasswordError = createAction(types.CONFIRM_RESET_PASSWORD_ERROR, error => error);
+
+export const resetPassword = createAction(types.RESET_PASSWORD);
+export const resetPasswordSuccess = createAction(types.RESET_PASSWORD_SUCCESS);
+export const resetPasswordError = createAction(types.RESET_PASSWORD_ERROR, error => error);

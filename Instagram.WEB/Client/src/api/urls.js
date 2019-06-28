@@ -8,7 +8,8 @@ const urls = {
         signUp_post: `${base}/account/register`,
         logOut_post: `${base}/account/logout`,
         confirmEmail_post: `${base}/account/confirmEmail`,
-        confirmResetPassword_post: `${base}/account/confirmResetPassword`
+        confirmResetPassword_post: `${base}/account/password/recover`,
+        resetPassword_post: `${base}/account/password/reset`
     },
     profile: {
         profileData_get: `${base}/profile`

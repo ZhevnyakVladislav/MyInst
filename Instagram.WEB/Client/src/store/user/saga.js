@@ -11,7 +11,9 @@ import {
     confirmEmailSuccess,
     confirmEmailError,
     confirmResetPasswordSuccess,
-    confirmResetPasswordError
+    confirmResetPasswordError,
+    resetPasswordSuccess,
+    resetPasswordError,
 } from './actions';
 
 function* callSignIn(action) {
@@ -53,11 +55,19 @@ function* callConfirmEmail(action) {
 
 function* callConfirmResetPassword(action) {
     try {
-        const response = yield call(api.call.post, api.urls.user.confirmResetPassword_post, action.payload);
-        yield put(confirmResetPasswordSuccess(response.data.model));
+        yield call(api.call.post, api.urls.user.confirmResetPassword_post, action.payload);
+        yield put(confirmResetPasswordSuccess());
     } catch (e) {
         yield put(confirmResetPasswordError(e));
+    }
+}
 
+function* callResetPassword(action) {
+    try {
+        yield call(api.call.post, api.urls.user.resetPassword_post, action.payload);
+        yield put(resetPasswordSuccess());
+    } catch (e) {
+        yield put(resetPasswordError(e));
     }
 }
 
@@ -66,5 +76,6 @@ export default [
     takeEvery(types.USER_SIGN_IN, callSignIn),
     takeEvery(types.USER_LOGOUT, callLogOut),
     takeEvery(types.CONFIRM_EMAIL, callConfirmEmail),
-    takeEvery(types.CONFIRM_RESET_PASSWORD, callConfirmResetPassword)
+    takeEvery(types.CONFIRM_RESET_PASSWORD, callConfirmResetPassword),
+    takeEvery(types.RESET_PASSWORD, callResetPassword),
 ];
