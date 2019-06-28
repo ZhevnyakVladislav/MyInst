@@ -76,6 +76,7 @@ namespace Instagram.WEB.Controllers
 
         [HttpPost]
         [Route("confirmEmail")]
+        [AllowAnonymous]
         public async Task<ApiResult> ConfirmEmail(RegisterVm model)
         {
             var user = await _userService.ConfirmUserEmailAsync(model.UserName, model.VerificationCode);
@@ -87,6 +88,26 @@ namespace Instagram.WEB.Controllers
             AuthenticationManager.SignIn(new AuthenticationProperties { IsPersistent = true }, claim);
 
             return _mapper.Map<UserVm>(user).AsApiResult();
+        }
+
+        [HttpPost]
+        [Route("recover")]
+        [AllowAnonymous]
+        public async Task<ApiResult> RecoverAccount(ResetPasswordVm model)
+        {
+            await _userService.RecoverUserAsync(model.UserName);
+
+            return ApiResult.Ok;
+        }
+
+        [HttpPost]
+        [Route("recover")]
+        [AllowAnonymous]
+        public async Task<ApiResult> ResetPassword(ResetPasswordVm model)
+        {
+            await _userService.ResetPasswordAsync(model.UserName, model.Token, model.NewPassword);
+
+            return ApiResult.Ok;
         }
     }
 }

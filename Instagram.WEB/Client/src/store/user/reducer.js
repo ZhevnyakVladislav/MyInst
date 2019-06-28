@@ -14,7 +14,10 @@ export default handleActions({
     [combineActions(
         types.USER_SIGN_IN,
         types.USER_SIGN_UP,
-    )]: () => createInitialState(),
+    )]: (state) => ({
+        ...state,
+        isUserAuth: false
+    }),
     [combineActions(
         types.CONFIRM_EMAIL,
         types.USER_SIGN_UP_SUCCESS

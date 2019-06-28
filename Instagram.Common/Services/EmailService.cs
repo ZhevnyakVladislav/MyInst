@@ -1,7 +1,10 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
+using SendGrid;
+using SendGrid.Helpers.Mail;
 
 namespace Instagram.Common.Services
 {
@@ -14,25 +17,25 @@ namespace Instagram.Common.Services
 
         private async Task SendEmailAsync(IdentityMessage message)
         {
-            using (var smtp = new SmtpClient())
+            using (var client = new SmtpClient("smtp.office365.com", 587))
             {
-                smtp.Host = "smtp.gmail.com";
-                smtp.Port = 587;
+                var userName = Environment.GetEnvironmentVariable("EMAIL_SERVICE_USER_NAME");
+                var password = Environment.GetEnvironmentVariable("EMAIL_SERVICE_PASSWORD");
+                client.UseDefaultCredentials = false;
+                client.Credentials = new NetworkCredential(userName, password);
+                client.EnableSsl = true;
+                client.DeliveryMethod = SmtpDeliveryMethod.Network;
 
-                smtp.UseDefaultCredentials = false;
-                smtp.Credentials = new NetworkCredential("uladzislauzhauniak@gmail.com", "Delovayakolbasa1");
-                smtp.EnableSsl = true;
-
-                var mail = new MailMessage()
+                var msg = new MailMessage()
                 {
                     Body = message.Body,
-                    From = new MailAddress("support@myinst.com"),
                     Subject = message.Subject,
                     IsBodyHtml = true,
+                    From = new MailAddress(userName),
                     To = { message.Destination }
                 };
 
-                smtp.Send(mail);
+                client.Send(msg);
             }
         }
     }
