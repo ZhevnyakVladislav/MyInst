@@ -8,12 +8,18 @@ namespace Instagram.BusinessLogic.Interfaces
 {
     public interface IUserService
     {
-        Task<IdentityResult> CreateUserAsync(UserDto user);
+        Task CreateUserAsync(UserDto user);
 
-        Task<ClaimsIdentity> AuthenticateUser(UserDto userDto);
+        Task<ClaimsIdentity> AuthenticateUserAsync(UserDto userDto);
 
         UserDto GetUserByEmail(string email);
 
         UserDto GetUserByUserName(string userName);
+
+        Task<UserDto> ConfirmUserEmailAsync(string userName, string code);
+
+        Task RecoverUserAsync(string userName);
+
+        Task ResetPasswordAsync(string userName, string token, string newPassword);
     }
 }

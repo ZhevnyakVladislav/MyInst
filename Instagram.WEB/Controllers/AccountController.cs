@@ -36,32 +36,37 @@ namespace Instagram.WEB.Controllers
 
         [HttpPost]
         [Route("login")]
+        [AllowAnonymous]
         public async Task<ApiResult> Login(LoginVm model)
         {
             if (User.Identity.IsAuthenticated) return new ApiResult { StatusCode = 404, Message = "User is already authenticated" };
 
             var user = _mapper.Map<UserDto>(model);
-            var authenticatedUser =  await AuthenticateUser(user);
+            var claim = await _userService.AuthenticateUserAsync(user);
+
+            AuthenticationManager.SignIn(new AuthenticationProperties { IsPersistent = true }, claim);
+
+            var authenticatedUser = _userService.GetUserByUserName(user.UserName);
 
             return _mapper.Map<UserVm>(authenticatedUser).AsApiResult();
-           
         }
 
         [HttpPost]
         [Route("register")]
+        [AllowAnonymous]
         public async Task<ApiResult> Register(RegisterVm model)
         {
             var user = _mapper.Map<UserDto>(model);
             user.Role = Roles.Admin;
 
             await _userService.CreateUserAsync(user);
-            var authenticatedUser = await AuthenticateUser(user);
 
-            return _mapper.Map<UserVm>(authenticatedUser).AsApiResult();
+            return ApiResult.Ok;
         }
 
         [HttpPost]
         [Route("logout")]
+        [Authorize]
         public ApiResult Logout()
         {
             AuthenticationManager.SignOut();
@@ -69,12 +74,40 @@ namespace Instagram.WEB.Controllers
             return ApiResult.Ok;
         }
 
-        private async Task<UserDto> AuthenticateUser(UserDto user)
+        [HttpPost]
+        [Route("confirmEmail")]
+        [AllowAnonymous]
+        public async Task<ApiResult> ConfirmEmail(RegisterVm model)
         {
-            var claim = await _userService.AuthenticateUser(user);
+            var user = await _userService.ConfirmUserEmailAsync(model.UserName, model.VerificationCode);
+
+            user.Password = model.Password;
+
+            var claim = await _userService.AuthenticateUserAsync(user);
+
             AuthenticationManager.SignIn(new AuthenticationProperties { IsPersistent = true }, claim);
 
-            return _userService.GetUserByUserName(user.UserName);
+            return _mapper.Map<UserVm>(user).AsApiResult();
+        }
+
+        [HttpPost]
+        [Route("recover")]
+        [AllowAnonymous]
+        public async Task<ApiResult> RecoverAccount(ResetPasswordVm model)
+        {
+            await _userService.RecoverUserAsync(model.UserName);
+
+            return ApiResult.Ok;
+        }
+
+        [HttpPost]
+        [Route("recover")]
+        [AllowAnonymous]
+        public async Task<ApiResult> ResetPassword(ResetPasswordVm model)
+        {
+            await _userService.ResetPasswordAsync(model.UserName, model.Token, model.NewPassword);
+
+            return ApiResult.Ok;
         }
     }
 }

@@ -7,10 +7,10 @@ import getCookie from '../helpers/cookie/index';
 
 const userName = getCookie('userName');
 const initialState = {
-    user: {
-        isUserAuth: !!userName,
-        userName: userName
-    }
+    // user: {
+    // isUserAuth: !!userName,
+    // userName: getCookie('userName')
+    // }
 };
 const sagaMiddleware = createSagaMiddleware();
 const composeEnhansers = process.env.NODE_ENV === 'production' ? compose : composeWithDevTools;
