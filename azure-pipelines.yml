@@ -45,8 +45,7 @@ steps:
 - task: VSTest@2
   inputs:
     testSelector: 'testAssemblies'
-    testAssemblyVer2: '**\*test*.dll
-    !**\obj\**'
+    testAssemblyVer2: '**\*test*.dll;-:**\obj\**'
     searchFolder: '$(System.DefaultWorkingDirectory)'
     
 - task: PublishBuildArtifacts@1
