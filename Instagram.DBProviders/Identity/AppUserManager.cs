@@ -25,6 +25,14 @@ namespace Instagram.DBProviders.Identity
                 RequireLowercase = true,
                 RequireUppercase = true,
             };
+
+            UserTokenProvider = new EmailTokenProvider<User, int>()
+            {
+                Subject = "Subject",
+                BodyFormat = "Body"
+            };
+
+            EmailService = IoContainer.Resolve<IIdentityMessageService>();
         }
     }
 }

@@ -12,7 +12,7 @@ using Microsoft.AspNet.Identity;
 
 namespace Instagram.DBProviders
 {
-    public class UserStore : IUserPasswordStore<User, int>, IUserRoleStore<User, int>, IUserEmailStore<User, int>
+    public class UserStore : IUserPasswordStore<User, int>, IUserRoleStore<User, int>, IUserEmailStore<User, int>, IUserSecurityStampStore<User, int>
     {
         public void Dispose()
         {
@@ -36,8 +36,15 @@ namespace Instagram.DBProviders
         }
         public Task UpdateAsync(User user)
         {
+            if (user == null) throw new ArgumentException(nameof(user));
 
-            throw new NotImplementedException();
+            using (var context = IoContainer.Resolve<AppDbContext>())
+            {
+                context.Entry(user).State = EntityState.Modified;
+                context.SaveChanges();
+            }
+
+            return Task.CompletedTask;
         }
 
         public Task DeleteAsync(User user)
@@ -165,16 +172,16 @@ namespace Instagram.DBProviders
         {
             if (user == null) throw new ArgumentNullException(nameof(user));
 
-            return Task.FromResult(user.EmailVerified);
+            return Task.FromResult(user.EmailConfirmed);
         }
 
         public Task SetEmailConfirmedAsync(User user, bool confirmed)
         {
             if (user == null) throw new ArgumentNullException(nameof(user));
 
-            user.EmailVerified = confirmed;
+            user.EmailConfirmed = confirmed;
 
-            return Task.FromResult(user.EmailVerified);
+            return Task.FromResult(user.EmailConfirmed);
         }
 
         public Task<User> FindByEmailAsync(string email)
@@ -191,5 +198,20 @@ namespace Instagram.DBProviders
 
         #endregion
 
+        #region [UserSecurityStampStore]
+
+        public Task SetSecurityStampAsync(User user, string stamp)
+        {
+            return Task.FromResult(0);
+        }
+
+        public Task<string> GetSecurityStampAsync(User user)
+        {
+            if (user == null) throw new ArgumentException(nameof(user));
+
+            return Task.FromResult($"{user.Email.ToLower().GetHashCode() + user.Id}");
+        }
+
+        #endregion
     }
 }
