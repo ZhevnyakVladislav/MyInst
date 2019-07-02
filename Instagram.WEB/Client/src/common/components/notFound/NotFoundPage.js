@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 
 const NotFoundPage = () => {
     return (
-        <Section className="has--top-150">
+        <Section>
             <Container>
                 <Columns>
                     <Columns.Column className="has-text-centered" size={10} offset={1}>

@@ -31,22 +31,23 @@ class SignInFormContainer extends React.PureComponent {
 
     getValidationSchema = () => {
         return {
-            // email: Joi.string().required().email().label('Email'),
+            userName: Joi.string().required().label('User name'),
             password: Joi.string().required().min(8).label('Password'),
         };
     }
 
     getValidationData = () => {
-        return { password: this.state.password };
+        return this.state;
     }
 
     render() {
-        const { renderErrors, isFieldValid, errorMessage, handleSubmit } = this.props;
+        const { renderErrors, isFieldValid, errorMessage, handleSubmit, isLoading } = this.props;
         const props = {
             renderErrors: renderErrors,
             isFieldValid: isFieldValid,
             errorMessage: errorMessage,
             handleSubmit: handleSubmit,
+            isLoading: isLoading,
             handleChange: this.handleChange
         };
         return (
@@ -58,6 +59,7 @@ class SignInFormContainer extends React.PureComponent {
 
 SignInFormContainer.propTypes = {
     isUserAuth: PropTypes.bool,
+    isLoading: PropTypes.bool,
     errorMessage: PropTypes.string,
     history: PropTypes.object,
 
@@ -70,7 +72,8 @@ SignInFormContainer.propTypes = {
 
 const mapStateToProps = (state) => ({
     isUserAuth: state.user.isUserAuth,
-    errorMessage: state.user.errorMessage
+    errorMessage: state.user.errorMessage,
+    isLoading: state.user.isLoading
 });
 
 const mapDispatchToProps = (dispatch) => ({

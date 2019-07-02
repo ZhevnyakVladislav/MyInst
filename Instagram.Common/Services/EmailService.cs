@@ -19,8 +19,8 @@ namespace Instagram.Common.Services
         {
             using (var client = new SmtpClient("smtp.office365.com", 587))
             {
-                var userName = Environment.GetEnvironmentVariable("EMAIL_SERVICE_USER_NAME");
-                var password = Environment.GetEnvironmentVariable("EMAIL_SERVICE_PASSWORD");
+                var userName = "uladzislauzhauniak@gmail.com";
+                var password = "ivdpgmgqxlyvhbrn";
                 client.UseDefaultCredentials = false;
                 client.Credentials = new NetworkCredential(userName, password);
                 client.EnableSsl = true;

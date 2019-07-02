@@ -9,6 +9,7 @@ const createInitialState = () => ({
     errorMessage: null,
     isAccountCorfimed: false,
     isPasswordReseted: false,
+    isLoading: false
 });
 
 export default handleActions({
@@ -17,6 +18,7 @@ export default handleActions({
         types.USER_SIGN_UP,
     )]: (state) => ({
         ...state,
+        isLoading: true,
         isUserAuth: false
     }),
     [combineActions(
@@ -24,6 +26,7 @@ export default handleActions({
         types.CONFIRM_RESET_PASSWORD_SUCCESS
     )]: (state) => ({
         ...state,
+        isLoading: false,
         isAccountCorfimed: true
     }),
     [combineActions(
@@ -32,6 +35,7 @@ export default handleActions({
     )]: (state, actions) => ({
         ...state,
         ...actions.payload,
+        isLoading: false,
         isUserAuth: true
     }),
     [combineActions(
@@ -43,7 +47,7 @@ export default handleActions({
     )]: (state, actions) => ({
         ...state,
         errorMessage: actions.payload.message,
-        isAccountCorfimed: false,
+        isLoading: false,
         isUserAuth: false,
     }),
     [combineActions(

@@ -1,0 +1,40 @@
+@import '~react-bulma-components/src/index.sass';
+
+html.has-navbar-fixed-top {
+    padding: 0;
+}
+
+body {
+    height: 100vh;
+    background-color: rgb(250, 250, 250);
+    font-size: 14px;
+    font-weight: 600;
+    font-stretch: 100%;
+    color: rgb(153,153,153)
+}
+
+svg {
+    cursor: pointer;
+}
+
+.box {
+    border-radius: 0;
+
+    color: inherit;
+}
+
+h1 {
+    font-size: 24px;
+    font-weight: 700;
+    color: black;
+}
+
+h3 {
+    font-size: 17px;
+    font-stretch: inherit;
+    font-weight: inherit;
+}
+
+svg {
+    color: black;
+}

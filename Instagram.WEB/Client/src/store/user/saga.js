@@ -1,5 +1,6 @@
 import api from '../../api';
 import { call, put, takeEvery } from 'redux-saga/effects';
+import { push } from 'connected-react-router';
 import types from './types';
 import {
     signInSuccess,
@@ -66,6 +67,7 @@ function* callResetPassword(action) {
     try {
         yield call(api.call.post, api.urls.user.resetPassword_post, action.payload);
         yield put(resetPasswordSuccess());
+        yield put(push('/account/login'));
     } catch (e) {
         yield put(resetPasswordError(e));
     }

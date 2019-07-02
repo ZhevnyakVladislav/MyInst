@@ -21,15 +21,14 @@ const withHeader = (ComposedComponent, props) =>
 
 const App = () => {
     return (
-        <div>
-            <Switch>
-                <Route path="/account/login" component={SingInFormContainer} />
-                <Route path="/account/register" component={SingUpFormContainer} />
-                <Route path="/account/password/reset" component={ResetPasswordFormContainer} />
-                <Route path="/users/:username" component={RequireAuth((props) => withHeader(Profile, props))} />
-                <Route path="*" component={RequireAuth((props) => withHeader(NotFoundPage, props))} />
-            </Switch>
-        </div>);
+        <Switch>
+            <Route path="/account/login" component={SingInFormContainer} />
+            <Route path="/account/register" component={SingUpFormContainer} />
+            <Route path="/account/password/reset" component={ResetPasswordFormContainer} />
+            <Route path="/users/:username" component={RequireAuth((props) => withHeader(Profile, props))} />
+            <Route path="*" component={RequireAuth((props) => withHeader(NotFoundPage, props))} />
+        </Switch>
+    );
 };
 
 export default App;
