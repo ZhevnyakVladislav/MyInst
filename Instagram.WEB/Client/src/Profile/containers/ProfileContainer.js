@@ -40,7 +40,7 @@ class ProfileContainer extends React.PureComponent {
         const { profileData, isUserAuth } = this.props;
         const { isSettingModalOpen } = this.state;
         return (
-            <Section className="has-padding-top-80">
+            <Section className="has-margin-top-60">
                 <ProfileLayout
                     openSettingsModal={this.handleOpenSettingsModal}
                     isUserAuth={isUserAuth}

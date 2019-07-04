@@ -2,18 +2,15 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { BrowserRouter, Route } from 'react-router-dom';
-import { ConnectedRouter } from 'connected-react-router';
 import App from './App';
-import store, { history } from './store';
+import store from './store';
 
-import './index.scss';
+import './index.less';
 
 ReactDOM.render(
     <BrowserRouter>
         <Provider store={store}>
-            <ConnectedRouter history={history}>
-                <Route component={App} />
-            </ConnectedRouter>
+            <Route component={App} />
         </Provider>
     </BrowserRouter>,
     document.getElementById('root')

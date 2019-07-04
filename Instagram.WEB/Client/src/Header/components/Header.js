@@ -9,59 +9,52 @@ import { Link } from 'react-router-dom';
 
 const Header = ({ isUserAuth, userName }) => {
     return (
-        <Navbar fixed="top" className="is-flex" style={{ height: '77px' }}>
-            <Columns multiline={false} breakpoint="mobile" className="is-full-width is-vcentered is-marginless">
-                <Columns.Column
-                    className="has-padding-top-5"
-                    mobile={{
-                        size: 6,
-                    }}
-                    tablet={{
-                        sile: 4,
-                        offset: 1
-                    }}
-                    fullhd={{
-                        size: 2,
-                        offset: 3
-                    }}>
-                    <Link className="is-flex" to="/">
-                        <div className="is-flex align-items-center">
+        <Navbar active={true} fixed="top" transparent={false}>
+            <Columns.Column
+
+                desktop={{
+                    offset: 1,
+                    size: 10
+                }}
+                widescreen={{
+                    offset: 2,
+                    size: 8
+                }}
+                fullhd={{
+                    offset: 3,
+                    size: 6
+                }}
+            >
+                <Navbar.Menu >
+                    <Navbar.Container position="start">
+                        <Link to="/">
                             <FontAwesomeIcon icon={faCameraRetro} size="2x" />
-                        </div>
-                        <h1 className="has-margin-left-20 has-padding-left-10" style={{
-                            borderLeft: 'solid 1px'
-                        }}>Instagram</h1>
-                    </Link>
-                </Columns.Column>
-                <Columns.Column
-                    className="has-text-centered"
-                    mobile={{
-                        size: 5,
-                        offset: 1
-                    }}
-                    tablet={{
-                        sile: 2,
-                        offset: 5
-                    }}
-                    fullhd={{
-                        size: 2,
-                        offset: 3
-                    }}>
-                    {isUserAuth
-                        ? <>
-
-                            <Link to="/"><FontAwesomeIcon icon={faCompass} size="2x" /></Link>
-                            <Link className="has-margin-left-20" to="/"><FontAwesomeIcon icon={faHeart} size="2x" /></Link>
-                            <Link className="has-margin-left-20" to={`/users/${userName}`}><FontAwesomeIcon icon={faUserAlt} size="2x" /></Link>
-                        </>
-                        : <>
-                            <Link to="/account/login" className="has-margin-right-5"><Button color="primary">Log in</Button></Link>
-                            <Link to="/account/register"><Button>Sign up</Button></Link>
-
-                        </>}
-                </Columns.Column>
-            </Columns>
-        </Navbar >
+                            <h1 className="has-margin-left-20">Instagram</h1>
+                        </Link>
+                    </Navbar.Container>
+                    <Navbar.Container position="end">
+                        {isUserAuth ?
+                            <>
+                                <Navbar.Item>
+                                    <FontAwesomeIcon icon={faCompass} size="2x" />
+                                </Navbar.Item>
+                                <Navbar.Item >
+                                    <FontAwesomeIcon icon={faHeart} size="2x" />
+                                </Navbar.Item>
+                                {/* <Navbar.Item> */}
+                                <Link to={`/users/${userName}`}><FontAwesomeIcon icon={faUserAlt} size="2x" /></Link>
+                                {/* </Navbar.Item> */}
+                            </>
+                            :
+                            <>
+                                <Link to="/account/login"><Button>Log in</Button></Link>
+                                <Link to="/account/register"><Button>Sign up</Button></Link>
+                            </>
+                        }
+                    </Navbar.Container>
+                </Navbar.Menu>
+            </Columns.Column>
+        </Navbar>
     );
 };
 

@@ -29,18 +29,10 @@ const ResetPasswordForm = ({
     return (
         <Section>
             <Container>
-                <Columns centered>
-                    <Columns.Column
-                        mobile={{
-                            size: 6,
-                        }}
-                        tablet={{
-                            size: 4,
-                        }}
-                        fullhd={{
-                            size: 3,
-                        }}>
+                <Columns>
+                    <Columns.Column size={5} offset="one-quarter">
                         <Box className="is-marginless">
+
                             <Columns>
                                 <Columns.Column className="has-text-centered is-vcentered" size={4} offset={4}>
                                     <FontAwesomeIcon className="is-vcentered" icon={faLock} size="4x" />
@@ -48,8 +40,8 @@ const ResetPasswordForm = ({
                             </Columns>
                             <Columns>
                                 <Columns.Column className="has-text-centered" size={10} offset={1}>
-                                    <h3><b>Trouble Logging In?</b></h3>
-                                    <p>Enter your username or email and we'll send you a link to get back into your account.</p>
+                                    <h1><b>Trouble Logging In?</b></h1>
+                                    <p >Enter your username or email and we'll send you a link to get back into your account.</p>
                                 </Columns.Column>
                             </Columns>
                             {errorMessage &&
@@ -90,31 +82,15 @@ const ResetPasswordForm = ({
                                 }
                                 <Field >
                                     <Control>
-                                        <Button className="is-full-width" color="primary" onClick={handleSubmit}>{isAccountCorfimed ? 'Continue' : 'Send Verification Code'}</Button>
+                                        <Button className="is-full-width" onClick={handleSubmit}>Send Verification Code</Button>
                                     </Control>
                                 </Field>
-
+                                <div className="has-text-centered">
+                                    <Link to="/account/register">Create New Account</Link>
+                                </div>
                             </form>
-                            <Columns className="is-vcentered is-marginless">
-                                <Columns.Column className="has-padding-top-5 has-padding-bottom-5" size={5}>
-                                    <hr />
-                                </Columns.Column>
-                                <Columns.Column>
-                                    <p>OR</p>
-                                </Columns.Column>
-                                <Columns.Column className="has-padding-top-5 has-padding-bottom-5" size={5}>
-                                    <hr />
-                                </Columns.Column>
-                            </Columns>
-                            <div className="has-text-centered">
-                                <Link to="/account/register">Create New Account</Link>
-                            </div>
                         </Box>
-                        <Box className="has-text-centered has-height-40 has-padding-10">
-                            <Link to="/account/login" className="is-dark">
-                                Back to Login
-                            </Link>
-                        </Box>
+                        <Link to="/account/login"><Button className="is-full-width">Back to Login</Button></Link>
                     </Columns.Column>
                 </Columns>
             </Container>

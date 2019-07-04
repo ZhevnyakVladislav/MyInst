@@ -26,7 +26,7 @@ class VerificationCodeFormContainer extends React.PureComponent {
             ? Promise.resolve(this.props.resetPassword({
                 ...this.state,
                 token: this.state.verificationCode
-            }))
+            })).then(() => this.props.history.push('/account/login'))
             : this.props.confirmResetPassword({ userName: this.state.userName });
     }
 

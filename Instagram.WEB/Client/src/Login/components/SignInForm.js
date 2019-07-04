@@ -22,26 +22,16 @@ const SignInForm = ({
     renderErrors,
     isFieldValid,
     errorMessage,
-    handleChange,
-    isLoading
+    handleChange
 }) => {
     return (
         <Section>
             <Container>
-                <Columns centered>
-                    <Columns.Column
-                        mobile={{
-                            size: 6,
-                        }}
-                        tablet={{
-                            size: 4,
-                        }}
-                        fullhd={{
-                            size: 3,
-                        }}
-                    >
+                <Columns>
+                    <Columns.Column size={5} offset="one-quarter">
                         <Box>
                             <Heading className="has-text-centered">Instagram</Heading>
+                            <p className="has-text-centered">Sign up to see photos and videos from your friends</p>
                             {errorMessage &&
                                 <Message color="danger">
                                     <Message.Body>
@@ -69,39 +59,21 @@ const SignInForm = ({
                                 />
                                 <Field>
                                     <Control>
-                                        <Button
-                                            className="is-full-width"
-                                            color="primary"
-                                            onClick={handleSubmit}
-                                            loading={isLoading}
-                                        >
-                                            Log In
-                                        </Button>
+                                        <Button className="is-full-width" onClick={handleSubmit}> Sign in</Button>
                                     </Control>
                                 </Field>
+                                <div className="has-text-centered">
+                                    <Link to="/account/password/reset">Forgot password?</Link>
+                                </div>
                             </form>
-                            <Columns className="is-vcentered">
-                                <Columns.Column size={5}>
-                                    <hr />
-                                </Columns.Column>
-                                <Columns.Column>
-                                    <p>OR</p>
-                                </Columns.Column>
-                                <Columns.Column size={5}>
-                                    <hr />
-                                </Columns.Column>
-                            </Columns>
-                            <div className="has-text-centered">
-                                <Link to="/account/password/reset">Forgot password?</Link>
-                            </div>
                         </Box>
-                        <Box className="has-text-centered">
+                        <Box>
                             <p>Don't have an account? <Link to="/account/register">Sign up</Link></p>
                         </Box>
                     </Columns.Column>
                 </Columns>
             </Container>
-        </Section >
+        </Section>
     );
 };
 
@@ -109,7 +81,6 @@ SignInForm.propTypes = {
     userName: PropTypes.string,
     password: PropTypes.string,
     errorMessage: PropTypes.string,
-    isLoading: PropTypes.bool,
 
     handleSubmit: PropTypes.func,
     renderErrors: PropTypes.func,
