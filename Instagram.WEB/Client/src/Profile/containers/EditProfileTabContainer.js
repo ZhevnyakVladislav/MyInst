@@ -1,43 +1,46 @@
+
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import SignInForm from '../components/SignInForm';
-import { signIn } from '../../store/user/actions';
 import validationForm from '../../common/components/validation/ValidationForm';
 import Joi from 'joi';
+import EditProfileTab from '../components/EditProfileTab';
 
-class SignInFormContainer extends React.PureComponent {
+class EditProfileContainer extends React.PureComponent {
+
     state = {
-        userName: '',
-        password: '',
-    }
-
-    static getDerivedStateFromProps(props) {
-        if (props.isUserAuth) {
-            props.history.push('/');
-        }
-        return null;
+        fullName: this.props.fullName,
+        userName: this.props.userName,
+        website: this.props.website,
+        bio: this.props.bio,
+        email: this.props.email,
+        phone: this.props.phone
     }
 
     handleSubmit = () => {
-        this.props.signIn(this.state);
+        console.log(2134);
     }
 
-    handleChange = (field) => e => {
+    handleChange = field => e => {
         this.setState({
             [field]: e.target.value
         }, () => this.props.handleValidateField(field));
     }
 
+    handleImageChange = (e) => {
+        console.log(e.target.files[0]);
+    }
+
     getValidationSchema = () => {
         return {
             userName: Joi.string().required().label('User name'),
-            password: Joi.string().required().min(8).label('Password'),
         };
     }
 
     getValidationData = () => {
-        return this.state;
+        return {
+            userName: this.state.userName
+        };
     }
 
     render() {
@@ -48,22 +51,25 @@ class SignInFormContainer extends React.PureComponent {
             errorMessage: errorMessage,
             handleSubmit: handleSubmit,
             isLoading: isLoading,
-            handleChange: this.handleChange
+            onChange: this.handleChange,
+            onImageChange: this.handleImageChange
         };
         return (
-            <SignInForm {...props} {...this.state} />
+            <EditProfileTab {...props} {...this.state} />
         );
     }
-
 }
 
-SignInFormContainer.propTypes = {
-    isUserAuth: PropTypes.bool,
-    isLoading: PropTypes.bool,
+EditProfileContainer.propTypes = {
+    fullName: PropTypes.string,
+    userName: PropTypes.string,
+    website: PropTypes.string,
+    bio: PropTypes.string,
+    email: PropTypes.string,
+    phone: PropTypes.string,
     errorMessage: PropTypes.string,
-    history: PropTypes.object,
+    isLoading: PropTypes.bool,
 
-    signIn: PropTypes.func,
     handleValidateField: PropTypes.func,
     renderErrors: PropTypes.func,
     isFieldValid: PropTypes.func,
@@ -71,13 +77,11 @@ SignInFormContainer.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-    isUserAuth: state.user.isUserAuth,
-    errorMessage: state.user.errorMessage,
-    isLoading: state.user.isLoading
+    userName: state.user.userName,
+    fullName: state.profile.fullName
 });
 
 const mapDispatchToProps = ({
-    signIn: signIn
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(validationForm(SignInFormContainer)); 
+export default connect(mapStateToProps, mapDispatchToProps)(validationForm(EditProfileContainer));

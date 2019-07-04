@@ -13,7 +13,7 @@ import {
 } from 'react-bulma-components/lib/components/form';
 import Button from 'react-bulma-components/lib/components/button';
 import Message from 'react-bulma-components/lib/components/message';
-import TextField from '../../../common/components/TextField';
+import TextField from '../../components/inputs/TextInput';
 
 const SignUpForm = ({
     email,

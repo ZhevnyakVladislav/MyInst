@@ -10,5 +10,9 @@ namespace Instagram.BusinessLogic.Interfaces
         void CreateProfile(ProfileDto profile);
 
         ProfileDto GetProfileByUserName(string userName);
+
+        void UpdateProfile(ProfileDto profile);
+
+        string UpdateProfileImage(string userName, byte[] file);
     }
 }

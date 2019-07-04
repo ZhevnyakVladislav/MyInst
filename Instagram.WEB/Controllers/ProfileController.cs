@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Web.Http;
 using AutoMapper;
+using Instagram.BusinessLogic.Entities;
 using Instagram.BusinessLogic.Interfaces;
 using Instagram.Common.Enums;
 using Instagram.Common.IoContainer;
@@ -35,6 +36,25 @@ namespace Instagram.WEB.Controllers
             var profile = _profileService.GetProfileByUserName(username);
 
             return _mapper.Map<ProfileVm>(profile).AsApiResult();
+        }
+
+
+        [HttpPost]
+        [Route("")]
+        public ApiResult UpdateProfile(ProfileVm model)
+        {
+            var profile = _mapper.Map<ProfileDto>(model);
+
+            _profileService.UpdateProfile(profile);
+
+            return ApiResult.Ok;
+        }
+
+        [HttpPost]
+        [Route("updateImage")]
+        public ApiResult UpdateProfileImage(ProfileVm model)
+        {
+            throw new NotImplementedException();
         }
     }
 }

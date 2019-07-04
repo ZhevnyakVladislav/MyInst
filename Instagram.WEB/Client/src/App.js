@@ -7,6 +7,7 @@ import ResetPasswordFormContainer from './common/ResetPasswordForm/containers/Re
 import Header from './Header/containers/HeaderContainer';
 import Profile from './Profile/containers/ProfileContainer';
 import NotFoundPage from './common/components/notFound/NotFoundPage';
+import ProfileSettingsContainer from './Profile/containers/ProfileSettingsContainer';
 
 import 'react-bulma-components/dist/react-bulma-components.min.css';
 import 'bulma-helpers/css/bulma-helpers.min.css';
@@ -26,6 +27,7 @@ const App = () => {
             <Route path="/account/register" component={SingUpFormContainer} />
             <Route path="/account/password/reset" component={ResetPasswordFormContainer} />
             <Route path="/users/:username" component={RequireAuth((props) => withHeader(Profile, props))} />
+            <Route path="/profile" component={RequireAuth((props) => withHeader(ProfileSettingsContainer, props))} />
             <Route path="*" component={RequireAuth((props) => withHeader(NotFoundPage, props))} />
         </Switch>
     );

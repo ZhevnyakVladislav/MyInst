@@ -38,3 +38,54 @@ h3 {
 svg {
     color: black;
 }
+
+.tabs ul {
+    flex-direction: column;
+    border: none;
+}
+
+.tabs li {
+    width: 100%;
+    color: black;
+}
+
+.tabs li.is-active {
+    border-left: solid #262626 2px;
+    background-color: white;
+}
+
+.tabs li.is-active a {
+    color: #262626;
+    font-size: 16px;
+    line-height: 20px;
+    font-weight: 600;
+}
+
+.tabs li.is-active a:hover {
+    background-color: white;
+    border: none;
+}
+
+.tabs a {
+    border-bottom: none;
+    border-left: #262626 0px;
+    padding: 15px 30px 15px 30px;
+    color: inherit;
+    font-weight: 400;
+}
+
+.tabs a:hover {
+    border-bottom: none;
+    border-left: 2px solid #dbdbdb;
+    background-color: #fafafa;
+}
+
+#fileInput {
+    display: none;
+}
+
+.file-input-label {
+    cursor: pointer;
+    color:#3897f0;
+}
+

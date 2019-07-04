@@ -7,6 +7,7 @@ import Content from 'react-bulma-components/lib/components/content';
 import Button from 'react-bulma-components/lib/components/button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCog } from '@fortawesome/free-solid-svg-icons';
+import { Link } from 'react-router-dom';
 
 const ProfileLayout = ({ profileData, isUserAuth, openSettingsModal }) => {
     return (
@@ -33,7 +34,7 @@ const ProfileLayout = ({ profileData, isUserAuth, openSettingsModal }) => {
                                         renderAs="a"
                                         color="light"
                                     >
-                                        Edit Profile
+                                    <Link to="/profile/edit">Edit Profile</Link>
                                     </Button>
                                     <FontAwesomeIcon className="has-margin-left-10" icon={faCog} size="2x" onClick={openSettingsModal} />
                                 </> : <Button

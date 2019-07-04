@@ -11,7 +11,7 @@ import {
 } from 'react-bulma-components/lib/components/form';
 import Button from 'react-bulma-components/lib/components/button';
 import Message from 'react-bulma-components/lib/components/message';
-import TextField from '../../components/TextField';
+import TextField from '../../components/inputs/TextInput';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLock } from '@fortawesome/free-solid-svg-icons';
 

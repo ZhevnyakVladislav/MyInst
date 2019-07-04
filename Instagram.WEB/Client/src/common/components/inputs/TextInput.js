@@ -7,7 +7,7 @@ import {
 } from 'react-bulma-components/lib/components/form';
 
 
-const TextField = ({ name, type, placeholder, value, isFieldValid, handleChange, renderErrors }) => {
+const TextField = ({ name, type, placeholder, value, disabled, readOnly, isFieldValid, handleChange, renderErrors }) => {
     return <Field>
         <Control>
             <Input
@@ -15,6 +15,8 @@ const TextField = ({ name, type, placeholder, value, isFieldValid, handleChange,
                 placeholder={placeholder}
                 color={isFieldValid(name) ? 'danger' : null}
                 value={value}
+                disabled={disabled}
+                readOnly={readOnly}
                 onChange={handleChange(name)}
             />
             {renderErrors(name)}
@@ -28,6 +30,9 @@ TextField.propTypes = {
     type: PropTypes.string,
     placeholder: PropTypes.string,
     value: PropTypes.string,
+    disabled: PropTypes.bool,
+    readOnly: PropTypes.bool,
+
     isFieldValid: PropTypes.func,
     handleChange: PropTypes.func,
     renderErrors: PropTypes.func,

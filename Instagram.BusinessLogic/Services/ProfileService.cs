@@ -30,7 +30,7 @@ namespace Instagram.BusinessLogic.Services
 
         public void CreateProfile(ProfileDto profile)
         {
-            if(profile == null) throw new ArgumentNullException(nameof(profile));
+            if (profile == null) throw new ArgumentNullException(nameof(profile));
 
             var userProfile = _mapper.Map<UserProfile>(profile);
 
@@ -39,20 +39,34 @@ namespace Instagram.BusinessLogic.Services
 
         public ProfileDto GetProfileByUserName(string userName)
         {
-            if(userName.IsNullOrEmpty()) throw new ArgumentNullException(nameof(userName));
+            if (userName.IsNullOrEmpty()) throw new ArgumentNullException(nameof(userName));
 
             var user = _userManager.FindByNameAsync(userName).Result;
             var profile = _profileProvider.GetProfileByUserId(user.Id);
 
             if (profile == null)
             {
-                throw  new BusinesslogicException($"Profile for user with id = {user.Id} was not found.");
+                throw new BusinesslogicException($"Profile for user with id = {user.Id} was not found.");
             }
 
             var result = _mapper.Map<ProfileDto>(profile);
             result.UserName = user.UserName;
 
             return result;
+        }
+
+        public void UpdateProfile(ProfileDto profile)
+        {
+            if (profile == null) throw new ArgumentNullException(nameof(profile));
+
+            var userProfile = _mapper.Map<UserProfile>(profile);
+
+            _profileProvider.Update(userProfile);
+        }
+
+        public string UpdateProfileImage(string userName, byte[] file)
+        {
+            throw new NotImplementedException();
         }
     }
 }
