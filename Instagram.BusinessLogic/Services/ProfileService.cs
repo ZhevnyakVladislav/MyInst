@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Threading.Tasks;
 using AutoMapper;
 using Instagram.BusinessLogic.Entities;
@@ -17,14 +18,17 @@ namespace Instagram.BusinessLogic.Services
 
         private readonly UserManager<User, int> _userManager;
 
+        private readonly IImageService _imageService;
+
         private readonly IMapper _mapper;
 
-        public ProfileService() : this(IoContainer.Resolve<IProfileProvider>(), IoContainer.Resolve<UserManager<User, int>>(), IoContainer.Resolve<IMapper>()) { }
+        public ProfileService() : this(IoContainer.Resolve<IProfileProvider>(), IoContainer.Resolve<UserManager<User, int>>(), IoContainer.Resolve<ImageService>(), IoContainer.Resolve<IMapper>()) { }
 
-        public ProfileService(IProfileProvider profileProvider, UserManager<User, int> userManager, IMapper mapper)
+        public ProfileService(IProfileProvider profileProvider, UserManager<User, int> userManager, IImageService imageService, IMapper mapper)
         {
             _profileProvider = profileProvider ?? throw new ArgumentException(nameof(profileProvider));
             _userManager = userManager ?? throw new ArgumentException(nameof(userManager));
+            _imageService = imageService ?? throw new ArgumentException(nameof(imageService));
             _mapper = mapper ?? throw new ArgumentException(nameof(mapper));
         }
 
@@ -46,27 +50,43 @@ namespace Instagram.BusinessLogic.Services
 
             if (profile == null)
             {
-                throw new BusinesslogicException($"Profile for user with id = {user.Id} was not found.");
+                throw new BusinessLogicException($"Profile for user with id = {user.Id} was not found.");
             }
 
             var result = _mapper.Map<ProfileDto>(profile);
             result.UserName = user.UserName;
+            result.Email = user.Email;
 
             return result;
         }
 
-        public void UpdateProfile(ProfileDto profile)
+        public void UpdateProfile(string userName, ProfileDto profile)
         {
             if (profile == null) throw new ArgumentNullException(nameof(profile));
 
-            var userProfile = _mapper.Map<UserProfile>(profile);
+            var existedProfile = _profileProvider.GetProfileByUserName(userName);
 
-            _profileProvider.Update(userProfile);
+            existedProfile.Website = profile.Website;
+            existedProfile.Bio = profile.Bio;
+            existedProfile.PhoneNumber = profile.PhoneNumber;
+            existedProfile.FullName = profile.FullName;
+            
+            _profileProvider.Update(existedProfile);
         }
 
-        public string UpdateProfileImage(string userName, byte[] file)
+        public string UpdateProfileImage(string userName, Stream filesStream)
         {
-            throw new NotImplementedException();
+            if (filesStream == null) throw new ArgumentNullException(nameof(filesStream));
+            if (userName.IsNullOrEmpty()) throw new ArgumentNullException(nameof(userName));
+
+           var imageUrl =  _imageService.Upload(filesStream);
+
+           var userProfile = _profileProvider.GetProfileByUserName(userName);
+           userProfile.ImageUrl = imageUrl;
+
+          _profileProvider.Update(userProfile);
+
+          return imageUrl;
         }
     }
 }

@@ -8,6 +8,7 @@ namespace Instagram.BusinessLogic
     {
         public static void RegisterServices()
         {
+            IoContainer.RegisterSingleton<IImageService>(new ImageService());
             IoContainer.RegisterSingleton<IProfileService>(new ProfileService());
             IoContainer.RegisterSingleton<IUserService>(new UserService());
         }

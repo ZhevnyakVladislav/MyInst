@@ -9,6 +9,8 @@ namespace Instagram.DBProviders.Interfaces
 
         UserProfile GetProfileByUserId(int userId);
 
+        UserProfile GetProfileByUserName(string useName);
+
         void Update(UserProfile item);
     }
 }

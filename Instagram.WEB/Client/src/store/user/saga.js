@@ -1,14 +1,15 @@
 import api from '../../api';
 import { call, put, takeEvery } from 'redux-saga/effects';
+import jwt_decode from 'jwt-decode';
 import { push } from 'connected-react-router';
 import types from './types';
+import querystring from 'querystring';
+import { setAccessToken } from '../../utils/localStorage';
 import {
     signInSuccess,
     signInError,
     signUpSuccess,
     signUpError,
-    logOutSuccess,
-    logOutError,
     confirmEmailSuccess,
     confirmEmailError,
     confirmResetPasswordSuccess,
@@ -19,8 +20,21 @@ import {
 
 function* callSignIn(action) {
     try {
-        const response = yield call(api.call.post, api.urls.user.signIn_post, action.payload);
-        yield put(signInSuccess(response.data.model));
+        const response = yield call(api.call.post, api.urls.user.signIn_post,
+            querystring.stringify(
+                {
+                    grant_type: 'password',
+                    ...action.payload
+                }
+            ),
+            {
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            });
+        setAccessToken(response.data.access_token);
+        const decodedData = jwt_decode(response.data.access_token);
+        yield put(signInSuccess({ userName: decodedData.userName }));
     } catch (e) {
         yield put(signInError(e));
     }
@@ -32,15 +46,6 @@ function* callSignUp(action) {
         yield put(signUpSuccess());
     } catch (e) {
         yield put(signUpError(e));
-    }
-}
-
-function* callLogOut() {
-    try {
-        yield call(api.call.post, api.urls.user.logOut_post);
-        yield put(logOutSuccess());
-    } catch (e) {
-        yield put(logOutError(e));
     }
 }
 
@@ -76,7 +81,6 @@ function* callResetPassword(action) {
 export default [
     takeEvery(types.USER_SIGN_UP, callSignUp),
     takeEvery(types.USER_SIGN_IN, callSignIn),
-    takeEvery(types.USER_LOGOUT, callLogOut),
     takeEvery(types.CONFIRM_EMAIL, callConfirmEmail),
     takeEvery(types.CONFIRM_RESET_PASSWORD, callConfirmResetPassword),
     takeEvery(types.RESET_PASSWORD, callResetPassword),

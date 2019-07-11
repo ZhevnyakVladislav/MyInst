@@ -10,8 +10,8 @@ export const signUpSuccess = createAction(types.USER_SIGN_UP_SUCCESS);
 export const signUpError = createAction(types.USER_SIGN_UP_ERROR, error => error);
 
 export const logOut = createAction(types.USER_LOGOUT);
-export const logOutSuccess = createAction(types.USER_LOGOUT_SUCCESS);
-export const logOutError = createAction(types.USER_LOGOUT_ERROR, error => error);
+// export const logOutSuccess = createAction(types.USER_LOGOUT_SUCCESS);
+// export const logOutError = createAction(types.USER_LOGOUT_ERROR, error => error);
 
 export const userUnauthorized = createAction(types.USER_UNAUTHORIZED);
 

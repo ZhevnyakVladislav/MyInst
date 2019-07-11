@@ -64,9 +64,10 @@ class SignUpFormContainer extends React.PureComponent {
     }
 
     render() {
-        const { renderErrors, isFieldValid, errorMessage, handleSubmit, isShowVerification } = this.props;
+        const { renderErrors, isFieldValid, errorMessage, handleSubmit, isLoading, isShowVerification } = this.props;
         const props = {
             renderErrors,
+            isLoading,
             isShowVerification,
             isFieldValid,
             errorMessage,
@@ -84,6 +85,7 @@ SignUpFormContainer.propTypes = {
     errorMessage: PropTypes.string,
     history: PropTypes.object,
     isShowVerification: PropTypes.bool,
+    isLoading: PropTypes.bool,
 
     signUp: PropTypes.func,
     handleValidateField: PropTypes.func,
@@ -96,7 +98,8 @@ SignUpFormContainer.propTypes = {
 const mapStateToProps = (state) => ({
     isUserAuth: state.user.isUserAuth,
     errorMessage: state.user.errorMessage,
-    isShowVerification: state.user.isAccountCorfimed
+    isShowVerification: state.user.isAccountCorfimed,
+    isLoading: state.user.isLoading
 });
 
 const mapDispatchToProps = ({

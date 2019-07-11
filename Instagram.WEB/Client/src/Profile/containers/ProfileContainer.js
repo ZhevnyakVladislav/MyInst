@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Section from 'react-bulma-components/lib/components/section';
 import ProfileLayout from '../components/ProfileLayout';
-import { loadProfileData } from '../../store/profile/actions';
+import { loadViewProfileData } from '../../store/profile/actions';
 import { logOut } from '../../store/user/actions';
 import SettingsModal from '../components/SettingsModal';
 
@@ -72,7 +72,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = ({
-    loadProfileData: loadProfileData,
+    loadProfileData: loadViewProfileData,
     logOut: logOut
 });
 

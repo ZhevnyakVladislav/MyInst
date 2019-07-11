@@ -27,6 +27,7 @@ const SignUpForm = ({
     handleChange,
     isShowVerification,
     verificationCode,
+    isLoading
 }) => {
     return (
         <Section className="is-vcentered">
@@ -118,7 +119,7 @@ const SignUpForm = ({
                                             className="is-full-width"
                                             color="primary"
                                             onClick={handleSubmit}
-                                            loading
+                                            loading={isLoading}
                                         >
                                             {isShowVerification ? 'Continue' : 'Sign up'}
                                         </Button>
@@ -145,6 +146,7 @@ SignUpForm.propTypes = {
     errorMessage: PropTypes.string,
     isShowVerification: PropTypes.bool,
     verificationCode: PropTypes.string,
+    isLoading: PropTypes.bool,
 
     handleSubmit: PropTypes.func,
     renderErrors: PropTypes.func,

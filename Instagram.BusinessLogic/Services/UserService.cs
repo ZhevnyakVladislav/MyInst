@@ -46,7 +46,7 @@ namespace Instagram.BusinessLogic.Services
 
                 if (role == null)
                 {
-                    throw new BusinesslogicException($"Role with name = {userDto.Role.ToString()} was not found.");
+                    throw new BusinessLogicException($"Role with name = {userDto.Role.ToString()} was not found.");
                 }
 
                 user = _mapper.Map<User>(userDto);
@@ -68,12 +68,12 @@ namespace Instagram.BusinessLogic.Services
                 }
                 else
                 {
-                    throw new BusinesslogicException(result.Errors.First());
+                    throw new BusinessLogicException(result.Errors.First());
                 }
             }
             else
             {
-                throw new BusinesslogicException($"User with userName = {userDto.UserName} already exists.");
+                throw new BusinessLogicException($"User with userName = {userDto.UserName} already exists.");
             }
         }
 
@@ -81,7 +81,7 @@ namespace Instagram.BusinessLogic.Services
         {
             if (userDto == null) throw new ArgumentNullException(nameof(userDto));
 
-            ClaimsIdentity claim;
+            ClaimsIdentity identity;
 
             var user = await _userManager.FindByNameAsync(userDto.UserName);
 
@@ -89,35 +89,40 @@ namespace Instagram.BusinessLogic.Services
             {
                 if (!await _userManager.IsEmailConfirmedAsync(user.Id))
                 {
-                    throw new BusinesslogicException($"You must have a confirmed email to log on.");
+                    throw new BusinessLogicException($"You must have a confirmed email to log on.");
                 }
 
                 if (await _userManager.CheckPasswordAsync(user, userDto.Password))
                 {
-                    claim = await _userManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
+                    identity = await _userManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ExternalBearer);
                 }
                 else
                 {
-                    throw new BusinesslogicException($"Sorry, your password was incorrect. Please double-check your password.");
+                    throw new BusinessLogicException($"Sorry, your password was incorrect. Please double-check your password.");
                 }
             }
             else
             {
-                throw new BusinesslogicException($"The username you entered doesn't belong to an account. Please check your username and try again.");
+                throw new BusinessLogicException($"The username you entered doesn't belong to an account. Please check your username and try again.");
             }
 
-            return claim;
+            foreach (Claim c in identity.Claims)
+            {
+                identity.TryRemoveClaim(c);
+            }
+
+            return identity;
         }
 
         public UserDto GetUserByEmail(string email)
         {
-            if (email.IsNullOrEmpty()) throw  new ArgumentNullException(email);
+            if (email.IsNullOrEmpty()) throw  new ArgumentNullException(nameof(email));
 
             var user = _userManager.FindByEmailAsync(email).Result;
 
             if (user == null)
             {
-                throw new BusinesslogicException($"user with email={email} was not found.");
+                throw new BusinessLogicException($"user with email={email} was not found.");
             }
 
             return _mapper.Map<UserDto>(user);
@@ -125,13 +130,13 @@ namespace Instagram.BusinessLogic.Services
 
         public UserDto GetUserByUserName(string userName)
         {
-            if (userName.IsNullOrEmpty()) throw new ArgumentNullException(userName);
+            if (userName.IsNullOrEmpty()) throw new ArgumentNullException(nameof(userName));
 
             var user = _userManager.FindByNameAsync(userName).Result;
 
             if (user == null)
             {
-                throw new BusinesslogicException($"user with userName={userName} was not found.");
+                throw new BusinessLogicException($"user with userName={userName} was not found.");
             }
 
             return _mapper.Map<UserDto>(user);
@@ -139,8 +144,8 @@ namespace Instagram.BusinessLogic.Services
 
         public async Task<UserDto> ConfirmUserEmailAsync(string userName, string code)
         {
-            if (userName.IsNullOrEmpty()) throw new ArgumentNullException(userName);
-            if (code.IsNullOrEmpty()) throw new ArgumentNullException(code);
+            if (userName.IsNullOrEmpty()) throw new ArgumentNullException(nameof(userName));
+            if (code.IsNullOrEmpty()) throw new ArgumentNullException(nameof(code));
 
             var user = GetUserByUserName(userName);
 
@@ -148,7 +153,7 @@ namespace Instagram.BusinessLogic.Services
 
             if (!result.Succeeded)
             {
-                throw new BusinesslogicException(result.Errors.FirstOrDefault());
+                throw new BusinessLogicException(result.Errors.FirstOrDefault());
             }
 
             return user;
@@ -168,9 +173,9 @@ namespace Instagram.BusinessLogic.Services
 
         public async Task ResetPasswordAsync(string userName, string token, string newPassword)
         {
-            if(userName.IsNullOrEmpty()) throw  new ArgumentNullException();
-            if (token.IsNullOrEmpty()) throw new ArgumentNullException(token);
-            if (newPassword.IsNullOrEmpty()) throw new ArgumentNullException(newPassword);
+            if(userName.IsNullOrEmpty()) throw  new ArgumentNullException(nameof(userName));
+            if (token.IsNullOrEmpty()) throw new ArgumentNullException(nameof(token));
+            if (newPassword.IsNullOrEmpty()) throw new ArgumentNullException(nameof(newPassword));
 
             var user = GetUserByUserName(userName);
 
@@ -178,7 +183,26 @@ namespace Instagram.BusinessLogic.Services
 
             if (!result.Succeeded)
             {
-                throw new BusinesslogicException(result.Errors.FirstOrDefault());
+                throw new BusinessLogicException(result.Errors.FirstOrDefault());
+            }
+        }
+
+        public void UpdateUserName(string oldUserName, string newUserName)
+        {
+            if (oldUserName.IsNullOrEmpty()) throw new ArgumentNullException(nameof(oldUserName));
+            if (newUserName.IsNullOrEmpty()) throw new ArgumentNullException(nameof(newUserName));
+
+            if (oldUserName != newUserName)
+            {
+                var existedUser = _userManager.FindByNameAsync(oldUserName).Result;
+                existedUser.UserName = newUserName;
+
+                var result =_userManager.UpdateAsync(existedUser).Result;
+
+                if (!result.Succeeded)
+                {
+                    throw new BusinessLogicException(result.Errors.FirstOrDefault());
+                }
             }
         }
     }

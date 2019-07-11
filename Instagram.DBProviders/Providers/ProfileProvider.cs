@@ -19,6 +19,16 @@ namespace Instagram.DBProviders.Providers
             }
         }
 
+        public UserProfile GetProfileByUserName(string useName)
+        {
+            using (var context = IoContainer.Resolve<AppDbContext>())
+            {
+                var profile = context.UserProfiles.FirstOrDefault(item => item.User.UserName == useName);
+
+                return profile;
+            }
+        }
+
         public void Update(UserProfile item)
         {
             using (var context = IoContainer.Resolve<AppDbContext>())

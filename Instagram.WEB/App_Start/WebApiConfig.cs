@@ -1,7 +1,8 @@
 ﻿using System.Web.Http;
 using System.Web.Http.ExceptionHandling;
-using Instagram.WEB.Utils.CookieHandler;
+using Instagram.WEB.Utils;
 using Instagram.WEB.Utils.ErrorHandling;
+using Instagram.WEB.Utils.Jwt;
 using Newtonsoft.Json.Serialization;
 
 namespace Instagram.WEB
@@ -12,8 +13,9 @@ namespace Instagram.WEB
         {
             // Web API routes
             config.MapHttpAttributeRoutes();
-
+            config.EnableCors();
             config.Formatters.JsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
@@ -21,9 +23,9 @@ namespace Instagram.WEB
                 defaults: new { id = RouteParameter.Optional }
             );
 
-            config.MessageHandlers.Add(new CookieHandler());
             config.Services.Replace(typeof(IExceptionHandler), new ApiErrorHandler());
             config.Services.Add(typeof(IExceptionLogger), new AiExceptionLogger());
+            config.Filters.Add(new JwtAuthenticationAttribute());
         }
     }
 }

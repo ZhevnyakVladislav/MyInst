@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Web;
 using System.Web.Http;
 using AutoMapper;
 using Instagram.BusinessLogic.Entities;
@@ -6,11 +8,13 @@ using Instagram.BusinessLogic.Interfaces;
 using Instagram.Common.Enums;
 using Instagram.Common.IoContainer;
 using Instagram.WEB.Models;
+using Instagram.WEB.Utils;
+using Instagram.WEB.Utils.Jwt;
 using Instagram.WEB.Utils.WebApi;
 
 namespace Instagram.WEB.Controllers
 {
-    [Authorize]
+    [JwtAuthentication]
     [RoutePrefix("api/profile")]
     public class ProfileController : ApiController
     {
@@ -30,31 +34,51 @@ namespace Instagram.WEB.Controllers
         }
 
         [HttpGet]
-        [Route("")]
-        public ApiResult<ProfileVm> Get([FromUri]string username)
+        [Route("edit")]
+        public ApiResult<EditProfileVm> GetEditProfileData([FromUri]string username)
         {
             var profile = _profileService.GetProfileByUserName(username);
 
-            return _mapper.Map<ProfileVm>(profile).AsApiResult();
+            return _mapper.Map<EditProfileVm>(profile).AsApiResult();
+        }
+
+        [HttpGet]
+        [Route("view")]
+        [Authorize]
+        public ApiResult<ViewProfileVm> GetViewProfileData([FromUri]string username)
+        {
+            var profile = _profileService.GetProfileByUserName(username);
+
+            return _mapper.Map<ViewProfileVm>(profile).AsApiResult();
         }
 
 
         [HttpPost]
-        [Route("")]
-        public ApiResult UpdateProfile(ProfileVm model)
+        [Route("update")]
+        public ApiResult UpdateProfile(EditProfileVm model)
         {
             var profile = _mapper.Map<ProfileDto>(model);
 
-            _profileService.UpdateProfile(profile);
+            _userService.UpdateUserName(model.BaseUserName, model.UserName);
+            _profileService.UpdateProfile(model.UserName, profile);
 
             return ApiResult.Ok;
         }
 
         [HttpPost]
         [Route("updateImage")]
-        public ApiResult UpdateProfileImage(ProfileVm model)
+        public ApiResult UpdateProfileImage(string userName)
         {
-            throw new NotImplementedException();
+            Stream fileStream = null;
+
+            if (HttpContext.Current.Request.Files.Count == 1)
+            {
+                fileStream = HttpContext.Current.Request.Files[0].InputStream;
+            }
+
+            var imageURL = _profileService.UpdateProfileImage(userName, fileStream);
+
+            return imageURL.AsApiResult();
         }
     }
 }

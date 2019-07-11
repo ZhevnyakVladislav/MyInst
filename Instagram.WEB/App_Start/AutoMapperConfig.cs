@@ -23,7 +23,13 @@ namespace Instagram.WEB
                 cfg.CreateMap<ProfileDto, UserDto>().ReverseMap();
                 cfg.CreateMap<UserDto, UserProfile>().ReverseMap();
                 cfg.CreateMap<ProfileDto, UserProfile>().ReverseMap();
-                cfg.CreateMap<ProfileDto, ProfileVm>().ReverseMap();
+                cfg.CreateMap<ProfileDto, ViewProfileVm>().ReverseMap();
+                cfg.CreateMap<EditProfileVm, ProfileDto>()
+                    .ReverseMap()
+                    .ForMember(m => m.Website, x => x.NullSubstitute(string.Empty))
+                    .ForMember(m => m.Bio, x => x.NullSubstitute(string.Empty))
+                    .ForMember(m => m.PhoneNumber, x => x.NullSubstitute(string.Empty))
+                    .ForMember(m => m.ImageUrl, x => x.NullSubstitute(string.Empty));
             });
 
             var mapper = config.CreateMapper();

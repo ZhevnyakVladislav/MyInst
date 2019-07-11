@@ -37,8 +37,8 @@ namespace Instagram.WEB.Controllers
                         apiResult.StatusCode = 400;
                         apiResult.Message = argumentException.Message;
                         break;
-                    case BusinesslogicException businesslogicException:
-                        apiResult.Message = businesslogicException.Descripion;
+                    case BusinessLogicException businesslogicException:
+                        apiResult.Message = businesslogicException.Description;
                         break;
                     default:
                         if (apiResult.StatusCode != 500)

@@ -25,6 +25,8 @@ namespace Instagram.Test.Unit.BusinessLogic.ProfileServiceTests
 
         private  IProfileService _testObject;
 
+        private IImageService _imageService;
+
         private IMapper _mapper;
 
         public ProfileServiceTests()
@@ -36,8 +38,9 @@ namespace Instagram.Test.Unit.BusinessLogic.ProfileServiceTests
         {
             _profileProvider = ProfileProviderMoqs.GetStandart();
             _userManager = UserManagerMoqs.GetStandart();
+            _imageService = ImageServiceMoqs.GetStandart();
             _mapper = IoContainer.Resolve<IMapper>();
-            _testObject = new ProfileService(_profileProvider, _userManager, _mapper);
+            _testObject = new ProfileService(_profileProvider, _userManager, _imageService, _mapper);
         }
 
         [SetUp]
@@ -63,7 +66,7 @@ namespace Instagram.Test.Unit.BusinessLogic.ProfileServiceTests
             TestInfo testInfo = GetDefaultTestInfo();
             _profileProvider = ProfileProviderMoqs.GetImplemented(testInfo);
              _userManager = UserManagerMoqs.GetImplemented(testInfo);
-            _testObject = new ProfileService(_profileProvider, _userManager, _mapper);
+            _testObject = new ProfileService(_profileProvider, _userManager, _imageService, _mapper);
             var userName = testInfo.CurrentUser.UserName;
             var userProfile = _testObject.GetProfileByUserName(userName);
 
@@ -91,10 +94,11 @@ namespace Instagram.Test.Unit.BusinessLogic.ProfileServiceTests
             testInfo.Profiles.ForEach(p =>  p.Id = new Random().Next());
             _profileProvider = ProfileProviderMoqs.GetImplemented(testInfo);
             _userManager = UserManagerMoqs.GetImplemented(testInfo);
-            IProfileService testObject = new ProfileService(_profileProvider, _userManager, _mapper);
+            _testObject = new ProfileService(_profileProvider, _userManager, _imageService, _mapper);
+
             var userName = testInfo.CurrentUser.UserName;
 
-            Assert.Throws<BusinesslogicException>(() => testObject.GetProfileByUserName(userName));
+            Assert.Throws<BusinessLogicException>(() => _testObject.GetProfileByUserName(userName));
 
             _profileProvider.Received().GetProfileByUserId(Arg.Any<int>());
         }
@@ -105,7 +109,7 @@ namespace Instagram.Test.Unit.BusinessLogic.ProfileServiceTests
         {
             TestInfo testInfo = GetDefaultTestInfo();
             IProfileProvider profileProviderCustom = ProfileProviderMoqs.GetImplemented(testInfo);
-            IProfileService testObject = new ProfileService(profileProviderCustom, _userManager, _mapper);
+            IProfileService testObject = new ProfileService(profileProviderCustom, _userManager, _imageService, _mapper);
 
             var profile = new ProfileDto()
             {

@@ -6,6 +6,7 @@ import TextInput from '../../common/components/inputs/TextInput';
 import FileInput from '../../common/components/inputs/FileInput';
 import { Label } from 'react-bulma-components/lib/components/form';
 import Button from 'react-bulma-components/lib/components/button';
+import Image from 'react-bulma-components/lib/components/image';
 
 const EditProfileTab = ({
     userName,
@@ -20,7 +21,9 @@ const EditProfileTab = ({
     errorMessage,
     onChange,
     isLoading,
-    onImageChange
+    isSaving,
+    onImageChange,
+    imageUrl
 }) => {
     return (<>
         <Columns>
@@ -28,7 +31,7 @@ const EditProfileTab = ({
                 <Media>
                     <Media.Item position="right">
                         <figure className="image is-64x64">
-                            <img className="is-rounded" src="https://bulma.io/images/placeholders/128x128.png" />
+                            <img className="is-rounded avatar" src={imageUrl} />
                         </figure>
                     </Media.Item>
                 </Media>
@@ -136,6 +139,7 @@ const EditProfileTab = ({
                     <Button
                         color="primary"
                         onClick={handleSubmit}
+                        loading={isSaving}
                     >
                         Submit
                     </Button>
@@ -153,6 +157,8 @@ EditProfileTab.propTypes = {
     bio: PropTypes.string,
     email: PropTypes.string,
     phone: PropTypes.string,
+    imageUrl: PropTypes.string,
+    isSaving: PropTypes.bool,
 
     handleSubmit: PropTypes.func,
     renderErrors: PropTypes.func,

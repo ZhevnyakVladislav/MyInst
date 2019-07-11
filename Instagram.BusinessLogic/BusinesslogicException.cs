@@ -2,13 +2,13 @@
 
 namespace Instagram.BusinessLogic
 {
-    public class BusinesslogicException : Exception
+    public class BusinessLogicException : Exception
     {
-        public string Descripion { get; set; }
+        public string Description { get; set; }
 
-        public BusinesslogicException(string description)
+        public BusinessLogicException(string description)
         {
-            Descripion = description;
+            Description = description;
         }
     }
 }

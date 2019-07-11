@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Threading.Tasks;
 using Instagram.BusinessLogic.Entities;
 using Instagram.Common.Models;
@@ -11,8 +12,8 @@ namespace Instagram.BusinessLogic.Interfaces
 
         ProfileDto GetProfileByUserName(string userName);
 
-        void UpdateProfile(ProfileDto profile);
+        void UpdateProfile(string userName, ProfileDto profile);
 
-        string UpdateProfileImage(string userName, byte[] file);
+        string UpdateProfileImage(string userName, Stream filesStream);
     }
 }

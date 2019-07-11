@@ -1,11 +1,10 @@
 import types from './types';
 import { handleActions, combineActions } from 'redux-actions';
-import getCookie from '../../helpers/cookie/index';
+import { setAccessToken } from '../../utils/localStorage';
 
-const userName = getCookie('userName');
 const createInitialState = () => ({
-    isUserAuth: !!userName,
-    userName: getCookie('userName'),
+    isUserAuth: false,
+    userName: '',
     errorMessage: null,
     isAccountCorfimed: false,
     isPasswordReseted: false,
@@ -31,7 +30,6 @@ export default handleActions({
     }),
     [combineActions(
         types.USER_SIGN_IN_SUCCESS,
-        types.CONFIRM_EMAIL_SUCCESS
     )]: (state, actions) => ({
         ...state,
         ...actions.payload,
@@ -52,10 +50,13 @@ export default handleActions({
     }),
     [combineActions(
         types.USER_UNAUTHORIZED,
-        types.USER_LOGOUT_SUCCESS,
+        types.USER_LOGOUT,
         types.RESET_PASSWORD_SUCCESS
-    )]: () => ({
-        ...createInitialState(),
-        isUserAuth: false,
-    }),
+    )]: () => {
+        setAccessToken('');
+        return {
+            ...createInitialState(),
+            isUserAuth: false,
+        };
+    }
 }, createInitialState());

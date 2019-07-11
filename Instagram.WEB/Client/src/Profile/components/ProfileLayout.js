@@ -15,11 +15,11 @@ const ProfileLayout = ({ profileData, isUserAuth, openSettingsModal }) => {
             <Columns>
                 <Columns.Column size={10} offset={1}>
                     <Columns>
-                        <Columns.Column size={4} >
+                        <Columns.Column offset={1} size={3}>
                             <Media>
                                 <Media.Item position="left">
                                     <figure className="image is-128x128">
-                                        <img className="is-rounded" src="https://bulma.io/images/placeholders/128x128.png" />
+                                        <img className="is-rounded avatar" src={profileData.imageUrl} />
                                     </figure>
                                 </Media.Item>
                             </Media>
@@ -34,7 +34,7 @@ const ProfileLayout = ({ profileData, isUserAuth, openSettingsModal }) => {
                                         renderAs="a"
                                         color="light"
                                     >
-                                    <Link to="/profile/edit">Edit Profile</Link>
+                                        <Link to="/profile/edit">Edit Profile</Link>
                                     </Button>
                                     <FontAwesomeIcon className="has-margin-left-10" icon={faCog} size="2x" onClick={openSettingsModal} />
                                 </> : <Button
@@ -66,6 +66,7 @@ ProfileLayout.propTypes = {
         image: PropTypes.string,
         userName: PropTypes.string,
         fullName: PropTypes.string,
+        imageUrl: PropTypes.string,
         postsCount: PropTypes.number,
         followersCount: PropTypes.number,
         followingCount: PropTypes.number,

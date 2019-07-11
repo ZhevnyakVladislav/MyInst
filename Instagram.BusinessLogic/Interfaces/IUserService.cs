@@ -1,8 +1,6 @@
-﻿using System;
+﻿using Instagram.BusinessLogic.Entities;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Instagram.BusinessLogic.Entities;
-using Microsoft.AspNet.Identity;
 
 namespace Instagram.BusinessLogic.Interfaces
 {
@@ -21,5 +19,7 @@ namespace Instagram.BusinessLogic.Interfaces
         Task RecoverUserAsync(string userName);
 
         Task ResetPasswordAsync(string userName, string token, string newPassword);
+
+        void UpdateUserName(string oldUserName, string newUserName);
     }
 }

@@ -74,6 +74,7 @@
     <Compile Include="Common\Generators\DtoUserGenerator.cs" />
     <Compile Include="Common\Generators\UserGenerator.cs" />
     <Compile Include="ProfileServiceTests\Generators\ProfileGenerator.cs" />
+    <Compile Include="ProfileServiceTests\Mocks\ImageServiceMoqs.cs" />
     <Compile Include="ProfileServiceTests\Mocks\ProfileProviderMoqs.cs" />
     <Compile Include="ProfileServiceTests\Mocks\UserManagerMoqs.cs" />
     <Compile Include="ProfileServiceTests\ProfileServiceTests.cs" />
@@ -87,6 +88,7 @@
     <Compile Include="UserServicesTests\UserServiceTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

@@ -4,7 +4,7 @@ const base = '/api';
 
 const urls = {
     user: {
-        signIn_post: `${base}/account/login`,
+        signIn_post: '/token',
         signUp_post: `${base}/account/register`,
         logOut_post: `${base}/account/logout`,
         confirmEmail_post: `${base}/account/confirmEmail`,
@@ -12,7 +12,10 @@ const urls = {
         resetPassword_post: `${base}/account/password/reset`
     },
     profile: {
-        profileData_get: `${base}/profile`
+        loadEditProfileData_get: `${base}/profile/edit`,
+        loadViewProfileData_get: `${base}/profile/view`,
+        updateProfileImage_post: `${base}/profile/updateImage`,
+        updateProfile_post: `${base}/profile/update`
     }
 };
 

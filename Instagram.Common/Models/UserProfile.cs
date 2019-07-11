@@ -16,9 +16,7 @@ namespace Instagram.Common.Models
 
         public string PhoneNumber { get; set; }
 
-        public string Gernder { get; set; }
-
-        public string Photo { get; set; }
+        public string ImageUrl { get; set; }
 
         public virtual User User { get; set; }
     }
