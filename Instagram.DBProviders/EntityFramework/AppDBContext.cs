@@ -15,5 +15,18 @@ namespace Instagram.DBProviders.EntityFramework
         {
             Database.SetInitializer(new DbInitializer());
         }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<UserProfile>()
+                .HasMany(u => u.Followers)
+                .WithMany(u => u.Following)
+                .Map(m =>
+                {
+                    m.MapLeftKey("OwnerId");
+                    m.MapRightKey("FollowerId");
+                    m.ToTable("Followers");
+                });
+        }
     }
 }

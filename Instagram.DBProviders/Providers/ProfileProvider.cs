@@ -23,7 +23,13 @@ namespace Instagram.DBProviders.Providers
         {
             using (var context = IoContainer.Resolve<AppDbContext>())
             {
-                var profile = context.UserProfiles.FirstOrDefault(item => item.User.UserName == useName);
+                var profile = context.UserProfiles
+                    .Include(x => x.Followers)
+                    .Include(x => x.Following)
+                    .Include(x => x.Followers.Select(i => i.User))
+                    .Include(x => x.Following.Select(i => i.User))
+                    .Include(x => x.User)
+                    .FirstOrDefault(item => item.User.UserName == useName);
 
                 return profile;
             }
@@ -42,7 +48,13 @@ namespace Instagram.DBProviders.Providers
         {
             using (var context = IoContainer.Resolve<AppDbContext>())
             {
-                var profile = context.UserProfiles.FirstOrDefault(item => item.User.Id == userId);
+                var profile = context.UserProfiles
+                    .Include(x => x.Followers)
+                    .Include(x => x.Following)
+                    .Include(x => x.Followers.Select(i => i.User))
+                    .Include(x => x.Following.Select(i => i.User))
+                    .Include(x => x.User)
+                    .FirstOrDefault(item => item.User.Id == userId);
 
                 return profile;
             }

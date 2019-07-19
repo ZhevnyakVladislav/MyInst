@@ -1,4 +1,6 @@
-﻿namespace Instagram.BusinessLogic.Entities
+﻿using System.Collections.Generic;
+
+namespace Instagram.BusinessLogic.Entities
 {
     public class ProfileDto
     {
@@ -17,5 +19,13 @@
         public string PhoneNumber { get; set; }
 
         public string ImageUrl { get; set; }
+
+        public ICollection<ProfileDto> Followers { get; set; }
+
+        public ICollection<ProfileDto> Following { get; set; }
+
+        public bool IsFollowing { get; set; }
+
+        public bool IsPrivate { get; set; }
     }
 }

@@ -14,7 +14,7 @@ using Instagram.BusinessLogic;
 
 namespace Instagram.WEB.Utils.Jwt
 {
-    public class JwtAuthenticationAttribute : Attribute, IAuthenticationFilter
+    public class JwtAuthenticationFilter : IAuthenticationFilter
     {
         public string Realm { get; set; }
 
@@ -52,28 +52,23 @@ namespace Instagram.WEB.Utils.Jwt
         {
             username = null;
 
-            var simplePrinciple = CustomJwtFormat.GetPrincipal(token);
+            var simplePrinciple = JwtTokenManager.GetPrincipal(token);
 
-            if (!(simplePrinciple?.Identity is ClaimsIdentity identity))
-                return false;
+            if (!(simplePrinciple?.Identity is ClaimsIdentity identity)) return false;
 
-            if (!identity.IsAuthenticated)
-                return false;
+            if (!identity.IsAuthenticated) return false;
 
             var usernameClaim = identity.FindFirst(ClaimTypes.Name);
             username = usernameClaim?.Value;
 
-            if (string.IsNullOrEmpty(username))
-                return false;
+            if (string.IsNullOrEmpty(username)) return false;
 
             return true;
         }
 
         protected Task<IPrincipal> AuthenticateJwtToken(string token)
         {
-            string username;
-
-            if (ValidateToken(token, out username))
+            if (ValidateToken(token, out var username))
             {
                 var claims = new List<Claim>
                 {

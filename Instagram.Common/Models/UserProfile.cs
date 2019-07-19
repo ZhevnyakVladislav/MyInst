@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Instagram.Common.Models
@@ -18,6 +19,19 @@ namespace Instagram.Common.Models
 
         public string ImageUrl { get; set; }
 
+        public bool IsPrivate { get; set; }
+
+
         public virtual User User { get; set; }
+
+        public virtual  ICollection<UserProfile> Following { get; set; }
+
+        public virtual ICollection<UserProfile> Followers { get; set; }
+
+        public UserProfile()
+        {
+            Followers = new HashSet<UserProfile>();
+            Following = new HashSet<UserProfile>();
+        }
     }
 }

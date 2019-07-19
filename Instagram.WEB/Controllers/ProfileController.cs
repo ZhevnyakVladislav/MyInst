@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Web;
 using System.Web.Http;
 using AutoMapper;
@@ -14,7 +15,6 @@ using Instagram.WEB.Utils.WebApi;
 
 namespace Instagram.WEB.Controllers
 {
-    [JwtAuthentication]
     [RoutePrefix("api/profile")]
     public class ProfileController : ApiController
     {
@@ -35,6 +35,7 @@ namespace Instagram.WEB.Controllers
 
         [HttpGet]
         [Route("edit")]
+        [Authorize]
         public ApiResult<EditProfileVm> GetEditProfileData([FromUri]string username)
         {
             var profile = _profileService.GetProfileByUserName(username);
@@ -44,22 +45,33 @@ namespace Instagram.WEB.Controllers
 
         [HttpGet]
         [Route("view")]
-        [Authorize]
         public ApiResult<ViewProfileVm> GetViewProfileData([FromUri]string username)
         {
             var profile = _profileService.GetProfileByUserName(username);
 
-            return _mapper.Map<ViewProfileVm>(profile).AsApiResult();
+            var result = _mapper.Map<ViewProfileVm>(profile);
+
+            result.IsFollowing = profile.Followers.Select(x => x.UserName).Contains(User.Identity.Name);
+
+            return result.AsApiResult();
         }
 
+        [HttpGet]
+        [Route("avatar")]
+        public ApiResult GetProfileAvatar()
+        {
+            var profile = _profileService.GetProfileByUserName(User.Identity.Name);
+
+            return profile.ImageUrl.AsApiResult();
+        }
 
         [HttpPost]
         [Route("update")]
+        [Authorize]
         public ApiResult UpdateProfile(EditProfileVm model)
         {
             var profile = _mapper.Map<ProfileDto>(model);
 
-            _userService.UpdateUserName(model.BaseUserName, model.UserName);
             _profileService.UpdateProfile(model.UserName, profile);
 
             return ApiResult.Ok;
@@ -67,6 +79,7 @@ namespace Instagram.WEB.Controllers
 
         [HttpPost]
         [Route("updateImage")]
+        [Authorize]
         public ApiResult UpdateProfileImage(string userName)
         {
             Stream fileStream = null;
@@ -79,6 +92,16 @@ namespace Instagram.WEB.Controllers
             var imageURL = _profileService.UpdateProfileImage(userName, fileStream);
 
             return imageURL.AsApiResult();
+        }
+
+        [HttpPost]
+        [Route("changeFollowing")]
+        [Authorize]
+        public ApiResult ChangeFollowing(ChangeFollowingVm model)
+        {
+            _profileService.UpdateFollowing(User.Identity.Name, model.UserName);
+
+            return ApiResult.Ok;
         }
     }
 }

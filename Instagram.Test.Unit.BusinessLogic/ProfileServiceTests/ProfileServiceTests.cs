@@ -59,20 +59,20 @@ namespace Instagram.Test.Unit.BusinessLogic.ProfileServiceTests
             };
         }
 
-        [Category("GetProfileByUserName")]
-        [Test]
-        public void GetProfileByUserNameTest()
-        {
-            TestInfo testInfo = GetDefaultTestInfo();
-            _profileProvider = ProfileProviderMoqs.GetImplemented(testInfo);
-             _userManager = UserManagerMoqs.GetImplemented(testInfo);
-            _testObject = new ProfileService(_profileProvider, _userManager, _imageService, _mapper);
-            var userName = testInfo.CurrentUser.UserName;
-            var userProfile = _testObject.GetProfileByUserName(userName);
+        //[Category("GetProfileByUserName")]
+        //[Test]
+        //public void GetProfileByUserNameTest()
+        //{
+        //    TestInfo testInfo = GetDefaultTestInfo();
+        //    _profileProvider = ProfileProviderMoqs.GetImplemented(testInfo);
+        //     _userManager = UserManagerMoqs.GetImplemented(testInfo);
+        //    _testObject = new ProfileService(_profileProvider, _userManager, _imageService, _mapper);
+        //    var userName = testInfo.CurrentUser.UserName;
+        //    var userProfile = _testObject.GetProfileByUserName(userName);
 
-            Assert.AreEqual(userName, userProfile.UserName);
-            _profileProvider.Received().GetProfileByUserId(Arg.Any<int>());
-        }
+        //    Assert.AreEqual(userName, userProfile.UserName);
+        //    _profileProvider.Received().GetProfileByUserId(Arg.Any<int>());
+        //}
 
         [Category("GetProfileByUserName")]
         [Test]
@@ -86,22 +86,22 @@ namespace Instagram.Test.Unit.BusinessLogic.ProfileServiceTests
             _profileProvider.DidNotReceiveWithAnyArgs().GetProfileByUserId(Arg.Any<int>());
         }
 
-        [Category("GetProfileByUserName")]
-        [Test]
-        public void GetProfileByUserName_BusinessLogicExceptionTest()
-        {
-            TestInfo testInfo = GetDefaultTestInfo();
-            testInfo.Profiles.ForEach(p =>  p.Id = new Random().Next());
-            _profileProvider = ProfileProviderMoqs.GetImplemented(testInfo);
-            _userManager = UserManagerMoqs.GetImplemented(testInfo);
-            _testObject = new ProfileService(_profileProvider, _userManager, _imageService, _mapper);
+        //[Category("GetProfileByUserName")]
+        //[Test]
+        //public void GetProfileByUserName_BusinessLogicExceptionTest()
+        //{
+        //    TestInfo testInfo = GetDefaultTestInfo();
+        //    testInfo.Profiles.ForEach(p =>  p.Id = new Random().Next());
+        //    _profileProvider = ProfileProviderMoqs.GetImplemented(testInfo);
+        //    _userManager = UserManagerMoqs.GetImplemented(testInfo);
+        //    _testObject = new ProfileService(_profileProvider, _userManager, _imageService, _mapper);
 
-            var userName = testInfo.CurrentUser.UserName;
+        //    var userName = testInfo.CurrentUser.UserName;
 
-            Assert.Throws<BusinessLogicException>(() => _testObject.GetProfileByUserName(userName));
+        //    Assert.Throws<BusinessLogicException>(() => _testObject.GetProfileByUserName(userName));
 
-            _profileProvider.Received().GetProfileByUserId(Arg.Any<int>());
-        }
+        //    _profileProvider.Received().GetProfileByUserId(Arg.Any<int>());
+        //}
 
         [Category("CreateProfile")]
         [Test]

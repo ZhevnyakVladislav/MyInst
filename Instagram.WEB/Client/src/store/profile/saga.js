@@ -8,7 +8,11 @@ import {
     updateProfileImageSuccess,
     updateProfileImageError,
     updateProfileSuccess,
-    updateProfileError
+    updateProfileError,
+    loadProfileAvatarSuccess,
+    loadProfileAvatarError,
+    changeFollowingSuccess,
+    changeFollowingError
 } from './actions';
 import types from './types';
 
@@ -48,9 +52,29 @@ function* callUpdateProfile(action) {
     }
 }
 
+function* callLoadProfileAvatar() {
+    try {
+        const response = yield call(api.call.get, api.urls.profile.loadProfileAvatar_get);
+        yield put(loadProfileAvatarSuccess(response.data.model));
+    } catch (e) {
+        yield put(loadProfileAvatarError(e));
+    }
+}
+
+function* callChangeFollowing(action) {
+    try {
+        yield call(api.call.post, api.urls.profile.changeFollowing_post, action.payload);
+        yield put(changeFollowingSuccess());
+    } catch (e) {
+        yield put(changeFollowingError(e));
+    }
+}
+
 export default [
     takeEvery(types.LOAD_VIEW_PROFILE_DATA, callLoadViewProfileData),
     takeEvery(types.LOAD_EDIT_PROFILE_DATA, callLoadEditProfileData),
     takeEvery(types.UPDATE_PROFILE_IMAGE, callUpdateProfileImage),
     takeEvery(types.UPDATE_PROFILE, callUpdateProfile),
+    takeEvery(types.LOAD_PROFILE_AVATAR, callLoadProfileAvatar),
+    takeEvery(types.CHANGE_FOLLOWING, callChangeFollowing)
 ];

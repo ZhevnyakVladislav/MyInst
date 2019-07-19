@@ -15,5 +15,7 @@ namespace Instagram.BusinessLogic.Interfaces
         void UpdateProfile(string userName, ProfileDto profile);
 
         string UpdateProfileImage(string userName, Stream filesStream);
+
+        void UpdateFollowing(string currentUserName, string userName);
     }
 }

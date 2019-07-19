@@ -1,10 +1,16 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Http;
+using System.Web.Http.Results;
+using Instagram.BusinessLogic;
+using Instagram.WEB.Utils.ErrorHandling;
 
 namespace Instagram.WEB.Utils.Jwt
 {
@@ -22,11 +28,10 @@ namespace Instagram.WEB.Utils.Jwt
 
         public async Task<HttpResponseMessage> ExecuteAsync(CancellationToken cancellationToken)
         {
-            HttpResponseMessage response = await InnerResult.ExecuteAsync(cancellationToken);
+            var response = await InnerResult.ExecuteAsync(cancellationToken);
 
             if (response.StatusCode == HttpStatusCode.Unauthorized)
             {
-                // Only add one challenge per authentication scheme.
                 if (response.Headers.WwwAuthenticate.All(h => h.Scheme != Challenge.Scheme))
                 {
                     response.Headers.WwwAuthenticate.Add(Challenge);

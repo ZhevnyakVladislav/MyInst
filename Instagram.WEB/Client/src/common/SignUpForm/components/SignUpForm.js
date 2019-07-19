@@ -23,7 +23,6 @@ const SignUpForm = ({
     handleSubmit,
     renderErrors,
     isFieldValid,
-    errorMessage,
     handleChange,
     isShowVerification,
     verificationCode,
@@ -62,12 +61,6 @@ const SignUpForm = ({
                                     <hr />
                                 </Columns.Column>
                             </Columns>
-                            {errorMessage &&
-                                <Message color="danger">
-                                    <Message.Body>
-                                        {errorMessage}
-                                    </Message.Body>
-                                </Message>}
                             <form onSubmit={handleSubmit} className="margin-top-two" >
                                 <TextField
                                     name="email"
@@ -143,7 +136,6 @@ SignUpForm.propTypes = {
     userName: PropTypes.string,
     password: PropTypes.string,
     fullName: PropTypes.string,
-    errorMessage: PropTypes.string,
     isShowVerification: PropTypes.bool,
     verificationCode: PropTypes.string,
     isLoading: PropTypes.bool,

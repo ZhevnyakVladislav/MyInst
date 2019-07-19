@@ -41,11 +41,10 @@ class SignInFormContainer extends React.PureComponent {
     }
 
     render() {
-        const { renderErrors, isFieldValid, errorMessage, handleSubmit, isLoading } = this.props;
+        const { renderErrors, isFieldValid, handleSubmit, isLoading } = this.props;
         const props = {
             renderErrors: renderErrors,
             isFieldValid: isFieldValid,
-            errorMessage: errorMessage,
             handleSubmit: handleSubmit,
             isLoading: isLoading,
             handleChange: this.handleChange
@@ -60,7 +59,6 @@ class SignInFormContainer extends React.PureComponent {
 SignInFormContainer.propTypes = {
     isUserAuth: PropTypes.bool,
     isLoading: PropTypes.bool,
-    errorMessage: PropTypes.string,
     history: PropTypes.object,
 
     signIn: PropTypes.func,
@@ -72,7 +70,6 @@ SignInFormContainer.propTypes = {
 
 const mapStateToProps = (state) => ({
     isUserAuth: state.user.isUserAuth,
-    errorMessage: state.user.errorMessage,
     isLoading: state.user.isLoading
 });
 

@@ -16,3 +16,11 @@ export const updateProfileImageError = createAction(types.UPDATE_PROFILE_IMAGE_E
 export const updateProfile = createAction(types.UPDATE_PROFILE);
 export const updateProfileSuccess = createAction(types.UPDATE_PROFILE_SUCCESS);
 export const updateProfileError = createAction(types.UPDATE_PROFILE_ERROR, error => error);
+
+export const loadProfileAvatar = createAction(types.LOAD_PROFILE_AVATAR);
+export const loadProfileAvatarSuccess = createAction(types.LOAD_PROFILE_AVATAR_SUCCESS);
+export const loadProfileAvatarError = createAction(types.LOAD_PROFILE_AVATAR_ERROR, error => error);
+
+export const changeFollowing = createAction(types.CHANGE_FOLLOWING);
+export const changeFollowingSuccess = createAction(types.CHANGE_FOLLOWING_SUCCESS);
+export const changeFollowingError = createAction(types.CHANGE_FOLLOWING_ERROR);

@@ -1,12 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Columns from 'react-bulma-components/lib/components/columns';
-import Media from 'react-bulma-components/lib/components/media';
 import TextInput from '../../common/components/inputs/TextInput';
-import FileInput from '../../common/components/inputs/FileInput';
 import { Label } from 'react-bulma-components/lib/components/form';
 import Button from 'react-bulma-components/lib/components/button';
-import Image from 'react-bulma-components/lib/components/image';
 
 const EditProfileTab = ({
     userName,
@@ -18,32 +15,14 @@ const EditProfileTab = ({
     handleSubmit,
     renderErrors,
     isFieldValid,
-    errorMessage,
     onChange,
     isLoading,
     isSaving,
-    onImageChange,
-    imageUrl
 }) => {
-    return (<>
-        <Columns>
-            <Columns.Column className="is-flex flex-column align-items-flex-end" size={3}>
-                <Media>
-                    <Media.Item position="right">
-                        <figure className="image is-64x64">
-                            <img className="is-rounded avatar" src={imageUrl} />
-                        </figure>
-                    </Media.Item>
-                </Media>
-            </Columns.Column>
-            <Columns.Column>
-                <Label>{userName}</Label>
-                <FileInput label="Change Profile Photo" renderErrors={renderErrors} onChange={onImageChange} />
-            </Columns.Column>
-        </Columns>
+    return (
         <form onSubmit={handleSubmit}>
             <Columns>
-                <Columns.Column className="is-flex flex-column align-items-flex-end" size={3}>
+                <Columns.Column className="has-text-right" size={3}>
                     <Label>Name</Label>
                 </Columns.Column>
                 <Columns.Column size={7}>
@@ -58,7 +37,7 @@ const EditProfileTab = ({
                 </Columns.Column>
             </Columns>
             <Columns>
-                <Columns.Column className="is-flex flex-column align-items-flex-end" size={3}>
+                <Columns.Column className="has-text-right" size={3}>
                     <Label>Username</Label>
                 </Columns.Column>
                 <Columns.Column size={7}>
@@ -66,6 +45,7 @@ const EditProfileTab = ({
                         name="userName"
                         placeholder="Username"
                         value={userName}
+                        readOnly
                         isFieldValid={isFieldValid}
                         handleChange={onChange}
                         renderErrors={renderErrors}
@@ -73,7 +53,7 @@ const EditProfileTab = ({
                 </Columns.Column>
             </Columns>
             <Columns>
-                <Columns.Column className="is-flex flex-column align-items-flex-end" size={3}>
+                <Columns.Column className="has-text-right" size={3}>
                     <Label>Website</Label>
                 </Columns.Column>
                 <Columns.Column size={7}>
@@ -88,7 +68,7 @@ const EditProfileTab = ({
                 </Columns.Column>
             </Columns>
             <Columns>
-                <Columns.Column className="is-flex flex-column align-items-flex-end" size={3}>
+                <Columns.Column className="has-text-right" size={3}>
                     <Label>Bio</Label>
                 </Columns.Column>
                 <Columns.Column size={7}>
@@ -103,7 +83,7 @@ const EditProfileTab = ({
                 </Columns.Column>
             </Columns>
             <Columns>
-                <Columns.Column className="is-flex flex-column align-items-flex-end" size={3}>
+                <Columns.Column className="has-text-right" size={3}>
                     <Label>Email</Label>
                 </Columns.Column>
                 <Columns.Column size={7}>
@@ -119,7 +99,7 @@ const EditProfileTab = ({
                 </Columns.Column>
             </Columns>
             <Columns>
-                <Columns.Column className="is-flex flex-column align-items-flex-end" size={3}>
+                <Columns.Column className="has-text-right" size={3}>
                     <Label>Phone Number</Label>
                 </Columns.Column>
                 <Columns.Column size={7}>
@@ -146,7 +126,6 @@ const EditProfileTab = ({
                 </Columns.Column>
             </Columns>
         </form>
-    </>
     );
 };
 
@@ -164,7 +143,6 @@ EditProfileTab.propTypes = {
     renderErrors: PropTypes.func,
     isFieldValid: PropTypes.func,
     onChange: PropTypes.func,
-    onImageChange: PropTypes.func,
 };
 
 export default EditProfileTab;

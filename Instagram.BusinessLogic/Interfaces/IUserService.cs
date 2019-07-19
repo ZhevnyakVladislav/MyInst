@@ -20,6 +20,8 @@ namespace Instagram.BusinessLogic.Interfaces
 
         Task ResetPasswordAsync(string userName, string token, string newPassword);
 
+        Task ChangePassword(string userName, string oldPassword, string newPassword, string confirmPassword);
+
         void UpdateUserName(string oldUserName, string newUserName);
     }
 }

@@ -14,7 +14,7 @@ export default function (ComposedComponent) {
             return null;
         }
         render() {
-            return (this.props.isUserAuth && <ComposedComponent {...this.props} />);
+            return (this.props.isUserAuth ? <ComposedComponent {...this.props} /> : null);
         }
     }
 

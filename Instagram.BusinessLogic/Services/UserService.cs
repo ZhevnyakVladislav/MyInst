@@ -122,7 +122,7 @@ namespace Instagram.BusinessLogic.Services
 
             if (user == null)
             {
-                throw new BusinessLogicException($"user with email={email} was not found.");
+                throw new BusinessLogicException($"User with email={email} was not found.");
             }
 
             return _mapper.Map<UserDto>(user);
@@ -136,7 +136,7 @@ namespace Instagram.BusinessLogic.Services
 
             if (user == null)
             {
-                throw new BusinessLogicException($"user with userName={userName} was not found.");
+                throw new BusinessLogicException($"User with userName={userName} was not found.");
             }
 
             return _mapper.Map<UserDto>(user);
@@ -180,6 +180,23 @@ namespace Instagram.BusinessLogic.Services
             var user = GetUserByUserName(userName);
 
             var result = await _userManager.ResetPasswordAsync(user.Id, token, newPassword);
+
+            if (!result.Succeeded)
+            {
+                throw new BusinessLogicException(result.Errors.FirstOrDefault());
+            }
+        }
+
+        public async Task ChangePassword(string userName, string oldPassword, string newPassword, string confirmPassword)
+        {
+            if(oldPassword.IsNullOrEmpty()) throw  new ArgumentNullException(nameof(oldPassword));
+            if (newPassword.IsNullOrEmpty()) throw new ArgumentNullException(nameof(newPassword));
+            if (confirmPassword.IsNullOrEmpty()) throw new ArgumentNullException(nameof(confirmPassword));
+
+            if (newPassword != confirmPassword) throw new BusinessLogicException("Please make sure both passwords match.");
+
+            var user = GetUserByUserName(userName);
+            var result = await _userManager.ChangePasswordAsync(user.Id, oldPassword, newPassword);
 
             if (!result.Succeeded)
             {

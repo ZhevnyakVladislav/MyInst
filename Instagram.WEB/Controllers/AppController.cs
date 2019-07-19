@@ -10,8 +10,6 @@ namespace Instagram.WEB.Controllers
 {
     public class AppController : Controller
     {
-        public IAuthenticationManager AuthenticationManager => HttpContext.GetOwinContext().Authentication;
-
         public ActionResult HandleError(int statusCode = 404, Exception exception = null)
         {
             HttpContext.Response.Clear();
@@ -37,8 +35,8 @@ namespace Instagram.WEB.Controllers
                         apiResult.StatusCode = 400;
                         apiResult.Message = argumentException.Message;
                         break;
-                    case BusinessLogicException businesslogicException:
-                        apiResult.Message = businesslogicException.Description;
+                    case BusinessLogicException businessLogicException:
+                        apiResult.Message = businessLogicException.Description;
                         break;
                     default:
                         if (apiResult.StatusCode != 500)

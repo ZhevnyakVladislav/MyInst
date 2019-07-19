@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using AutoMapper;
 using Instagram.BusinessLogic.Entities;
 using Instagram.Common.IoContainer;
@@ -19,11 +20,18 @@ namespace Instagram.WEB
                 cfg.CreateMap<UserDto, UserVm>().ReverseMap();
                 cfg.CreateMap<LoginVm, UserDto>().ReverseMap();
                 cfg.CreateMap<RegisterVm, UserDto>().ReverseMap();
-
                 cfg.CreateMap<ProfileDto, UserDto>().ReverseMap();
                 cfg.CreateMap<UserDto, UserProfile>().ReverseMap();
-                cfg.CreateMap<ProfileDto, UserProfile>().ReverseMap();
-                cfg.CreateMap<ProfileDto, ViewProfileVm>().ReverseMap();
+                cfg.CreateMap<ProfileDto, UserProfile>()
+                    .ReverseMap()
+                    .ForMember(m => m.UserName, x => x.MapFrom(p => p.User.UserName))
+                    .ForMember(m => m.Email, x => x.MapFrom(p => p.User.Email))
+                    .ForMember(m => m.Followers, x => x.Ignore())
+                    .ForMember(m => m.Following, x => x.Ignore());
+                cfg.CreateMap<ProfileDto, ViewProfileVm>()
+                    .ForMember(m => m.FollowersCount, x => x.MapFrom(p => p.Followers.Count))
+                    .ForMember(m => m.FollowingCount, x => x.MapFrom(p => p.Following.Count))
+                    .ReverseMap();
                 cfg.CreateMap<EditProfileVm, ProfileDto>()
                     .ReverseMap()
                     .ForMember(m => m.Website, x => x.NullSubstitute(string.Empty))

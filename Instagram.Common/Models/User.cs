@@ -26,10 +26,5 @@ namespace Instagram.Common.Models
         public virtual Role Role { get; set; }
 
         public virtual UserProfile UsertProfile { get; set; }
-
-        public override void UpdateModel()
-        {
-
-        }
     }
 }

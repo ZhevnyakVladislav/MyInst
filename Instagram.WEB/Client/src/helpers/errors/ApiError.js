@@ -1,4 +1,5 @@
 import { userUnauthorized } from '../../store/user/actions';
+import { showAlert } from '../../store/alert/actions';
 import globalDispatch from '../dispatch/globalDispatch';
 
 export default class ApiError extends Error {
@@ -14,6 +15,7 @@ export default class ApiError extends Error {
         } else {
             this.message = 'Something went wrong.';
         }
-    }
 
+        globalDispatch(showAlert(this.message));
+    }
 }

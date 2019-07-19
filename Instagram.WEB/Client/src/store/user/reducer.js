@@ -2,16 +2,32 @@ import types from './types';
 import { handleActions, combineActions } from 'redux-actions';
 import { setAccessToken } from '../../utils/localStorage';
 
-const createInitialState = () => ({
+export const createInitialState = () => ({
     isUserAuth: false,
     userName: '',
-    errorMessage: null,
     isAccountCorfimed: false,
     isPasswordReseted: false,
-    isLoading: false
+    isLoading: false,
+    isSaving: false,
+    isSubmittedSuccessfull: false,
 });
 
 export default handleActions({
+    [types.CHANGE_PASSWORD]: (state) => ({
+        ...state,
+        isSaving: true,
+        isSubmittedSuccessfull: false
+    }),
+    [types.CHANGE_PASSWORD_SUCCESS]: (state) => ({
+        ...state,
+        isSaving: false,
+        isSubmittedSuccessfull: true,
+    }),
+    [types.CHANGE_PASSWORD_ERROR]: (state) => ({
+        ...state,
+        isSaving: false,
+        isSubmittedSuccessfull: false,
+    }),
     [combineActions(
         types.USER_SIGN_IN,
         types.USER_SIGN_UP,
@@ -30,9 +46,9 @@ export default handleActions({
     }),
     [combineActions(
         types.USER_SIGN_IN_SUCCESS,
-    )]: (state, actions) => ({
+    )]: (state, action) => ({
         ...state,
-        ...actions.payload,
+        ...action.payload,
         isLoading: false,
         isUserAuth: true
     }),
@@ -42,9 +58,8 @@ export default handleActions({
         types.CONFIRM_EMAIL_ERROR,
         types.CONFIRM_RESET_PASSWORD_ERROR,
         types.RESET_PASSWORD_ERROR
-    )]: (state, actions) => ({
+    )]: (state, action) => ({
         ...state,
-        errorMessage: actions.payload.message,
         isLoading: false,
         isUserAuth: false,
     }),

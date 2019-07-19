@@ -5,11 +5,17 @@ import Columns from 'react-bulma-components/lib/components/columns';
 import Media from 'react-bulma-components/lib/components/media';
 import Content from 'react-bulma-components/lib/components/content';
 import Button from 'react-bulma-components/lib/components/button';
+import Box from 'react-bulma-components/lib/components/box';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCog } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 
-const ProfileLayout = ({ profileData, isUserAuth, openSettingsModal }) => {
+const ProfileLayout = ({
+    profileData,
+    isOwner,
+    openSettingsModal,
+    onChangeFollowing
+}) => {
     return (
         <Container>
             <Columns>
@@ -28,27 +34,31 @@ const ProfileLayout = ({ profileData, isUserAuth, openSettingsModal }) => {
 
                             <Content className="is-flex is-marginless">
                                 <h2>{profileData.userName}</h2>
-                                {isUserAuth ? <>
-                                    <Button
+                                {isOwner
+                                    ? <>
+                                        <Button
+                                            className="has-max-width-100 has-margin-left-10"
+                                            renderAs="a"
+                                            color="light"
+                                        >
+                                            <Link to="/profile/edit">Edit Profile</Link>
+                                        </Button>
+                                        <FontAwesomeIcon className="has-margin-left-10" icon={faCog} size="2x" onClick={openSettingsModal} />
+                                    </>
+                                    : <Button
+                                        color={profileData.isFollowing ? '' : 'primary'}
                                         className="has-max-width-100 has-margin-left-10"
                                         renderAs="a"
-                                        color="light"
+                                        onClick={onChangeFollowing}
                                     >
-                                        <Link to="/profile/edit">Edit Profile</Link>
+                                        {profileData.isFollowing ? 'Following' : 'Follow'}
                                     </Button>
-                                    <FontAwesomeIcon className="has-margin-left-10" icon={faCog} size="2x" onClick={openSettingsModal} />
-                                </> : <Button
-                                    className="has-max-width-100 has-margin-left-10"
-                                    renderAs="a"
-                                >
-                                        Follow
-                                </Button>
                                 }
                             </Content>
                             <Content className="is-flex is-marginless">
-                                <p className="has-margin-right-20"><strong>12</strong> posts</p>
-                                <p className="has-margin-right-20"><strong>12</strong> followers</p>
-                                <p><strong>12</strong> following</p>
+                                <p className="has-margin-right-20"><strong>{profileData.postsCount}</strong> posts</p>
+                                <p className="has-margin-right-20"><strong>{profileData.followersCount}</strong> followers</p>
+                                <p><strong>{profileData.followingCount}</strong> following</p>
                             </Content>
                             <Content className="is-flex is-marginless">
                                 <h3>{profileData.fullName}</h3>
@@ -57,6 +67,17 @@ const ProfileLayout = ({ profileData, isUserAuth, openSettingsModal }) => {
                     </Columns>
                 </Columns.Column>
             </Columns>
+            {profileData.isPrivate
+                ? <Columns>
+                    <Columns.Column size={12}>
+                        <Box className="has-text-centered">
+                            <h1>This Account is Private</h1>
+                            <p className="has-margin-top-20">Follow to see their photos and videos.</p>
+                        </Box>
+                    </Columns.Column>
+                </Columns> : null}
+
+
         </Container>
     );
 };
@@ -70,10 +91,12 @@ ProfileLayout.propTypes = {
         postsCount: PropTypes.number,
         followersCount: PropTypes.number,
         followingCount: PropTypes.number,
+        isPrivate: PropTypes.bool,
+        isFollowing: PropTypes.bool,
     }),
-    isUserAuth: PropTypes.bool,
-
-    openSettingsModal: PropTypes.func
+    isOwner: PropTypes.bool,
+    openSettingsModal: PropTypes.func,
+    onChangeFollowing: PropTypes.func,
 };
 
 export default ProfileLayout;

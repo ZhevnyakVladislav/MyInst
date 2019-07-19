@@ -89,8 +89,21 @@ svg {
     color:#3897f0;
 }
 
-img.avatar {
+.image img.avatar {
     height: inherit;
     width: inherit;
     border: solid 1px
+}
+
+.notification {
+    position: fixed;
+    bottom: -100px;
+    left: 0;
+    right: 0;
+    transition: 0.5s;
+}
+
+.notification.show {
+    bottom: 0;
+    transition: 0.5s;
 }

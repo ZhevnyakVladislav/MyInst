@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Instagram.BusinessLogic.Entities;
@@ -45,23 +46,21 @@ namespace Instagram.BusinessLogic.Services
         {
             if (userName.IsNullOrEmpty()) throw new ArgumentNullException(nameof(userName));
 
-            var user = _userManager.FindByNameAsync(userName).Result;
-            var profile = _profileProvider.GetProfileByUserId(user.Id);
+            var profile = _profileProvider.GetProfileByUserName(userName);
 
-            if (profile == null)
-            {
-                throw new BusinessLogicException($"Profile for user with id = {user.Id} was not found.");
-            }
+            if (profile == null) throw new BusinessLogicException($"Profile for user with userName = {userName} was not found.");
 
             var result = _mapper.Map<ProfileDto>(profile);
-            result.UserName = user.UserName;
-            result.Email = user.Email;
+
+            result.Followers = profile.Followers.Select(x => _mapper.Map<ProfileDto>(x)).ToList();
+            result.Following = profile.Following.Select(x => _mapper.Map<ProfileDto>(x)).ToList();
 
             return result;
         }
 
         public void UpdateProfile(string userName, ProfileDto profile)
         {
+            if (userName == null) throw new ArgumentNullException(nameof(userName));
             if (profile == null) throw new ArgumentNullException(nameof(profile));
 
             var existedProfile = _profileProvider.GetProfileByUserName(userName);
@@ -87,6 +86,26 @@ namespace Instagram.BusinessLogic.Services
           _profileProvider.Update(userProfile);
 
           return imageUrl;
+        }
+
+        public void UpdateFollowing(string currentUserName, string userName)
+        {
+            if (userName.IsNullOrEmpty()) throw new ArgumentNullException(nameof(userName));
+            if (userName.IsNullOrEmpty()) throw new ArgumentNullException(nameof(userName));
+
+            var existedProfile = _profileProvider.GetProfileByUserName(currentUserName);
+            var followingProfile = _profileProvider.GetProfileByUserName(userName);
+
+            if (existedProfile.Following.ToDictionary(x => x.Id, x => x).TryGetValue(followingProfile.Id, out var value))
+            {
+                existedProfile.Following.Remove(value);
+            }
+            else
+            {
+                existedProfile.Following.Add(followingProfile);
+            }
+
+            _profileProvider.Update(existedProfile);
         }
     }
 }

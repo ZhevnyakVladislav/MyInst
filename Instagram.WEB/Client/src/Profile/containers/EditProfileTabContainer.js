@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import validationForm from '../../common/components/validation/ValidationForm';
 import Joi from 'joi';
 import EditProfileTab from '../components/EditProfileTab';
-import { updateProfileImage, loadEditProfileData, updateProfile } from '../../store/profile/actions';
+import { loadEditProfileData, updateProfile } from '../../store/profile/actions';
 import { isEqual } from 'lodash';
 
 class EditProfileContainer extends React.PureComponent {
@@ -53,12 +53,6 @@ class EditProfileContainer extends React.PureComponent {
         }, () => this.props.handleValidateField(field));
     }
 
-    handleImageChange = (e) => {
-        var data = new FormData();
-        data.append('file', e.target.files[0]);
-        data.append('userName', this.state.userName);
-        this.props.updateProfileImage(data);
-    }
 
     getValidationSchema = () => {
         return {
@@ -81,9 +75,7 @@ class EditProfileContainer extends React.PureComponent {
             handleSubmit,
             isLoading,
             isSaving,
-            imageUrl: this.props.profileData.imageUrl,
             onChange: this.handleChange,
-            onImageChange: this.handleImageChange
         };
         return (
             <EditProfileTab {...props} {...this.state} />
@@ -99,7 +91,6 @@ EditProfileContainer.propTypes = {
         website: PropTypes.string,
         email: PropTypes.string,
         phone: PropTypes.string,
-        imageUrl: PropTypes.string,
     }),
     errorMessage: PropTypes.string,
     isLoading: PropTypes.bool,
@@ -109,30 +100,27 @@ EditProfileContainer.propTypes = {
     renderErrors: PropTypes.func,
     isFieldValid: PropTypes.func,
     handleSubmit: PropTypes.func,
-    updateProfileImage: PropTypes.func,
     loadProfileData: PropTypes.func,
     updateProfile: PropTypes.func
 };
 
 const mapStateToProps = (state) => {
-    const { fullName, imageUrl, website, bio, email, phone, isSaving } = state.profile;
+    const { fullName, website, bio, email, phone } = state.profile.editForm;
 
     return {
         profileData: {
             fullName,
-            imageUrl,
             website,
             bio,
             email,
             phone,
             userName: state.user.userName
         },
-        isSaving
+        isSaving: state.profile.isSaving
     };
 };
 
 const mapDispatchToProps = ({
-    updateProfileImage,
     updateProfile,
     loadProfileData: loadEditProfileData,
 });

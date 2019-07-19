@@ -10,9 +10,6 @@ export const signUpSuccess = createAction(types.USER_SIGN_UP_SUCCESS);
 export const signUpError = createAction(types.USER_SIGN_UP_ERROR, error => error);
 
 export const logOut = createAction(types.USER_LOGOUT);
-// export const logOutSuccess = createAction(types.USER_LOGOUT_SUCCESS);
-// export const logOutError = createAction(types.USER_LOGOUT_ERROR, error => error);
-
 export const userUnauthorized = createAction(types.USER_UNAUTHORIZED);
 
 export const confirmEmail = createAction(types.CONFIRM_EMAIL);
@@ -26,3 +23,7 @@ export const confirmResetPasswordError = createAction(types.CONFIRM_RESET_PASSWO
 export const resetPassword = createAction(types.RESET_PASSWORD);
 export const resetPasswordSuccess = createAction(types.RESET_PASSWORD_SUCCESS);
 export const resetPasswordError = createAction(types.RESET_PASSWORD_ERROR, error => error);
+
+export const changePassword = createAction(types.CHANGE_PASSWORD);
+export const changePasswordSuccess = createAction(types.CHANGE_PASSWORD_SUCCESS);
+export const changePasswordError = createAction(types.CHANGE_PASSWORD_ERROR, error => error);

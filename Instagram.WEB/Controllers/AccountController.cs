@@ -35,23 +35,6 @@ namespace Instagram.WEB.Controllers
         }
 
         [HttpPost]
-        [Route("login")]
-        [AllowAnonymous]
-        public async Task<ApiResult> Login(LoginVm model)
-        {
-            if (User.Identity.IsAuthenticated) return new ApiResult { StatusCode = 404, Message = "User is already authenticated" };
-
-            var user = _mapper.Map<UserDto>(model);
-            var claim = await _userService.AuthenticateUserAsync(user);
-
-            AuthenticationManager.SignIn(new AuthenticationProperties { IsPersistent = true }, claim);
-
-            var authenticatedUser = _userService.GetUserByUserName(user.UserName);
-
-            return _mapper.Map<UserVm>(authenticatedUser).AsApiResult();
-        }
-
-        [HttpPost]
         [Route("register")]
         [AllowAnonymous]
         public async Task<ApiResult> Register(RegisterVm model)
@@ -60,16 +43,6 @@ namespace Instagram.WEB.Controllers
             user.Role = Roles.Admin;
 
             await _userService.CreateUserAsync(user);
-
-            return ApiResult.Ok;
-        }
-
-        [HttpPost]
-        [Route("logout")]
-        [Authorize]
-        public ApiResult Logout()
-        {
-            AuthenticationManager.SignOut();
 
             return ApiResult.Ok;
         }
@@ -103,9 +76,19 @@ namespace Instagram.WEB.Controllers
         [HttpPost]
         [Route("password/reset")]
         [AllowAnonymous]
+
         public async Task<ApiResult> ResetPassword(ResetPasswordVm model)
         {
             await _userService.ResetPasswordAsync(model.UserName, model.Token, model.Password);
+
+            return ApiResult.Ok;
+        }
+
+        [HttpPost]
+        [Route("password/change")]
+        public async Task<ApiResult> ChangePassword(ChangePasswordVm model)
+        {
+            await _userService.ChangePassword(User.Identity.Name, model.OldPassword, model.NewPassword, model.ConfirmPassword);
 
             return ApiResult.Ok;
         }

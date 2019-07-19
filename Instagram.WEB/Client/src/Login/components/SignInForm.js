@@ -12,7 +12,6 @@ import {
     Control,
 } from 'react-bulma-components/lib/components/form';
 import Button from 'react-bulma-components/lib/components/button';
-import Message from 'react-bulma-components/lib/components/message';
 import TextField from '../../common/components/inputs/TextInput';
 
 const SignInForm = ({
@@ -21,7 +20,6 @@ const SignInForm = ({
     handleSubmit,
     renderErrors,
     isFieldValid,
-    errorMessage,
     handleChange,
     isLoading
 }) => {
@@ -42,12 +40,7 @@ const SignInForm = ({
                     >
                         <Box>
                             <Heading className="has-text-centered">Instagram</Heading>
-                            {errorMessage &&
-                                <Message color="danger">
-                                    <Message.Body>
-                                        {errorMessage}
-                                    </Message.Body>
-                                </Message>}
+
                             <form onSubmit={handleSubmit} className="margin-top-two" >
                                 <TextField
                                     name="userName"
@@ -108,7 +101,6 @@ const SignInForm = ({
 SignInForm.propTypes = {
     userName: PropTypes.string,
     password: PropTypes.string,
-    errorMessage: PropTypes.string,
     isLoading: PropTypes.bool,
 
     handleSubmit: PropTypes.func,

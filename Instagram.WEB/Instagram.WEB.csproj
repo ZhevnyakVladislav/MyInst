@@ -234,18 +234,22 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\ChangeFollowingVm.cs" />
+    <Compile Include="Models\ChangePasswordVm.cs" />
     <Compile Include="Models\EditProfileVm.cs" />
     <Compile Include="Models\ViewProfileVm.cs" />
     <Compile Include="Models\RegisterVm.cs" />
     <Compile Include="Models\ResetPasswordVm.cs" />
     <Compile Include="Models\UserVm.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utils\Filters\ApiExceptionFilter.cs" />
     <Compile Include="Utils\Jwt\AddChallengeOnUnauthorizedResult.cs" />
     <Compile Include="Utils\Jwt\AuthenticationFailureResult.cs" />
     <Compile Include="Utils\Jwt\AuthorizationServerProvider.cs" />
     <Compile Include="Utils\Jwt\CustomJwtFormat.cs" />
     <Compile Include="Utils\Jwt\HttpAuthenticationChallengeContextExtensions.cs" />
-    <Compile Include="Utils\Jwt\JwtAuthenticationAttribute.cs" />
+    <Compile Include="Utils\Jwt\JwtAuthenticationFilter.cs" />
+    <Compile Include="Utils\Jwt\JwtTokenManager.cs" />
     <Compile Include="Utils\WebApi\ApiResult.cs" />
     <Compile Include="Utils\ErrorHandling\ApiErrorHandler.cs" />
     <Compile Include="Utils\ErrorHandling\AiExceptionLogger.cs" />

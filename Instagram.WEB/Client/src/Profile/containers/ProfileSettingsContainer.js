@@ -7,28 +7,39 @@ import Tabs from 'react-bulma-components/lib/components/tabs';
 import Box from 'react-bulma-components/lib/components/box';
 import { Route } from 'react-router-dom';
 
+import AvatarFormContainer from './AvatarFormContainer';
 import EditProfileTabContainer from './EditProfileTabContainer';
+import ChangePasswordTabContainer from './ChangePasswordTabContainer';
+import PrivacyAndSecurityTabContainer from './PrivacyAndSecurityTabContainer';
 
 const basePath = '/profile';
 
 const MenuItemIds = {
     EditProfile: 1,
     ChangePassword: 2,
+    PrivacyAndSecurity: 3
 };
 
 const MenuItemNames = {
     [MenuItemIds.EditProfile]: 'Edit Profile',
     [MenuItemIds.ChangePassword]: 'ChangePassword',
+    [MenuItemIds.PrivacyAndSecurity]: 'Privacy and Security'
 };
 
 const MenuItemComponents = {
     [MenuItemIds.EditProfile]: EditProfileTabContainer,
+    [MenuItemIds.ChangePassword]: ChangePasswordTabContainer,
+    [MenuItemIds.PrivacyAndSecurity]: PrivacyAndSecurityTabContainer
 };
 
 const MenuItemPaths = {
     [MenuItemIds.EditProfile]: `${basePath}/edit`,
     [MenuItemIds.ChangePassword]: `${basePath}/password/change`,
+    [MenuItemIds.PrivacyAndSecurity]: `${basePath}/privacy_and_security`,
+
 };
+
+const componentsWithAvatar = [MenuItemIds.ChangePassword, MenuItemIds.EditProfile];
 
 class ProfileSettingsContainer extends React.PureComponent {
     state = {
@@ -41,6 +52,7 @@ class ProfileSettingsContainer extends React.PureComponent {
             this.props.history.push(MenuItemPaths[activeTab])
         );
     }
+
 
     render() {
         const { activeTab } = this.state;
@@ -62,6 +74,7 @@ class ProfileSettingsContainer extends React.PureComponent {
                                     </Tabs>
                                 </Columns.Column>
                                 <Columns.Column style={{ borderLeft: 'solid 1px #dddddd' }} size={9}>
+                                    {componentsWithAvatar.includes(this.state.activeTab) && <AvatarFormContainer isShowChange={this.state.activeTab === MenuItemIds.EditProfile} />}
                                     <Route path={MenuItemPaths[activeTab]} component={MenuItemComponents[activeTab]} />
                                 </Columns.Column>
                             </Columns>
@@ -78,7 +91,6 @@ ProfileSettingsContainer.propTypes = {
 };
 
 const mapStateToProps = state => ({
-
 });
 
 const mapDispatchToProps = ({

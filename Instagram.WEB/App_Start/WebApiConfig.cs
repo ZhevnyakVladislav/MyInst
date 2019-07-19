@@ -2,6 +2,7 @@
 using System.Web.Http.ExceptionHandling;
 using Instagram.WEB.Utils;
 using Instagram.WEB.Utils.ErrorHandling;
+using Instagram.WEB.Utils.Filters;
 using Instagram.WEB.Utils.Jwt;
 using Newtonsoft.Json.Serialization;
 
@@ -25,7 +26,9 @@ namespace Instagram.WEB
 
             config.Services.Replace(typeof(IExceptionHandler), new ApiErrorHandler());
             config.Services.Add(typeof(IExceptionLogger), new AiExceptionLogger());
-            config.Filters.Add(new JwtAuthenticationAttribute());
+            config.Filters.Add(new JwtAuthenticationFilter());
+            config.Filters.Add(new AuthorizeAttribute());
+            config.Filters.Add(new ApiExceptionFilter());
         }
     }
 }

@@ -16,6 +16,8 @@ import {
     confirmResetPasswordError,
     resetPasswordSuccess,
     resetPasswordError,
+    changePasswordSuccess,
+    changePasswordError,
 } from './actions';
 
 function* callSignIn(action) {
@@ -78,10 +80,20 @@ function* callResetPassword(action) {
     }
 }
 
+function* callChangePassword(action) {
+    try {
+        yield call(api.call.post, api.urls.user.changePassword_post, action.payload);
+        yield put(changePasswordSuccess());
+    } catch (e) {
+        yield put(changePasswordError(e));
+    }
+}
+
 export default [
     takeEvery(types.USER_SIGN_UP, callSignUp),
     takeEvery(types.USER_SIGN_IN, callSignIn),
     takeEvery(types.CONFIRM_EMAIL, callConfirmEmail),
     takeEvery(types.CONFIRM_RESET_PASSWORD, callConfirmResetPassword),
     takeEvery(types.RESET_PASSWORD, callResetPassword),
+    takeEvery(types.CHANGE_PASSWORD, callChangePassword),
 ];
