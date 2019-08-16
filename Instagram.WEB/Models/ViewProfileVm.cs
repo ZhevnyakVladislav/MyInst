@@ -8,6 +8,8 @@
 
         public string ImageUrl { get; set; }
 
+        public string Bio { get; set; }
+
         public int FollowersCount { get; set; }
 
         public int FollowingCount { get; set; }

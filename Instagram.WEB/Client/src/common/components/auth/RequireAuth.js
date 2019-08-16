@@ -21,18 +21,13 @@ export default function (ComposedComponent) {
     Authenticate.propTypes = {
         isUserAuth: PropTypes.bool,
         history: PropTypes.object,
-        // userId: PropTypes.number,
-
-        // getUserData: PropTypes.func
     };
 
     const mapStateToProps = (state) => ({
         isUserAuth: state.user.isUserAuth,
-        // userId: state.user.id,
     });
 
     const mapDispatchToProps = {
-        // getUserData: () => dispatch(getUserData())
     };
 
     return connect(mapStateToProps, mapDispatchToProps)(Authenticate);

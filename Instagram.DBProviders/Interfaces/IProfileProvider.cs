@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Instagram.Common.Models;
 
 namespace Instagram.DBProviders.Interfaces
@@ -12,5 +13,13 @@ namespace Instagram.DBProviders.Interfaces
         UserProfile GetProfileByUserName(string useName);
 
         void Update(UserProfile item);
+
+        void Follow(string userName, string followerUserName);
+
+        void Unfollow(string userName, string followerUserName);
+
+        IEnumerable<UserProfile> GetFollowersByUserName(string userName);
+
+        IEnumerable<UserProfile> GetFollowingByUserName(string userName);
     }
 }

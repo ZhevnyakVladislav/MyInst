@@ -21,6 +21,22 @@ export const loadProfileAvatar = createAction(types.LOAD_PROFILE_AVATAR);
 export const loadProfileAvatarSuccess = createAction(types.LOAD_PROFILE_AVATAR_SUCCESS);
 export const loadProfileAvatarError = createAction(types.LOAD_PROFILE_AVATAR_ERROR, error => error);
 
-export const changeFollowing = createAction(types.CHANGE_FOLLOWING);
-export const changeFollowingSuccess = createAction(types.CHANGE_FOLLOWING_SUCCESS);
-export const changeFollowingError = createAction(types.CHANGE_FOLLOWING_ERROR);
+export const follow = createAction(types.FOLLOW);
+export const followSuccess = createAction(types.FOLLOW_SUCCESS);
+export const followError = createAction(types.FOLLOW_ERROR);
+
+export const unfollow = createAction(types.UNFOLLOW);
+export const unfollowSuccess = createAction(types.UNFOLLOW_SUCCESS);
+export const unfollowError = createAction(types.UNFOLLOW_ERROR);
+
+export const loadFollowers = createAction(types.LOAD_FOLLOWERS, data => data);
+export const loadFollowersSuccess = createAction(types.LOAD_FOLLOWERS_SUCCESS);
+export const loadFollowersError = createAction(types.LOAD_FOLLOWERS_ERROR);
+
+export const loadFollowing = createAction(types.LOAD_FOLLOWING, data => data);
+export const loadFollowingSuccess = createAction(types.LOAD_FOLLOWING_SUCCESS);
+export const loadFollowingError = createAction(types.LOAD_FOLLOWING_ERROR);
+
+export const openUnfollowModal = createAction(types.OPEN_UNFOLLOW_MODAL, data => data);
+export const closeUnfollowModal = createAction(types.CLOSE_UNFOLLOW_MODAL);
+

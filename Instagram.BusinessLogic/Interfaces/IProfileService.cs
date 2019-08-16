@@ -1,8 +1,6 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Threading.Tasks;
 using Instagram.BusinessLogic.Entities;
-using Instagram.Common.Models;
 
 namespace Instagram.BusinessLogic.Interfaces
 {
@@ -16,6 +14,12 @@ namespace Instagram.BusinessLogic.Interfaces
 
         string UpdateProfileImage(string userName, Stream filesStream);
 
-        void UpdateFollowing(string currentUserName, string userName);
+        void Follow(string userName, string followerUserName);
+
+        void Unfollow(string userName, string followerUserName);
+
+        IEnumerable<ProfileDto> GetFollowers(string userName);
+
+        IEnumerable<ProfileDto> GetFollowing(string userName);
     }
 }

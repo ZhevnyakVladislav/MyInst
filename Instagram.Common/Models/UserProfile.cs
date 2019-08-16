@@ -21,17 +21,13 @@ namespace Instagram.Common.Models
 
         public bool IsPrivate { get; set; }
 
-
         public virtual User User { get; set; }
-
-        public virtual  ICollection<UserProfile> Following { get; set; }
 
         public virtual ICollection<UserProfile> Followers { get; set; }
 
         public UserProfile()
         {
-            Followers = new HashSet<UserProfile>();
-            Following = new HashSet<UserProfile>();
+            Followers = new List<UserProfile>();
         }
     }
 }

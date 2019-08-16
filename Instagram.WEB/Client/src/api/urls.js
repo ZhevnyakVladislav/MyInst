@@ -18,7 +18,10 @@ const urls = {
         updateProfileImage_post: `${base}/profile/updateImage`,
         updateProfile_post: `${base}/profile/update`,
         loadProfileAvatar_get: `${base}/profile/avatar`,
-        changeFollowing_post: `${base}/profile/changeFollowing`,
+        follow_post: `${base}/profile/follow`,
+        unfollow_post: `${base}/profile/unfollow`,
+        loadFollowers_post: `${base}/profile/followers`,
+        loadFollowing_post: `${base}/profile/following`
     }
 };
 

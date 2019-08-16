@@ -14,8 +14,14 @@ const ProfileLayout = ({
     profileData,
     isOwner,
     openSettingsModal,
-    onChangeFollowing
+    onChangeFollowing,
+    openFollowersModal,
+    openFollowingModal
 }) => {
+
+    const isFollowersClickable = !profileData.isPrivate && !!profileData.followersCount;
+    const isFollowingClickable = !profileData.isPrivate && !!profileData.followingCount;
+
     return (
         <Container>
             <Columns>
@@ -38,7 +44,6 @@ const ProfileLayout = ({
                                     ? <>
                                         <Button
                                             className="has-max-width-100 has-margin-left-10"
-                                            renderAs="a"
                                             color="light"
                                         >
                                             <Link to="/profile/edit">Edit Profile</Link>
@@ -48,7 +53,6 @@ const ProfileLayout = ({
                                     : <Button
                                         color={profileData.isFollowing ? '' : 'primary'}
                                         className="has-max-width-100 has-margin-left-10"
-                                        renderAs="a"
                                         onClick={onChangeFollowing}
                                     >
                                         {profileData.isFollowing ? 'Following' : 'Follow'}
@@ -57,8 +61,8 @@ const ProfileLayout = ({
                             </Content>
                             <Content className="is-flex is-marginless">
                                 <p className="has-margin-right-20"><strong>{profileData.postsCount}</strong> posts</p>
-                                <p className="has-margin-right-20"><strong>{profileData.followersCount}</strong> followers</p>
-                                <p><strong>{profileData.followingCount}</strong> following</p>
+                                <p className={`has-margin-right-20 ${isFollowersClickable && 'has-cursor-pointer'}`} onClick={isFollowersClickable ? openFollowersModal : () => null}><strong>{profileData.followersCount}</strong> followers</p>
+                                <p className={`${isFollowingClickable && 'has-cursor-pointer'}`} onClick={isFollowingClickable ? openFollowingModal : () => null}><strong>{profileData.followingCount}</strong> following</p>
                             </Content>
                             <Content className="is-flex is-marginless">
                                 <h3>{profileData.fullName}</h3>
@@ -96,6 +100,8 @@ ProfileLayout.propTypes = {
     }),
     isOwner: PropTypes.bool,
     openSettingsModal: PropTypes.func,
+    openFollowersModal: PropTypes.func,
+    openFollowingModal: PropTypes.func,
     onChangeFollowing: PropTypes.func,
 };
 

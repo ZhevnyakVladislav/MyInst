@@ -58,11 +58,10 @@ class VerificationCodeFormContainer extends React.PureComponent {
     }
 
     render() {
-        const { renderErrors, isFieldValid, errorMessage, handleSubmit, isAccountCorfimed } = this.props;
+        const { renderErrors, isFieldValid, handleSubmit, isAccountCorfimed } = this.props;
         const props = {
             renderErrors,
             isFieldValid,
-            errorMessage,
             handleSubmit,
             isAccountCorfimed,
             handleChange: this.handleChange
@@ -75,7 +74,6 @@ class VerificationCodeFormContainer extends React.PureComponent {
 
 const mapStateToProps = (state) => ({
     isUserAuth: state.user.isUserAuth,
-    errorMessage: state.user.errorMessage,
     isAccountCorfimed: state.user.isAccountCorfimed,
 });
 
@@ -86,7 +84,6 @@ const mapDispatchToProps = ({
 
 VerificationCodeFormContainer.propTypes = {
     isUserAuth: PropTypes.bool,
-    errorMessage: PropTypes.string,
     history: PropTypes.object,
     isAccountCorfimed: PropTypes.bool,
     isPasswordReseted: PropTypes.bool,

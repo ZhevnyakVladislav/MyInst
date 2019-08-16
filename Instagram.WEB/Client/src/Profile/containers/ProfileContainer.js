@@ -3,13 +3,24 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Section from 'react-bulma-components/lib/components/section';
 import ProfileLayout from '../components/ProfileLayout';
-import { loadViewProfileData, changeFollowing } from '../../store/profile/actions';
+import {
+    loadViewProfileData,
+    follow,
+    openUnfollowModal,
+    closeUnfollowModal
+} from '../../store/profile/actions';
 import { logOut } from '../../store/user/actions';
 import SettingsModal from '../components/SettingsModal';
+import FollowersModal from '../components/FollowersOrFollowingModal';
+import UnfollowModal from '../components/UnfollowModal';
+import { MODE } from '../components/FollowersOrFollowingModal';
 
 class ProfileContainer extends React.PureComponent {
+
     state = {
-        isSettingModalOpen: false
+        isSettingModalOpen: false,
+        isFollowersOrFollowingOpen: false,
+        mode: null,
     }
 
     static getDerivedStateFromProps(props) {
@@ -23,38 +34,62 @@ class ProfileContainer extends React.PureComponent {
         this.props.loadProfileData(this.props.match.params.username);
     }
 
-    handleOpenSettingsModal = () => {
-        this.setState({ isSettingModalOpen: true });
+    handleOpenModal = popup => mode => () => {
+        this.setState({
+            [popup]: true,
+            mode: mode
+        });
     }
 
-    handleCloseSettingsModal = () => {
-        this.setState({ isSettingModalOpen: false });
+    handleCloseModal = popup => () => {
+        this.setState({
+            [popup]: false,
+            mode: null
+        });
     }
 
     handleChangeFollowing = () => {
-        this.props.changeFollowing({ userName: this.props.profileData.userName });
+        this.props.profileData.isFollowing
+            ? this.props.openUnfollowModal(this.props.profileData)
+            : this.props.follow({ userName: this.props.profileData.userName });
+
     }
 
     handleLogout = () => {
         this.props.logOut();
-        this.handleCloseSettingsModal();
+        this.handleCloseModal();
     }
 
     render() {
-        const { profileData, isOwner } = this.props;
-        const { isSettingModalOpen } = this.state;
+        const { profileData, isOwner, isUnfollowModalOpen, closeUnfollowModal } = this.props;
+        const {
+            isSettingModalOpen,
+            isFollowersOrFollowingOpen,
+            mode,
+        } = this.state;
         return (
             <Section className="has-padding-top-80">
                 <ProfileLayout
-                    openSettingsModal={this.handleOpenSettingsModal}
+                    openSettingsModal={this.handleOpenModal('isSettingModalOpen')(null)}
+                    openFollowersModal={this.handleOpenModal('isFollowersOrFollowingOpen')(MODE.followers)}
+                    openFollowingModal={this.handleOpenModal('isFollowersOrFollowingOpen')(MODE.following)}
                     isOwner={isOwner}
                     profileData={profileData}
                     onChangeFollowing={this.handleChangeFollowing}
                 />
                 <SettingsModal
                     isOpen={isSettingModalOpen}
-                    onClose={this.handleCloseSettingsModal}
+                    onClose={this.handleCloseModal('isSettingModalOpen')}
                     onLogout={this.handleLogout}
+                />
+                <FollowersModal
+                    isOpen={isFollowersOrFollowingOpen}
+                    onClose={this.handleCloseModal('isFollowersOrFollowingOpen')}
+                    mode={mode}
+                />
+                <UnfollowModal
+                    isOpen={isUnfollowModalOpen}
+                    onClose={closeUnfollowModal}
                 />
             </Section>
         );
@@ -68,22 +103,28 @@ ProfileContainer.propTypes = {
     error: PropTypes.object,
     history: PropTypes.object,
     isOwner: PropTypes.bool,
+    isUnfollowModalOpen: PropTypes.bool,
 
     loadProfileData: PropTypes.func,
     logOut: PropTypes.func,
-    changeFollowing: PropTypes.func,
+    follow: PropTypes.func,
+    openUnfollowModal: PropTypes.func,
+    closeUnfollowModal: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({
     isUserAuth: state.user.isUserAuth,
     profileData: state.profile.viewData,
-    isOwner: state.user.userName === state.profile.viewData.userName
+    isOwner: state.user.userName === state.profile.viewData.userName,
+    isUnfollowModalOpen: state.profile.unfollowModal.isOpen
 });
 
 const mapDispatchToProps = ({
     loadProfileData: loadViewProfileData,
     logOut,
-    changeFollowing
+    follow,
+    openUnfollowModal,
+    closeUnfollowModal
 });
 
 

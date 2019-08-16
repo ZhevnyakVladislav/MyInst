@@ -67,11 +67,10 @@ class EditProfileContainer extends React.PureComponent {
     }
 
     render() {
-        const { renderErrors, isFieldValid, errorMessage, handleSubmit, isLoading, isSaving } = this.props;
+        const { renderErrors, isFieldValid, handleSubmit, isLoading, isSaving } = this.props;
         const props = {
             renderErrors,
             isFieldValid,
-            errorMessage,
             handleSubmit,
             isLoading,
             isSaving,
@@ -92,7 +91,6 @@ EditProfileContainer.propTypes = {
         email: PropTypes.string,
         phone: PropTypes.string,
     }),
-    errorMessage: PropTypes.string,
     isLoading: PropTypes.bool,
     isSaving: PropTypes.bool,
 

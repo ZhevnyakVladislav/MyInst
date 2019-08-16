@@ -45,7 +45,7 @@ namespace Instagram.WEB.Controllers
 
         [HttpGet]
         [Route("view")]
-        public ApiResult<ViewProfileVm> GetViewProfileData([FromUri]string username)
+        public ApiResult GetViewProfileData([FromUri]string username)
         {
             var profile = _profileService.GetProfileByUserName(username);
 
@@ -95,13 +95,49 @@ namespace Instagram.WEB.Controllers
         }
 
         [HttpPost]
-        [Route("changeFollowing")]
+        [Route("follow")]
         [Authorize]
-        public ApiResult ChangeFollowing(ChangeFollowingVm model)
+        public ApiResult Follow(ChangeFollowingVm model)
         {
-            _profileService.UpdateFollowing(User.Identity.Name, model.UserName);
+            _profileService.Follow(model.UserName, User.Identity.Name);
 
             return ApiResult.Ok;
+        }
+
+        [HttpPost]
+        [Route("unfollow")]
+        [Authorize]
+        public ApiResult Unfollow(ChangeFollowingVm model)
+        {
+            _profileService.Unfollow(model.UserName, User.Identity.Name);
+
+            return ApiResult.Ok;
+        }
+
+        [Route("followers")]
+        [Authorize]
+        public ApiResult GetFollowers(string userName)
+        {
+            var followers = _profileService.GetFollowers(userName);
+
+            return followers.Select(p =>
+            {
+                p.IsFollowing = p.Followers.Select(i => i.UserName).Contains(User.Identity.Name);
+                return _mapper.Map<ViewProfileVm>(p);
+            }).AsApiResult();
+        }
+
+        [Route("following")]
+        [Authorize]
+        public ApiResult GetFollowing(string userName)
+        {
+            var following = _profileService.GetFollowing(userName);
+
+            return following.ToList().Select(p =>
+            {
+                p.IsFollowing = true;
+                return _mapper.Map<ViewProfileVm>(p);
+            }).AsApiResult();
         }
     }
 }

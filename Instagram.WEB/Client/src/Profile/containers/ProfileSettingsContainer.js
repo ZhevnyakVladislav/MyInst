@@ -53,7 +53,6 @@ class ProfileSettingsContainer extends React.PureComponent {
         );
     }
 
-
     render() {
         const { activeTab } = this.state;
         return (

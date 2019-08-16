@@ -23,7 +23,6 @@ const ResetPasswordForm = ({
     handleSubmit,
     renderErrors,
     isFieldValid,
-    errorMessage,
     handleChange
 }) => {
     return (
@@ -52,12 +51,7 @@ const ResetPasswordForm = ({
                                     <p>Enter your username or email and we'll send you a link to get back into your account.</p>
                                 </Columns.Column>
                             </Columns>
-                            {errorMessage &&
-                                <Message color="danger">
-                                    <Message.Body>
-                                        {errorMessage}
-                                    </Message.Body>
-                                </Message>}
+                           
                             <form onSubmit={handleSubmit} className="margin-top-two" >
                                 <TextField
                                     name="userName"
@@ -125,7 +119,6 @@ const ResetPasswordForm = ({
 ResetPasswordForm.propTypes = {
     verificationCode: PropTypes.string,
     password: PropTypes.string,
-    errorMessage: PropTypes.string,
     userName: PropTypes.string,
     isAccountCorfimed: PropTypes.bool,
 

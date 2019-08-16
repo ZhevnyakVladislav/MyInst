@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -50,10 +51,12 @@ namespace Instagram.BusinessLogic.Services
 
             if (profile == null) throw new BusinessLogicException($"Profile for user with userName = {userName} was not found.");
 
+            var following = _profileProvider.GetFollowingByUserName(userName);
+
             var result = _mapper.Map<ProfileDto>(profile);
 
             result.Followers = profile.Followers.Select(x => _mapper.Map<ProfileDto>(x)).ToList();
-            result.Following = profile.Following.Select(x => _mapper.Map<ProfileDto>(x)).ToList();
+            result.Following = following.Select(x => _mapper.Map<ProfileDto>(x)).ToList();
 
             return result;
         }
@@ -69,7 +72,7 @@ namespace Instagram.BusinessLogic.Services
             existedProfile.Bio = profile.Bio;
             existedProfile.PhoneNumber = profile.PhoneNumber;
             existedProfile.FullName = profile.FullName;
-            
+
             _profileProvider.Update(existedProfile);
         }
 
@@ -78,34 +81,62 @@ namespace Instagram.BusinessLogic.Services
             if (filesStream == null) throw new ArgumentNullException(nameof(filesStream));
             if (userName.IsNullOrEmpty()) throw new ArgumentNullException(nameof(userName));
 
-           var imageUrl =  _imageService.Upload(filesStream);
+            var imageUrl = _imageService.Upload(filesStream);
 
-           var userProfile = _profileProvider.GetProfileByUserName(userName);
-           userProfile.ImageUrl = imageUrl;
+            var userProfile = _profileProvider.GetProfileByUserName(userName);
+            userProfile.ImageUrl = imageUrl;
 
-          _profileProvider.Update(userProfile);
+            _profileProvider.Update(userProfile);
 
-          return imageUrl;
+            return imageUrl;
         }
 
-        public void UpdateFollowing(string currentUserName, string userName)
+        public void Follow(string userName, string followerUserName)
         {
             if (userName.IsNullOrEmpty()) throw new ArgumentNullException(nameof(userName));
             if (userName.IsNullOrEmpty()) throw new ArgumentNullException(nameof(userName));
 
-            var existedProfile = _profileProvider.GetProfileByUserName(currentUserName);
-            var followingProfile = _profileProvider.GetProfileByUserName(userName);
+            var followers = GetFollowers(userName);
 
-            if (existedProfile.Following.ToDictionary(x => x.Id, x => x).TryGetValue(followingProfile.Id, out var value))
-            {
-                existedProfile.Following.Remove(value);
-            }
-            else
-            {
-                existedProfile.Following.Add(followingProfile);
-            }
+            if (followers.Select(p => p.UserName).Contains(followerUserName)) throw new BusinessLogicException("User is already follow");
 
-            _profileProvider.Update(existedProfile);
+            _profileProvider.Follow(userName, followerUserName);
+        }
+
+        public void Unfollow(string userName, string followerUserName)
+        {
+            if (userName.IsNullOrEmpty()) throw new ArgumentNullException(nameof(userName));
+            if (userName.IsNullOrEmpty()) throw new ArgumentNullException(nameof(userName));
+
+            var followers = GetFollowers(userName);
+
+            if (!followers.Select(p => p.UserName).Contains(followerUserName)) throw new BusinessLogicException("User is already unfollow");
+
+            _profileProvider.Unfollow(userName, followerUserName);
+        }
+
+        public IEnumerable<ProfileDto> GetFollowers(string userName)
+        {
+            if (userName.IsNullOrEmpty()) throw new ArgumentNullException(nameof(userName));
+
+            var followers = _profileProvider.GetFollowersByUserName(userName);
+
+            return followers.Select(x =>
+            {
+                var result = _mapper.Map<ProfileDto>(x);
+                result.Followers = x.Followers.Select(p => _mapper.Map<ProfileDto>(p)).ToList();
+
+                return result;
+            });
+        }
+
+        public IEnumerable<ProfileDto> GetFollowing(string userName)
+        {
+            if (userName.IsNullOrEmpty()) throw new ArgumentNullException(nameof(userName));
+
+            var following = _profileProvider.GetFollowingByUserName(userName);
+
+            return following.Select(x => _mapper.Map<ProfileDto>(x));
         }
     }
 }

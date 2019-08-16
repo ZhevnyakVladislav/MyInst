@@ -2,6 +2,7 @@ import types from '../types';
 import { handleActions, combineActions } from 'redux-actions';
 
 const createInitialState = () => ({
+    userName: '',
     postsCount: 0,
     followersCount: 0,
     followingCount: 0,
@@ -11,16 +12,16 @@ const createInitialState = () => ({
 });
 
 export default handleActions({
-    [combineActions(
-        types.LOAD_VIEW_PROFILE_DATA,
-    )]: (state) => ({ ...state }),
+    [types.LOAD_VIEW_PROFILE_DATA]: (state) => ({ ...state }),
     [types.LOAD_VIEW_PROFILE_DATA_SUCCESS]: (state, action) => ({
         ...state,
         ...action.payload,
     }),
-    [types.CHANGE_FOLLOWING_SUCCESS]: (state) => ({
+    [combineActions(
+        types.FOLLOW_SUCCESS,
+        types.UNFOLLOW_SUCCESS
+    )]: (state, action) => ({
         ...state,
-        isFollowing: !state.isFollowing,
-        followersCount: state.isFollowing ? state.followersCount - 1 : state.followersCount + 1
+        ...action.payload.viewData
     })
 }, createInitialState());

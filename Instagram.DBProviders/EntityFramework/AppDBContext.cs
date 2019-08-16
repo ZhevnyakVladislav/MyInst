@@ -19,11 +19,11 @@ namespace Instagram.DBProviders.EntityFramework
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<UserProfile>()
-                .HasMany(u => u.Followers)
-                .WithMany(u => u.Following)
+                .HasMany(p => p.Followers)
+                .WithMany()
                 .Map(m =>
                 {
-                    m.MapLeftKey("OwnerId");
+                    m.MapLeftKey("Id");
                     m.MapRightKey("FollowerId");
                     m.ToTable("Followers");
                 });
