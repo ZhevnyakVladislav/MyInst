@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Menu from 'react-bulma-components/lib/components/menu';
-import modal from '../../common/components/Modal';
+import modal from '../../common/components/modal/Modal';
 
 const SettingsModal = ({ onClose, onLogout }) => {
     return (

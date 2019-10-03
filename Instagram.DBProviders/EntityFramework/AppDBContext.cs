@@ -11,6 +11,12 @@ namespace Instagram.DBProviders.EntityFramework
 
         public DbSet<UserProfile> UserProfiles { get; set; }
 
+        public DbSet<Like> Likes { get; set; }
+
+        public DbSet<Comment> Comments { get; set; }
+
+        public DbSet<Post> Posts { get; set; }
+
         public AppDbContext() : base("name=InstContext")
         {
             Database.SetInitializer(new DbInitializer());

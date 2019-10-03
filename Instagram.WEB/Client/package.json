@@ -49,6 +49,7 @@
     "query-string": "^6.8.1",
     "react": "^16.8.6",
     "react-bulma-components": "^2.3.0",
+    "react-content-loader": "^4.3.0",
     "react-dom": "^16.8.6",
     "react-joi-validation": "^1.7.0",
     "react-redux": "^7.0.1",

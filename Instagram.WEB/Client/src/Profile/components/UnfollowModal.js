@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import modal from '../../common/components/Modal';
+import modal from '../../common/components/modal/Modal';
 import Media from 'react-bulma-components/lib/components/media';
 import Menu from 'react-bulma-components/lib/components/menu';
 import { closeUnfollowModal, unfollow } from '../../store/profile/actions';

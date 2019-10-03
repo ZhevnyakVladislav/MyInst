@@ -38,6 +38,8 @@ namespace Instagram.WEB
                     .ForMember(m => m.Bio, x => x.NullSubstitute(string.Empty))
                     .ForMember(m => m.PhoneNumber, x => x.NullSubstitute(string.Empty))
                     .ForMember(m => m.ImageUrl, x => x.NullSubstitute(string.Empty));
+                cfg.CreateMap<Like, LikeDto>()
+                    .ReverseMap();
             });
 
             var mapper = config.CreateMapper();

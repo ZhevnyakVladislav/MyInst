@@ -12,9 +12,9 @@ export const signUpError = createAction(types.USER_SIGN_UP_ERROR, error => error
 export const logOut = createAction(types.USER_LOGOUT);
 export const userUnauthorized = createAction(types.USER_UNAUTHORIZED);
 
-export const confirmEmail = createAction(types.CONFIRM_EMAIL);
-export const confirmEmailSuccess = createAction(types.CONFIRM_EMAIL_SUCCESS);
-export const confirmEmailError = createAction(types.CONFIRM_EMAIL_ERROR, error => error);
+export const confirmEmail = createAction(types.CONFIRM_CODE);
+export const confirmEmailSuccess = createAction(types.CONFIRM_CODE_SUCCESS);
+export const confirmEmailError = createAction(types.CONFIRM_CODE_ERROR, error => error);
 
 export const confirmResetPassword = createAction(types.CONFIRM_RESET_PASSWORD);
 export const confirmResetPasswordSuccess = createAction(types.CONFIRM_RESET_PASSWORD_SUCCESS);

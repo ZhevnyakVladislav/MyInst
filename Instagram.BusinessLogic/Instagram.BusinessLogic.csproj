@@ -65,13 +65,20 @@
   <ItemGroup>
     <Compile Include="BusinessLogicException.cs" />
     <Compile Include="BusinesslogicServiceRegistrator.cs" />
+    <Compile Include="Entities\CommentDto.cs" />
+    <Compile Include="Entities\LikeDto.cs" />
+    <Compile Include="Entities\PostDto.cs" />
     <Compile Include="Entities\ProfileDto.cs" />
     <Compile Include="Entities\UserDto.cs" />
+    <Compile Include="Interfaces\ICommentService.cs" />
     <Compile Include="Interfaces\IImageService.cs" />
+    <Compile Include="Interfaces\ILikeService.cs" />
+    <Compile Include="Interfaces\IPostService.cs" />
     <Compile Include="Interfaces\IProfileService.cs" />
     <Compile Include="Interfaces\IUserService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ImageService.cs" />
+    <Compile Include="Services\LikeService.cs" />
     <Compile Include="Services\ProfileService.cs" />
     <Compile Include="Services\UserService.cs" />
   </ItemGroup>

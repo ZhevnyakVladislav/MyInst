@@ -8,7 +8,7 @@ import { createBrowserHistory } from 'history';
 import { getAccessToken } from '../utils/localStorage';
 import { setAuthorizationHeader } from '../api/api';
 import jwt_decode from 'jwt-decode';
-import { createInitialState } from './user/reducer';
+// import { createInitialState } from './user/reducer';
 
 export const history = createBrowserHistory();
 
@@ -27,17 +27,22 @@ const initUserStore = () => {
     return {};
 };
 
-const initialState = {
-    user: {
-        ...createInitialState(),
-        ...initUserStore(),
-    }
+const initialState = () => {
+    const userStore = initUserStore();
+    return {
+        user: {
+            data: {
+                userName: userStore.userName
+            },
+            isUserAuth: userStore.isUserAuth
+        }
+    };
 };
 const sagaMiddleware = createSagaMiddleware();
 const composeEnhansers = process.env.NODE_ENV === 'production' ? compose : composeWithDevTools;
 const store = createStore(
     createRootReducer(history),
-    initialState,
+    initialState(),
     composeEnhansers(applyMiddleware(
         routerMiddleware(history),
         sagaMiddleware

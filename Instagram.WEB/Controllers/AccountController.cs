@@ -55,7 +55,6 @@ namespace Instagram.WEB.Controllers
             var user = await _userService.ConfirmUserEmailAsync(model.UserName, model.VerificationCode);
 
             user.Password = model.Password;
-
             var claim = await _userService.AuthenticateUserAsync(user);
 
             AuthenticationManager.SignIn(new AuthenticationProperties { IsPersistent = true }, claim);

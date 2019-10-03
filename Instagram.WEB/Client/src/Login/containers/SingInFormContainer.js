@@ -1,80 +1,23 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import { Redirect } from 'react-router-dom';
 import SignInForm from '../components/SignInForm';
+import PropTypes from 'prop-types';
 import { signIn } from '../../store/user/actions';
-import validationForm from '../../common/components/validation/ValidationForm';
-import Joi from 'joi';
 
-class SignInFormContainer extends React.PureComponent {
-    state = {
-        userName: '',
-        password: '',
-    }
-
-    static getDerivedStateFromProps(props) {
-        if (props.isUserAuth) {
-            props.history.push('/');
-        }
-        return null;
-    }
-
-    handleSubmit = () => {
-        this.props.signIn(this.state);
-    }
-
-    handleChange = (field) => e => {
-        this.setState({
-            [field]: e.target.value
-        }, () => this.props.handleValidateField(field));
-    }
-
-    getValidationSchema = () => {
-        return {
-            userName: Joi.string().required().label('User name'),
-            password: Joi.string().required().min(8).label('Password'),
-        };
-    }
-
-    getValidationData = () => {
-        return this.state;
-    }
-
-    render() {
-        const { renderErrors, isFieldValid, handleSubmit, isLoading } = this.props;
-        const props = {
-            renderErrors: renderErrors,
-            isFieldValid: isFieldValid,
-            handleSubmit: handleSubmit,
-            isLoading: isLoading,
-            handleChange: this.handleChange
-        };
-        return (
-            <SignInForm {...props} {...this.state} />
-        );
-    }
-
-}
+const SignInFormContainer = props => props.isUserAuth ? <Redirect to='/' /> : <SignInForm {...props} />;
 
 SignInFormContainer.propTypes = {
-    isUserAuth: PropTypes.bool,
-    isLoading: PropTypes.bool,
-    history: PropTypes.object,
-
-    signIn: PropTypes.func,
-    handleValidateField: PropTypes.func,
-    renderErrors: PropTypes.func,
-    isFieldValid: PropTypes.func,
-    handleSubmit: PropTypes.func,
+    isUserAuth: PropTypes.bool
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
     isUserAuth: state.user.isUserAuth,
-    isLoading: state.user.isLoading
+    isBusy: state.user.isBusy
 });
 
 const mapDispatchToProps = ({
     signIn: signIn
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(validationForm(SignInFormContainer)); 
+export default connect(mapStateToProps, mapDispatchToProps)(SignInFormContainer); 

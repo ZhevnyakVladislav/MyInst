@@ -37,6 +37,7 @@ function* callSignIn(action) {
         setAccessToken(response.data.access_token);
         const decodedData = jwt_decode(response.data.access_token);
         yield put(signInSuccess({ userName: decodedData.userName }));
+        yield put(push('/'));
     } catch (e) {
         yield put(signInError(e));
     }
@@ -92,7 +93,7 @@ function* callChangePassword(action) {
 export default [
     takeEvery(types.USER_SIGN_UP, callSignUp),
     takeEvery(types.USER_SIGN_IN, callSignIn),
-    takeEvery(types.CONFIRM_EMAIL, callConfirmEmail),
+    takeEvery(types.CONFIRM_CODE, callConfirmEmail),
     takeEvery(types.CONFIRM_RESET_PASSWORD, callConfirmResetPassword),
     takeEvery(types.RESET_PASSWORD, callResetPassword),
     takeEvery(types.CHANGE_PASSWORD, callChangePassword),

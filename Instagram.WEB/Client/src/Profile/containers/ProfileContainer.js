@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Section from 'react-bulma-components/lib/components/section';
 import ProfileLayout from '../components/ProfileLayout';
+import PostsLayout from '../components/PostsLayout';
 import {
     loadViewProfileData,
     follow,
@@ -16,7 +17,6 @@ import UnfollowModal from '../components/UnfollowModal';
 import { MODE } from '../components/FollowersOrFollowingModal';
 
 class ProfileContainer extends React.PureComponent {
-
     state = {
         isSettingModalOpen: false,
         isFollowersOrFollowingOpen: false,
@@ -77,6 +77,7 @@ class ProfileContainer extends React.PureComponent {
                     profileData={profileData}
                     onChangeFollowing={this.handleChangeFollowing}
                 />
+                <PostsLayout />
                 <SettingsModal
                     isOpen={isSettingModalOpen}
                     onClose={this.handleCloseModal('isSettingModalOpen')}
@@ -115,7 +116,7 @@ ProfileContainer.propTypes = {
 const mapStateToProps = (state) => ({
     isUserAuth: state.user.isUserAuth,
     profileData: state.profile.viewData,
-    isOwner: state.user.userName === state.profile.viewData.userName,
+    isOwner: state.user.data.userName === state.profile.viewData.userName,
     isUnfollowModalOpen: state.profile.unfollowModal.isOpen
 });
 

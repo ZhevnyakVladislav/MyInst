@@ -6,14 +6,12 @@ import Button from 'react-bulma-components/lib/components/button';
 import { hideAlert } from '../../store/alert/actions';
 
 class ErrorNotification extends React.PureComponent {
-
-    startCounter = () => {
-        setTimeout(this.props.hideAlert, 3000);
+    componentDidUpdate(prevProps) {
+        this.props.isShow && !prevProps.isShow && setTimeout(this.props.hideAlert, 3000);
     }
 
     render() {
         const { isShow, message, hideAlert } = this.props;
-        isShow && this.startCounter();
         return (
             <Notification color="danger" className={isShow ? 'show' : ''}>
                 {message}

@@ -1,7 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Instagram.Common.Models
 {
@@ -24,6 +24,10 @@ namespace Instagram.Common.Models
         public int RoleId { get; set; }
 
         public virtual Role Role { get; set; }
+
+        public ICollection<Post> Posts { get; set; }
+
+        public ICollection<Comment> Comments { get; set; }
 
         public virtual UserProfile UsertProfile { get; set; }
     }
