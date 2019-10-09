@@ -12,5 +12,7 @@ namespace Instagram.BusinessLogic.Interfaces
         CommentDto CreateComment(int postId, string userName, CommentDto commentDto);
 
         IEnumerable<CommentDto> GetPostComments(int postId);
+
+        void DeleteComment(int id);
     }
 }

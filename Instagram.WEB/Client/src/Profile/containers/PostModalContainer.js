@@ -11,6 +11,7 @@ const PostModalContainer = ({
     postModal,
     comments,
     likes,
+    currentUserName,
     onClosePostModal,
     onPostComment
 }) => {
@@ -22,6 +23,7 @@ const PostModalContainer = ({
             {...postModal}
             comments={comments}
             likes={likes}
+            currentUserName={currentUserName}
             onClose={handleClosePostModal}
             onPostComment={onPostComment}
         />);
@@ -31,6 +33,7 @@ PostModalContainer.propTypes = {
     postModal: PropTypes.object,
     comments: PropTypes.array,
     likes: PropTypes.array,
+    currentUserName: PropTypes.string,
 
     onClosePostModal: PropTypes.func,
     onPostComment: PropTypes.func
@@ -40,6 +43,7 @@ const mapStateToProps = state => ({
     postModal: state.posts.postModal,
     comments: state.posts.comments[state.posts.postModal.id],
     likes: state.posts.likes[state.posts.postModal.id],
+    currentUserName: state.user.data.userName
 });
 
 const mapDispatchToProps = ({

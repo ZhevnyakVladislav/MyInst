@@ -1,5 +1,5 @@
 import types from '../types';
-import { handleActions } from 'redux-actions';
+import { handleActions, combineActions } from 'redux-actions';
 
 const createInitialState = () => [];
 
@@ -8,5 +8,8 @@ export default handleActions({
         acc[p.id] = p.comments;
         return acc;
     }, {}) || {},
-    [types.POST_COMMENT_SUCCESS]: (state, { payload }) => ({ ...payload })
+    [combineActions(
+        types.POST_COMMENT_SUCCESS,
+        types.DELETE_COMMENT_SUCCESS
+    )]: (state, { payload }) => ({ ...payload })
 }, createInitialState());

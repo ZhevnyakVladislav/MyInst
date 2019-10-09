@@ -43,7 +43,10 @@ namespace Instagram.BusinessLogic.Services
             return _mapper.Map<CommentDto>(_commentProvider.GetCommentById(createdCommentId));
         }
 
-       
+        public void DeleteComment(int id)
+        {
+            _commentProvider.DeleteComment(id);
+        }
 
         public IEnumerable<CommentDto> GetPostComments(int postId)
         {

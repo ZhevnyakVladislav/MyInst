@@ -49,5 +49,15 @@ namespace Instagram.WEB.Controllers
 
             return _mapper.Map<CommentVm>(createdComment).AsApiResult();
         }
+
+        [HttpPost]
+        [Route("comments/delete")]
+        [Authorize]
+        public ApiResult PostComment([FromBody]int commentId)
+        {
+            _commentService.DeleteComment(commentId);
+
+            return ApiResult.Ok;
+        }
     }
 }

@@ -22,6 +22,17 @@ namespace Instagram.DBProviders.Providers
             }
         }
 
+        public void DeleteComment(int id)
+        {
+            using (var context = IoContainer.Resolve<AppDbContext>())
+            {
+                var comment = new Comment { Id = id };
+                context.Comments.Attach(comment);
+                context.Comments.Remove(comment);
+                context.SaveChanges();
+            }
+        }
+
         public Comment GetCommentById(int id)
         {
             using (var context = IoContainer.Resolve<AppDbContext>())

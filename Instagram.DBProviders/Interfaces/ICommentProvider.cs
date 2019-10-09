@@ -14,5 +14,7 @@ namespace Instagram.DBProviders.Interfaces
         IEnumerable<Comment> GetPostComments(int postId);
 
         Comment GetCommentById(int id);
+
+        void DeleteComment(int id);
     }
 }
