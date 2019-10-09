@@ -65,8 +65,8 @@ const PostLayout = ({
                 <Columns.Column size={8}>
                     <Image size="square" src={url} />
                 </Columns.Column>
-                <Columns.Column size={4}>
-                    <Hero>
+                <Columns.Column className="is-flex" size={4}>
+                    <Hero className="is-full-width">
                         <Hero.Head renderAs="header" className="has-padding-15">
                             <Media>
                                 <Media.Item renderAs="figure" position="left">
