@@ -10,12 +10,14 @@ namespace Instagram.BusinessLogic.Entities
     {
         public int Id { get; set; }
 
-        public string Text { get; set; }
+        public string Url { get; set; }
 
-        public UserDto CreatedBy { get; set; }
+        public string Description { get; set; }
 
-        public List<LikeDto> LikedBy { get; set; }
-        
+        public AuthorDto CreatedBy { get; set; }
+
+        public List<LikeDto> Likes { get; set; }
+
         public List<CommentDto> Comments { get; set; }
 
         public DateTime CreatedAt { get; set; }

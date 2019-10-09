@@ -1,12 +1,12 @@
 ﻿using System;
 
-namespace Instagram.BusinessLogic.Entities
+namespace Instagram.WEB.Models
 {
-    public class LikeDto
+    public class LikeVm
     {
         public int Id { get; set; }
 
-        public AuthorDto CreatedBy { get; set; }
+        public AuthorVm CreatedBy { get; set; }
 
         public DateTime CreatedAt { get; set; }
     }

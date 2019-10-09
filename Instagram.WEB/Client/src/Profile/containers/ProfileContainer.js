@@ -2,24 +2,39 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Section from 'react-bulma-components/lib/components/section';
-import ProfileLayout from '../components/ProfileLayout';
-import PostsLayout from '../components/PostsLayout';
+
 import {
     loadViewProfileData,
     follow,
     openUnfollowModal,
     closeUnfollowModal
 } from '../../store/profile/actions';
+
+import {
+    loadProfilePosts
+} from '../../store/posts/actions';
+
 import { logOut } from '../../store/user/actions';
+import { MODE } from '../components/FollowersOrFollowingModal';
+
 import SettingsModal from '../components/SettingsModal';
 import FollowersModal from '../components/FollowersOrFollowingModal';
 import UnfollowModal from '../components/UnfollowModal';
-import { MODE } from '../components/FollowersOrFollowingModal';
+import ProfileLayout from '../components/ProfileLayout';
+import PostsLayout from '../components/PostsLayout';
+import PostModal from './PostModalContainer';
+import ContentLoader from '../../common/components/loaders/ContentLoader';
+import AvatarWithTextLoader from '../../common/components/loaders/AvatarWithTextLoader';
+
+import ProfileLayoutContainer from '../containers/ProfileLayoutContainer';
+import PostsLayoutContainer from '../containers/PostsLayoutContainer';
+import PostModalContainer from '../containers/PostModalContainer';
 
 class ProfileContainer extends React.PureComponent {
     state = {
         isSettingModalOpen: false,
         isFollowersOrFollowingOpen: false,
+        isPostModalOpen: false,
         mode: null,
     }
 
@@ -31,7 +46,7 @@ class ProfileContainer extends React.PureComponent {
     }
 
     componentDidMount() {
-        this.props.loadProfileData(this.props.match.params.username);
+        // this.props.loadProfileData(this.props.match.params.username);
     }
 
     handleOpenModal = popup => mode => () => {
@@ -48,11 +63,12 @@ class ProfileContainer extends React.PureComponent {
         });
     }
 
-    handleChangeFollowing = () => {
-        this.props.profileData.isFollowing
-            ? this.props.openUnfollowModal(this.props.profileData)
-            : this.props.follow({ userName: this.props.profileData.userName });
+    handlePostModalOpen = () => {
+        this.setState({ isPostModalOpen: true });
+    }
 
+    handlePostModalClose = () => {
+        this.setState({ isPostModalOpen: false });
     }
 
     handleLogout = () => {
@@ -60,28 +76,44 @@ class ProfileContainer extends React.PureComponent {
         this.handleCloseModal();
     }
 
+    loadPosts = () => {
+        this.props.loadProfilePosts(this.props.profileData.userName);
+    }
+
     render() {
-        const { profileData, isOwner, isUnfollowModalOpen, closeUnfollowModal } = this.props;
+        const {
+            profileData,
+            isUnfollowModalOpen,
+            closeUnfollowModal,
+            profilePosts,
+        } = this.props;
+
         const {
             isSettingModalOpen,
             isFollowersOrFollowingOpen,
             mode,
+            isPostModalOpen
         } = this.state;
+
+        const userName = this.props.match.params.username;
         return (
             <Section className="has-padding-top-80">
-                <ProfileLayout
-                    openSettingsModal={this.handleOpenModal('isSettingModalOpen')(null)}
-                    openFollowersModal={this.handleOpenModal('isFollowersOrFollowingOpen')(MODE.followers)}
-                    openFollowingModal={this.handleOpenModal('isFollowersOrFollowingOpen')(MODE.following)}
-                    isOwner={isOwner}
-                    profileData={profileData}
-                    onChangeFollowing={this.handleChangeFollowing}
-                />
-                <PostsLayout />
+                <ProfileLayoutContainer userName={userName} />
+                <PostsLayoutContainer userName={userName} />
+                <PostModalContainer />
+
+                {/* {!profileData.isPrivate &&
+                    <PostsLayout
+                        onPostModalOpen={this.handlePostModalOpen}
+                        data={profilePosts}
+                        onDataLoad={this.loadPosts}
+                    />
+                } */}
                 <SettingsModal
                     isOpen={isSettingModalOpen}
                     onClose={this.handleCloseModal('isSettingModalOpen')}
                     onLogout={this.handleLogout}
+                    size={6}
                 />
                 <FollowersModal
                     isOpen={isFollowersOrFollowingOpen}
@@ -92,6 +124,11 @@ class ProfileContainer extends React.PureComponent {
                     isOpen={isUnfollowModalOpen}
                     onClose={closeUnfollowModal}
                 />
+                {/* <PostModal
+                    isOpen={isPostModalOpen}
+                    onClose={this.handlePostModalClose}
+                    size={10}
+                /> */}
             </Section>
         );
     }
@@ -105,19 +142,23 @@ ProfileContainer.propTypes = {
     history: PropTypes.object,
     isOwner: PropTypes.bool,
     isUnfollowModalOpen: PropTypes.bool,
+    profilePosts: PropTypes.array,
 
     loadProfileData: PropTypes.func,
     logOut: PropTypes.func,
     follow: PropTypes.func,
     openUnfollowModal: PropTypes.func,
     closeUnfollowModal: PropTypes.func,
+    loadProfilePosts: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({
     isUserAuth: state.user.isUserAuth,
     profileData: state.profile.viewData,
+    isLoading: state.profile.isLoading,
     isOwner: state.user.data.userName === state.profile.viewData.userName,
-    isUnfollowModalOpen: state.profile.unfollowModal.isOpen
+    isUnfollowModalOpen: state.profile.unfollowModal.isOpen,
+    profilePosts: state.posts.profilePosts
 });
 
 const mapDispatchToProps = ({
@@ -125,7 +166,8 @@ const mapDispatchToProps = ({
     logOut,
     follow,
     openUnfollowModal,
-    closeUnfollowModal
+    closeUnfollowModal,
+    loadProfilePosts
 });
 
 

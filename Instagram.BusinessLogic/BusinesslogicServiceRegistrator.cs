@@ -11,6 +11,8 @@ namespace Instagram.BusinessLogic
             IoContainer.RegisterSingleton<IImageService>(new ImageService());
             IoContainer.RegisterSingleton<IProfileService>(new ProfileService());
             IoContainer.RegisterSingleton<IUserService>(new UserService());
+            IoContainer.RegisterSingleton<IPostService>(new PostService());
+            IoContainer.RegisterSingleton<ICommentService>(new CommentService());
         }
     }
 }

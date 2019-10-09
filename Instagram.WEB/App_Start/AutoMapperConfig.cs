@@ -16,7 +16,7 @@ namespace Instagram.WEB
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<User, UserDto>().ForMember(x => x.Role, x => x.Ignore())
-                    .ReverseMap().ForMember(x => x.Role, x=> x.Ignore());
+                    .ReverseMap().ForMember(x => x.Role, x => x.Ignore());
                 cfg.CreateMap<UserDto, UserVm>().ReverseMap();
                 cfg.CreateMap<LoginVm, UserDto>().ReverseMap();
                 cfg.CreateMap<RegisterVm, UserDto>().ReverseMap();
@@ -38,8 +38,25 @@ namespace Instagram.WEB
                     .ForMember(m => m.Bio, x => x.NullSubstitute(string.Empty))
                     .ForMember(m => m.PhoneNumber, x => x.NullSubstitute(string.Empty))
                     .ForMember(m => m.ImageUrl, x => x.NullSubstitute(string.Empty));
-                cfg.CreateMap<Like, LikeDto>()
+
+                cfg.CreateMap<User, AuthorDto>()
+                    .ForMember(m => m.ImageUrl, x => x.MapFrom(p => p.UsertProfile.ImageUrl));
+                cfg.CreateMap<AuthorDto, AuthorVm>();
+
+                cfg.CreateMap<Post, PostDto>()
+                    .ForMember(m => m.CreatedBy, x => x.MapFrom(p => p.CreatedBy))
                     .ReverseMap();
+                cfg.CreateMap<PostDto, PostVm>()
+                    .ReverseMap();
+
+                cfg.CreateMap<Comment, CommentDto>()
+                    .ForMember(m => m.CreatedBy, x => x.MapFrom(p => p.User));
+                cfg.CreateMap<CommentDto, CommentVm>();
+
+                cfg.CreateMap<Like, LikeDto>()
+                    .ForMember(m => m.CreatedBy, x => x.MapFrom(p => p.User));
+                cfg.CreateMap<LikeDto, LikeVm>();
+
             });
 
             var mapper = config.CreateMapper();

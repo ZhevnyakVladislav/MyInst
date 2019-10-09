@@ -21,15 +21,20 @@ namespace Instagram.DBProviders.Providers
             }
         }
 
-        public IEnumerable<Post> CreateUsetPost(string userName)
+        public IEnumerable<Post> GetUserPosts(string userName)
         {
             using (var context = IoContainer.Resolve<AppDbContext>())
             {
                 var posts = context.Posts
-                    .Include(p => p.User)
-                    .Where(p => p.User.UserName == userName);
+                    .Include(p => p.CreatedBy)
+                    .Include(p => p.CreatedBy.UsertProfile)
+                    .Include(p => p.Comments)
+                    .Include(p => p.Comments.Select(c => c.User))
+                    .Include(p => p.Likes)
+                    .Include(p => p.Likes.Select(l => l.User))
+                    .Where(p => p.CreatedBy.UserName == userName);
 
-                return posts;
+                return posts.ToList();
             }
         }
     }

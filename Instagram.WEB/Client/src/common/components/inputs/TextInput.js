@@ -4,13 +4,29 @@ import {
     Field,
     Control,
     Input,
+    Textarea
 } from 'react-bulma-components/lib/components/form';
 
 
-const TextField = ({ name, type, placeholder, value, disabled, readOnly, isFieldValid, handleChange, renderErrors }) => {
+const TextField = ({
+    name,
+    type,
+    placeholder,
+    value,
+    disabled,
+    readOnly,
+    isFieldValid,
+    handleChange,
+    renderErrors,
+    isTextarea,
+    className,
+    styles
+}) => {
+    const InputComponent = isTextarea ? Textarea : Input;
+
     return <Field>
         <Control>
-            <Input
+            <InputComponent
                 type={type}
                 placeholder={placeholder}
                 color={isFieldValid(name) ? 'danger' : null}
@@ -18,11 +34,12 @@ const TextField = ({ name, type, placeholder, value, disabled, readOnly, isField
                 disabled={disabled}
                 readOnly={readOnly}
                 onChange={handleChange(name)}
+                className={className}
+                style={styles}
             />
             {renderErrors(name)}
         </Control>
     </Field>;
-
 };
 
 TextField.propTypes = {
@@ -32,6 +49,7 @@ TextField.propTypes = {
     value: PropTypes.string,
     disabled: PropTypes.bool,
     readOnly: PropTypes.bool,
+    isTextarea: PropTypes.bool,
 
     isFieldValid: PropTypes.func,
     handleChange: PropTypes.func,
@@ -40,6 +58,9 @@ TextField.propTypes = {
 
 TextField.defaultProps = {
     type: 'text',
+    isTextarea: false,
+    isFieldValid: () => null,
+    renderErrors: () => null
 };
 
 export default TextField;

@@ -10,11 +10,11 @@ namespace Instagram.Common.Models
         [Key]
         public int Id { get; set; }
 
-        public string ImageUrl { get; set; }
+        public string Url { get; set; }
 
         public string Description { get; set; }
 
-        public virtual User User { get; set; }
+        public virtual User CreatedBy { get; set; }
 
         public ICollection<Comment> Comments { get; set; }
 

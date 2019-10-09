@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Instagram.BusinessLogic.Interfaces
 {
-    interface ICommentService
+    public interface ICommentService
     {
-        void CreateComment(int postId, CommentDto comment);
+        CommentDto CreateComment(int postId, string userName, CommentDto commentDto);
 
         IEnumerable<CommentDto> GetPostComments(int postId);
     }

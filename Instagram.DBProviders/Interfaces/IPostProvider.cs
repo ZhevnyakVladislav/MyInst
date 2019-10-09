@@ -11,6 +11,7 @@ namespace Instagram.DBProviders.Interfaces
     {
         void CreatePost(Post post);
 
-        IEnumerable<Post> CreateUsetPost(string userName);
+        IEnumerable<Post> GetUserPosts(string userName);
+        
     }
 }

@@ -1,12 +1,12 @@
 ﻿using Instagram.BusinessLogic.Entities;
+using System.Collections.Generic;
 
 namespace Instagram.BusinessLogic.Interfaces
 {
-    interface IPostService
+    public interface IPostService
     {
         void CreatePost(PostDto post);
 
-        PostDto GetUserPosts(string userName);
-        
+        IEnumerable<PostDto> GetUserPosts(string userName);
     }
 }

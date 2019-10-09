@@ -116,7 +116,7 @@ svg {
     position: absolute;
     height: 100%;
     width: 100%;
-    z-index: 9999;
+    z-index: 99;
     background-color: rgba(0, 0, 0, 0.3);
     cursor: pointer;
     align-items: center;
@@ -130,4 +130,33 @@ svg {
     &-close {
         display: none
     }
+}
+
+.modal-content {
+    width: 80%;
+    max-width: 815px;
+    max-height: 600px;
+}
+
+.hero {
+    height: 490px; //TODO: be careful about this value
+    justify-content: flex-start;
+}
+
+.hero-head {
+    border-bottom:  1px solid #efefef;
+    height: 15%;
+}
+
+.hero-body {
+    border-bottom:  1px solid #efefef;
+    flex-grow: 1;
+    overflow: auto;
+    min-height: 0;
+    height: 65%;
+}
+
+.hero-foot {
+    border-bottom:  1px solid #efefef;
+    height: 20%;
 }

@@ -5,37 +5,38 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faComment } from '@fortawesome/free-solid-svg-icons';
 
 const ClickablePost = ({
-    src,
-    onClick
+    data,
+    onPostModalOpen
 }) => {
 
     const [isHovered, changeIsHovered] = useState(false);
     const handleMouseEnter = useCallback(() => changeIsHovered(true), []);
     const handleMouseLeave = useCallback(() => changeIsHovered(false), []);
+    const handlePostModalOpen = useCallback(() => onPostModalOpen(data));
 
     return (
-        <div className="clickable-post"
+        <div className="clickable-post has-background-grey-lighter"
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
-            onClick={onClick}
+            onClick={handlePostModalOpen}
         >
             <div className={`blind blind-${isHovered ? 'open' : 'close'}`}>
                 <div className="is-flex align-items-center has-padding-right-10">
                     <FontAwesomeIcon className="has-text-white" icon={faHeart} size="2x" />
-                    <h1 className="has-text-white">10</h1>
+                    <h1 className="has-text-white">{data.likesCount}</h1>
                 </div>
                 <div className="is-flex align-items-center">
                     <FontAwesomeIcon className="has-text-white" icon={faComment} size="2x" />
-                    <h1 className="has-text-white">2</h1>
+                    <h1 className="has-text-white">{data.commentsCount}</h1>
                 </div>
             </div>
-            <Image size="square" src="http://bulma.io/images/placeholders/640x480.png" />
+            <Image size="square" src={data.url} />
         </div>);
 };
 
 ClickablePost.propTypes = {
-    src: PropTypes.string,
-    onClick: PropTypes.func
+    data: PropTypes.object,
+    onPostModalOpen: PropTypes.func
 };
 
-export default ClickablePost;
+export default React.memo(ClickablePost);

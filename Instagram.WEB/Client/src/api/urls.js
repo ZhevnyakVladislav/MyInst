@@ -22,6 +22,10 @@ const urls = {
         unfollow_post: `${base}/profile/unfollow`,
         loadFollowers_post: `${base}/profile/followers`,
         loadFollowing_post: `${base}/profile/following`
+    },
+    posts: {
+        loadProfilePosts_get: `${base}/post/profilePosts`,
+        postComment_post: `${base}/post/comments/add`,
     }
 };
 

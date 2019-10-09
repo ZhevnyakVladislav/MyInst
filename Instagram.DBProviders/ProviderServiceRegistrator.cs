@@ -19,6 +19,9 @@ namespace Instagram.DBProviders
             IoContainer.RegisterSingleton<RoleManager<Role, int>>(new AppRoleManager());
             IoContainer.RegisterSingleton<UserManager<User, int>>(new AppUserManager());
             IoContainer.RegisterSingleton<IProfileProvider>(new ProfileProvider());
+            IoContainer.RegisterSingleton<IPostProvider>(new PostProvider());
+            IoContainer.RegisterSingleton<ICommentProvider>(new CommentProvider());
+            IoContainer.RegisterSingleton<ILikeProvider>(new LikeProvider());
         }
     }
 }

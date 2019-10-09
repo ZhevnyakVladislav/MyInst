@@ -9,8 +9,10 @@ namespace Instagram.DBProviders.Interfaces
 {
     public interface ICommentProvider
     {
-        void CreateComment(Comment comment);
+        int CreateComment(Comment comment);
 
         IEnumerable<Comment> GetPostComments(int postId);
+
+        Comment GetCommentById(int id);
     }
 }
