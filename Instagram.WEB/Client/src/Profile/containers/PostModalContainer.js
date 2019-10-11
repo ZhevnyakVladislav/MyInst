@@ -3,7 +3,12 @@ import PropTypes from 'prop-types';
 import modal from '../../common/components/modal/Modal';
 import { connect } from 'react-redux';
 import PostLayout from '../components/PostLayout';
-import { closePostModal, postComment } from '../../store/posts/actions';
+import {
+    closePostModal,
+    postComment,
+    likePost,
+    deleteLike
+} from '../../store/posts/actions';
 
 const PostModal = modal(PostLayout);
 
@@ -13,7 +18,9 @@ const PostModalContainer = ({
     likes,
     currentUserName,
     onClosePostModal,
-    onPostComment
+    onPostComment,
+    onLikePost,
+    onDeleteLike
 }) => {
 
     const handleClosePostModal = useCallback(() => onClosePostModal(), []);
@@ -26,6 +33,8 @@ const PostModalContainer = ({
             currentUserName={currentUserName}
             onClose={handleClosePostModal}
             onPostComment={onPostComment}
+            onLikePost={onLikePost}
+            onDeleteLike={onDeleteLike}
         />);
 };
 
@@ -36,7 +45,9 @@ PostModalContainer.propTypes = {
     currentUserName: PropTypes.string,
 
     onClosePostModal: PropTypes.func,
-    onPostComment: PropTypes.func
+    onPostComment: PropTypes.func,
+    onLikePost: PropTypes.func,
+    onDeleteLike: PropTypes.func
 };
 
 const mapStateToProps = state => ({
@@ -48,7 +59,9 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = ({
     onClosePostModal: closePostModal,
-    onPostComment: postComment
+    onPostComment: postComment,
+    onLikePost: likePost,
+    onDeleteLike: deleteLike
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostModalContainer);

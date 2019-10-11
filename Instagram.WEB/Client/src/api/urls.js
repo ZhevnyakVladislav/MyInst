@@ -27,6 +27,9 @@ const urls = {
         loadProfilePosts_get: `${base}/post/profilePosts`,
         postComment_post: `${base}/post/comments/add`,
         deleteComment_post: `${base}/post/comments/delete`,
+        likePost_post: `${base}/post/likes/add`,
+        deleteLike_post: `${base}/post/likes/delete`
+
     }
 };
 

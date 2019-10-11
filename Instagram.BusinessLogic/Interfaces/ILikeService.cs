@@ -7,10 +7,11 @@ using System.Threading.Tasks;
 
 namespace Instagram.BusinessLogic.Interfaces
 {
-    interface ILikeService
+    public interface ILikeService
     {
-        void CreateLike(int postId, int userId);
+        LikeDto LikeOrUnlikePost(int postId, string userName);
 
         IEnumerable<LikeDto> GetPostLikes(int postId);
+
     }
 }

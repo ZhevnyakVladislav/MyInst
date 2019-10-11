@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import Media from 'react-bulma-components/lib/components/media';
 import Image from 'react-bulma-components/lib/components/image';
@@ -21,9 +21,11 @@ const PostLayout = ({
     // commentsCount,
     // likesCount,
     comments,
-    // likes,
+    likes,
     currentUserName,
-    onPostComment
+    onPostComment,
+    onLikePost,
+    onDeleteLike
 }) => {
 
     const [comment, onChange] = useState('');
@@ -57,6 +59,20 @@ const PostLayout = ({
     const handleCloseCommentActionMenu = useCallback(
         () => changeCommentOptionMenuState(false),
         [changeCommentOptionMenuState]
+    );
+
+    const isLiked = useMemo(
+        () => likes.map(l => l.createdBy.userName).includes(currentUserName),
+        [likes, currentUserName]
+    );
+
+    const handleLike = useCallback(
+        () => {
+            isLiked
+                ? onDeleteLike({ postId: id })
+                : onLikePost({ postId: id });
+        },
+        [onLikePost, onDeleteLike, likes]
     );
 
     return (
@@ -104,13 +120,13 @@ const PostLayout = ({
                         </Hero.Body>
                         <Hero.Footer className="has-padding-15">
                             <span className="has-margin-right-10">
-                                <FontAwesomeIcon icon={faHeart} size="2x" />
+                                <FontAwesomeIcon className={isLiked ? 'has-text-danger' : ''} onClick={handleLike} icon={faHeart} size="2x" />
                             </span>
                             <span>
                                 <FontAwesomeIcon icon={faComment} size="2x" />
                             </span>
                             <div>
-                                <b>13 likes</b>
+                                <b>{likes.length} likes</b>
                             </div>
                         </Hero.Footer>
                         <form onSubmit={null}>
@@ -167,6 +183,8 @@ PostLayout.propTypes = {
     likes: PropTypes.array,
     currentUserName: PropTypes.string,
 
+    onLikePost: PropTypes.func,
+    onDeleteLike: PropTypes.func,
     onPostComment: PropTypes.func
 };
 

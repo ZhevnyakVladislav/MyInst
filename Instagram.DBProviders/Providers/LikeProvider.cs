@@ -9,12 +9,38 @@ namespace Instagram.DBProviders.Providers
 {
     public class LikeProvider : ILikeProvider
     {
-        public void CreateLike(Like like)
+        public int CreateLike(Like like)
         {
             using (var context = IoContainer.Resolve<AppDbContext>())
             {
                 context.Likes.Add(like);
                 context.SaveChanges();
+
+                return like.Id;
+            }
+        }
+
+        public void DeleteLike(int id)
+        {
+            using (var context = IoContainer.Resolve<AppDbContext>())
+            {
+                var like = new Like { Id = id };
+                context.Likes.Attach(like);
+                context.Likes.Remove(like);
+                context.SaveChanges();
+            }
+        }
+
+        public Like GetLikeById(int id)
+        {
+            using (var context = IoContainer.Resolve<AppDbContext>())
+            {
+                var like = context.Likes
+                    .Include(c => c.User)
+                    .Include(c => c.User.UsertProfile)
+                    .FirstOrDefault(x => x.Id == id);
+
+                return like;
             }
         }
 
@@ -26,7 +52,7 @@ namespace Instagram.DBProviders.Providers
                     .Include(l => l.User)
                     .Where(l => l.PostId == postId);
 
-                return likes;
+                return likes.ToList();
             }
         }
     }

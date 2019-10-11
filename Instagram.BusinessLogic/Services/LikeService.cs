@@ -8,6 +8,7 @@ using Instagram.DBProviders.Providers;
 using Instagram.Common.Models;
 using AutoMapper;
 using System.Linq;
+using Microsoft.AspNet.Identity;
 
 namespace Instagram.BusinessLogic.Services
 {
@@ -15,23 +16,40 @@ namespace Instagram.BusinessLogic.Services
     {
         private readonly ILikeProvider _likeProvider;
 
+        private readonly UserManager<User, int> _userManager;
+
         private readonly IMapper _mapper;
 
 
-        public LikeService() : this(IoContainer.Resolve<ILikeProvider>(), IoContainer.Resolve<IMapper>()) {}
+        public LikeService() : this(IoContainer.Resolve<ILikeProvider>(), IoContainer.Resolve<UserManager<User, int>>(), IoContainer.Resolve<IMapper>()) {}
 
-        public LikeService(ILikeProvider likeProvider, IMapper mapper)
-        {
+        public LikeService(ILikeProvider likeProvider, UserManager<User, int> userManager, IMapper mapper)
+        { 
             _likeProvider = likeProvider ?? throw new ArgumentException(nameof(likeProvider));
+            _userManager = userManager ?? throw new ArgumentException(nameof(userManager));
             _mapper = mapper ?? throw new ArgumentException(nameof(mapper));
         }
 
-        public void CreateLike(int postId, int userId)
+        public LikeDto LikeOrUnlikePost(int postId, string userName)
         {
-            var like = new Like() { PostId = postId, UserId = userId};
+            var user = _userManager.FindByName(userName);
+            var postLikes = _likeProvider.GetPostLikes(postId);
+            var like = postLikes.FirstOrDefault(l => l.User.UserName == userName);
 
-            _likeProvider.CreateLike(like);
+            if (like == null)
+            {
+                like = new Like { PostId = postId, UserId = user.Id };
+                var likeId = _likeProvider.CreateLike(like);
+
+                return _mapper.Map<LikeDto>(_likeProvider.GetLikeById(likeId));
+            } else
+            {
+                _likeProvider.DeleteLike(like.Id);
+            }
+
+            return null;
         }
+
 
         public IEnumerable<LikeDto> GetPostLikes(int postId)
         {

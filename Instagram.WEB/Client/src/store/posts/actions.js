@@ -15,3 +15,11 @@ export const postCommentError = createAction(types.POST_COMMENT_ERROR, error => 
 export const deleteComment = createAction(types.DELETE_COMMENT, data => data);
 export const deleteCommentSuccess = createAction(types.DELETE_COMMENT_SUCCESS);
 export const deleteCommentError = createAction(types.DELETE_COMMENT_ERROR, error => error);
+
+export const likePost = createAction(types.LIKE_POST, data => data);
+export const likePostSuccess = createAction(types.LIKE_POST_SUCCESS);
+export const likePostError = createAction(types.LIKE_POST_ERROR, error => error);
+
+export const deleteLike = createAction(types.DELETE_LIKE, data => data);
+export const deleteLikeSuccess = createAction(types.DELETE_LIKE_SUCCESS);
+export const deleteLikeError = createAction(types.DELETE_LIKE_ERROR, error => error);

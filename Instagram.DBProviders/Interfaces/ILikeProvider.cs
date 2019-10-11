@@ -9,8 +9,12 @@ namespace Instagram.DBProviders.Interfaces
 {
     public interface ILikeProvider
     {
-        void CreateLike(Like like);
+        int CreateLike(Like like);
 
         IEnumerable<Like> GetPostLikes(int postId);
+
+        Like GetLikeById(int id);
+
+        void DeleteLike(int id);
     }
 }

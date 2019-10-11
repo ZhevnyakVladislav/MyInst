@@ -7,7 +7,11 @@ import {
     postCommentSuccess,
     postCommentError,
     deleteCommentSuccess,
-    deleteCommentError
+    deleteCommentError,
+    likePostSuccess,
+    likePostError,
+    deleteLikeSuccess,
+    deleteLikeError
 } from './actions';
 
 function* callLoadProfilePosts({ payload }) {
@@ -57,8 +61,54 @@ function* callDeleteComment({ payload }) {
     }
 }
 
+function* callLikePost({ payload }) {
+    try {
+        const response = yield call(api.call.post, api.urls.posts.likePost_post, JSON.stringify(payload.postId), {
+            headers: {
+                'Content-Type': 'application/json; charset=utf-8'
+            },
+        });
+        const state = yield select();
+        const likes = state.posts.likes;
+
+        likes[payload.postId] = [
+            ...likes[payload.postId],
+            response.data.model
+        ];
+
+        yield put(likePostSuccess(likes));
+
+    } catch (e) {
+        yield put(likePostError(e));
+    }
+}
+
+function* callDeleteLike({ payload }) {
+    try {
+        yield call(api.call.post, api.urls.posts.deleteLike_post, JSON.stringify(payload.postId), {
+            headers: {
+                'Content-Type': 'application/json; charset=utf-8'
+            },
+        });
+        const state = yield select();
+        const currentUserName = state.user.data.userName;
+        const likes = state.posts.likes;
+        const postLikes = likes[payload.postId];
+        const index = postLikes.indexOf(postLikes.find(c => c.createdBy.userName === currentUserName));
+
+        postLikes.splice(index, 1);
+        likes[payload.postId] = [...postLikes];
+
+        yield put(deleteLikeSuccess(likes));
+    } catch (e) {
+        yield put(deleteLikeError(e));
+    }
+}
+
 export default [
     takeEvery(types.LOAD_PROFILE_POSTS, callLoadProfilePosts),
     takeEvery(types.POST_COMMENT, callPostComment),
-    takeEvery(types.DELETE_COMMENT, callDeleteComment)
+    takeEvery(types.DELETE_COMMENT, callDeleteComment),
+    takeEvery(types.LIKE_POST, callLikePost),
+    takeEvery(types.DELETE_LIKE, callDeleteLike),
 ];

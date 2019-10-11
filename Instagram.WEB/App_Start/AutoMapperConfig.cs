@@ -56,7 +56,6 @@ namespace Instagram.WEB
                 cfg.CreateMap<Like, LikeDto>()
                     .ForMember(m => m.CreatedBy, x => x.MapFrom(p => p.User));
                 cfg.CreateMap<LikeDto, LikeVm>();
-
             });
 
             var mapper = config.CreateMapper();
