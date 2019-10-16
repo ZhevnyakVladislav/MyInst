@@ -8,5 +8,7 @@ namespace Instagram.BusinessLogic.Interfaces
         void CreatePost(PostDto post);
 
         IEnumerable<PostDto> GetUserPosts(string userName);
+
+        IEnumerable<PostDto> GetFollowingUsersPosts(string userName);
     }
 }

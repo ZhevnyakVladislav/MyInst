@@ -133,9 +133,11 @@ svg {
 }
 
 .modal-content {
-    width: 80%;
+    width: 100%;
     max-width: 815px;
     max-height: 600px;
+    display: flex;
+    padding: 1em;
 }
 
 .hero {
@@ -158,4 +160,20 @@ svg {
 .hero-foot {
     border-bottom:  1px solid #efefef;
     height: 75px;
+}
+
+.has{
+    &-border{
+        &-radius{
+            border-radius: 12px;
+        }
+    }
+}
+
+.container {
+    width: 100%;
+}
+
+.card-footer-item {
+    flex-direction: column;
 }

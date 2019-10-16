@@ -37,5 +37,22 @@ namespace Instagram.DBProviders.Providers
                 return posts.ToList();
             }
         }
+
+        public IEnumerable<Post> GetFollowingPost(IEnumerable<string>  followersUserName)
+        {
+            using (var context = IoContainer.Resolve<AppDbContext>())
+            {
+                var posts = context.Posts
+                    .Include(p => p.CreatedBy)
+                    .Include(p => p.CreatedBy.UsertProfile)
+                    .Include(p => p.Comments)
+                    .Include(p => p.Comments.Select(c => c.User))
+                    .Include(p => p.Likes)
+                    .Include(p => p.Likes.Select(l => l.User))
+                    .Where(p => followersUserName.Contains(p.CreatedBy.UserName));
+
+                return posts.ToList();
+            }
+        }
     }
 }

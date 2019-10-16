@@ -12,6 +12,8 @@ namespace Instagram.DBProviders.Interfaces
         void CreatePost(Post post);
 
         IEnumerable<Post> GetUserPosts(string userName);
+
+        IEnumerable<Post> GetFollowingPost(IEnumerable<string> followersUserName);
         
     }
 }

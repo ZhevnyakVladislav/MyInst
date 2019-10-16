@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Modal from 'react-bulma-components/lib/components/modal';
 
-const Popup = (WrappedComponent) => {
+const Popup = (WrappedComponent, contentStyles) => {
     class CustomModal extends React.PureComponent {
         constructor(props) {
             super(props);
@@ -14,7 +14,7 @@ const Popup = (WrappedComponent) => {
             const { isOpen, onClose, closeOnBlur } = this.props;
             return (
                 <Modal show={isOpen} onClose={onClose} closeOnBlur={closeOnBlur}>
-                    <Modal.Content>
+                    <Modal.Content style={contentStyles}>
                         <WrappedComponent {...this.props} ref={this.wrappedComponentInstanceRef} />
                     </Modal.Content>
                 </Modal>
