@@ -1,29 +1,29 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import modal from '../../common/components/modal/Modal';
-import CommentActionsMenu from '../components/CommentActionsMenu';
+import modal from '../modal/Modal';
+import CommentActionsMenu from './CommentActionsMenu';
 import { deleteComment } from '../../store/posts/actions';
 
-const CommentActionsModal = modal(CommentActionsMenu);
+const contentStyles = {
+    width: '40%'
+};
+
+const CommentActionsModal = modal(CommentActionsMenu, contentStyles);
 
 const CommentyActionsModalContainder = ({
     isOpen,
     commentId,
-    postId,
     onClose,
     onDeleteComment
 }) => {
 
     const deleteComment = useCallback(
         () => {
-            onDeleteComment({
-                commentId,
-                postId
-            });
+            onDeleteComment(commentId);
             onClose();
         },
-        [commentId, postId, onClose]
+        [commentId, onClose, onDeleteComment]
     );
 
     return (

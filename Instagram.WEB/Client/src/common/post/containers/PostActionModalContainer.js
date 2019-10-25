@@ -2,9 +2,10 @@ import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import modal from '../../modal/Modal';
-import { unfollow } from '../../../../store/profile/actions';
-import { closeModal } from '../../../../store/postActionsModal/actions';
+import { unfollow } from '../../../store/profile/actions';
+import { closeModal } from '../../../store/postActionsModal/actions';
 import PostActionMenu from '../components/PostActionMenu';
+import { useHistory } from 'react-router-dom';
 
 const contentStyles = {
     width: '40%'
@@ -15,10 +16,20 @@ const PostActionsModal = modal(PostActionMenu, contentStyles);
 const PostActionMenuContainer = ({
     isOpen,
     userName,
-    // postId, TODO: implement 'Go to post' link
+    postId,
     unfollow,
     closeModal
 }) => {
+
+    const history = useHistory();
+
+    const redirectToPost = useCallback(
+        () => {
+            closeModal();
+            history.push(`/posts/${postId}`);
+        },
+        [postId]
+    );
 
     const handleUnfollow = useCallback(
         () => {
@@ -38,6 +49,7 @@ const PostActionMenuContainer = ({
     return (
         <PostActionsModal
             isOpen={isOpen}
+            onRedirect={redirectToPost}
             onClose={handleCloseModal}
             onUnfollow={handleUnfollow}
         />
@@ -54,7 +66,8 @@ PostActionMenuContainer.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-    isOpen: state.postActionsModal.isOpen
+    isOpen: state.postActionsModal.isOpen,
+    postId: state.postActionsModal.data.postId
 });
 
 const mapDispatchToProps = ({

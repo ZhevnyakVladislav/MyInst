@@ -1,12 +1,12 @@
 import React from 'react';
-import validationForm from '../../common/components/validation/ValidationForm';
+import validationForm from '../../common/validation/ValidationForm';
 import PropTypes from 'prop-types';
 import Joi from 'joi';
 import Section from 'react-bulma-components/lib/components/section';
 import Container from 'react-bulma-components/lib/components/container';
 import Columns from 'react-bulma-components/lib/components/columns';
 import Box from 'react-bulma-components/lib/components/box';
-import TextInput from '../../common/components/inputs/TextInput';
+import TextInput from '../../common/inputs/TextInput';
 import Button from 'react-bulma-components/lib/components/button';
 import { Field, Control } from 'react-bulma-components/lib/components/form';
 

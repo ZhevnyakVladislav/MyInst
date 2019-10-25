@@ -5,7 +5,7 @@ import { BrowserRouter, Route } from 'react-router-dom';
 import { ConnectedRouter } from 'connected-react-router';
 import App from './App';
 import store, { history } from './store';
-import ErrorBoundary from './common/components/errorBoundary/ErrorBoundary';
+import ErrorBoundary from './common/errorBoundary/ErrorBoundary';
 
 import './index.scss';
 

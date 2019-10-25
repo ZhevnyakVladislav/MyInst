@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Columns from 'react-bulma-components/lib/components/columns';
-import TextInput from '../../common/components/inputs/TextInput';
+import TextInput from '../../common/inputs/TextInput';
 import { Label } from 'react-bulma-components/lib/components/form';
 import Button from 'react-bulma-components/lib/components/button';
 

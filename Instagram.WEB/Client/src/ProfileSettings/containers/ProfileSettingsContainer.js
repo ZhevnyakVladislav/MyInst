@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import Section from 'react-bulma-components/lib/components/section';
 import Columns from 'react-bulma-components/lib/components/columns';
 import Tabs from 'react-bulma-components/lib/components/tabs';
 import Box from 'react-bulma-components/lib/components/box';
@@ -56,31 +55,29 @@ class ProfileSettingsContainer extends React.PureComponent {
     render() {
         const { activeTab } = this.state;
         return (
-            <Section className="has-margin-top-50">
-                <Columns centered>
-                    <Columns.Column size={10}>
-                        <Box className="is-paddingless">
-                            <Columns className="is-marginless">
-                                <Columns.Column className="is-paddingless" size={3} >
-                                    <Tabs fullwidth>
-                                        {Object.keys(MenuItemIds).map((key) =>
-                                            <Tabs.Tab key={MenuItemIds[key]} tab-id={MenuItemIds[key]}
-                                                active={MenuItemIds[key] === activeTab}
-                                                onClick={this.handleTabChange}
-                                            >
-                                                {MenuItemNames[MenuItemIds[key]]}
-                                            </Tabs.Tab>)}
-                                    </Tabs>
-                                </Columns.Column>
-                                <Columns.Column style={{ borderLeft: 'solid 1px #dddddd' }} size={9}>
-                                    {componentsWithAvatar.includes(this.state.activeTab) && <AvatarFormContainer isShowChange={this.state.activeTab === MenuItemIds.EditProfile} />}
-                                    <Route path={MenuItemPaths[activeTab]} component={MenuItemComponents[activeTab]} />
-                                </Columns.Column>
-                            </Columns>
-                        </Box>
-                    </Columns.Column>
-                </Columns>
-            </Section>
+            <Columns centered>
+                <Columns.Column size={10}>
+                    <Box className="is-paddingless">
+                        <Columns className="is-marginless">
+                            <Columns.Column className="is-paddingless" size={3} >
+                                <Tabs fullwidth>
+                                    {Object.keys(MenuItemIds).map((key) =>
+                                        <Tabs.Tab key={MenuItemIds[key]} tab-id={MenuItemIds[key]}
+                                            active={MenuItemIds[key] === activeTab}
+                                            onClick={this.handleTabChange}
+                                        >
+                                            {MenuItemNames[MenuItemIds[key]]}
+                                        </Tabs.Tab>)}
+                                </Tabs>
+                            </Columns.Column>
+                            <Columns.Column style={{ borderLeft: 'solid 1px #dddddd' }} size={9}>
+                                {componentsWithAvatar.includes(this.state.activeTab) && <AvatarFormContainer isShowChange={this.state.activeTab === MenuItemIds.EditProfile} />}
+                                <Route path={MenuItemPaths[activeTab]} component={MenuItemComponents[activeTab]} />
+                            </Columns.Column>
+                        </Columns>
+                    </Box>
+                </Columns.Column>
+            </Columns>
         );
     }
 
@@ -89,8 +86,7 @@ ProfileSettingsContainer.propTypes = {
     history: PropTypes.object,
 };
 
-const mapStateToProps = state => ({
-});
+const mapStateToProps = state => ({});
 
 const mapDispatchToProps = ({
 

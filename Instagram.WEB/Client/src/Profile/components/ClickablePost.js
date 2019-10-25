@@ -12,7 +12,7 @@ const ClickablePost = ({
     const [isHovered, changeIsHovered] = useState(false);
     const handleMouseEnter = useCallback(() => changeIsHovered(true), []);
     const handleMouseLeave = useCallback(() => changeIsHovered(false), []);
-    const handlePostModalOpen = useCallback(() => onPostModalOpen(data));
+    const handlePostModalOpen = useCallback(() => onPostModalOpen(data.id), []);
 
     return (
         <div className="clickable-post has-background-grey-lighter"

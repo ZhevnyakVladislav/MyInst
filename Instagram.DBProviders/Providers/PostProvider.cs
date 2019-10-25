@@ -29,9 +29,7 @@ namespace Instagram.DBProviders.Providers
                     .Include(p => p.CreatedBy)
                     .Include(p => p.CreatedBy.UsertProfile)
                     .Include(p => p.Comments)
-                    .Include(p => p.Comments.Select(c => c.User))
                     .Include(p => p.Likes)
-                    .Include(p => p.Likes.Select(l => l.User))
                     .Where(p => p.CreatedBy.UserName == userName);
 
                 return posts.ToList();
@@ -50,8 +48,26 @@ namespace Instagram.DBProviders.Providers
                     .Include(p => p.Likes)
                     .Include(p => p.Likes.Select(l => l.User))
                     .Where(p => followersUserName.Contains(p.CreatedBy.UserName));
+                   
 
                 return posts.ToList();
+            }
+        }
+
+        public Post GetPostById(int id)
+        {
+            using (var context = IoContainer.Resolve<AppDbContext>())
+            {
+                var post = context.Posts
+                    .Include(p => p.CreatedBy)
+                    .Include(p => p.CreatedBy.UsertProfile)
+                    .Include(p => p.Comments)
+                    .Include(p => p.Comments.Select(c => c.User))
+                    .Include(p => p.Likes)
+                    .Include(p => p.Likes.Select(l => l.User))
+                    .FirstOrDefault(p => p.Id == id);
+
+                return post;
             }
         }
     }

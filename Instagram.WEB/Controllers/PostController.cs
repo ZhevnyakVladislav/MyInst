@@ -38,7 +38,22 @@ namespace Instagram.WEB.Controllers
         {
             var posts = _postService.GetUserPosts(userName);
 
-            return posts.Select(p => _mapper.Map<PostVm>(p)).AsApiResult();
+            return posts.Select(p =>
+            {
+                p.Likes = null;
+                p.Comments = null;
+                return _mapper.Map<PostVm>(p);
+            }).AsApiResult();
+        }
+
+        [HttpGet]
+        [Route("")]
+        [Authorize]
+        public ApiResult GetPost([FromUri]int id)
+        {
+            var post = _postService.GetPostById(id);
+
+            return _mapper.Map<PostVm>(post).AsApiResult();
         }
 
         [HttpPost]

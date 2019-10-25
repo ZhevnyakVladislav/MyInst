@@ -45,6 +45,8 @@ namespace Instagram.WEB
 
                 cfg.CreateMap<Post, PostDto>()
                     .ForMember(m => m.CreatedBy, x => x.MapFrom(p => p.CreatedBy))
+                    .ForMember(m => m.CommentsCount, x => x.MapFrom(p => p.Comments.Count))
+                    .ForMember(m => m.LikesCount, x => x.MapFrom(p => p.Likes.Count))
                     .ReverseMap();
                 cfg.CreateMap<PostDto, PostVm>()
                     .ReverseMap();

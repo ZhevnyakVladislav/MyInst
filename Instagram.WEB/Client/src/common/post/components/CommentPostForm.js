@@ -25,9 +25,9 @@ const CommentPostForm = ({
     );
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form className="is-full-width" onSubmit={handleSubmit}>
             <Columns gapless>
-                <Columns.Column size={8}>
+                <Columns.Column className="is-paddingless">
                     <TextInput
                         isTextarea
                         name="comment"
@@ -39,11 +39,12 @@ const CommentPostForm = ({
                             borderRadius: 0,
                             boxShadow: 'none',
                             resize: 'none',
-                            height: '53px'
+                            maxHeight: '80px',
+                            height: '50px'
                         }}
                     />
                 </Columns.Column>
-                <Columns.Column size={4} className="align-self-center">
+                <Columns.Column size={2} className="align-self-center">
                     <Button
                         className="is-full-width"
                         color="white"

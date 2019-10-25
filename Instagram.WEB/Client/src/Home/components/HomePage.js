@@ -1,7 +1,7 @@
 import React from 'react';
 import Container from 'react-bulma-components/lib/components/container';
 import PostsFeedContainer from '../containers/PostsFeedContainer';
-import PostActionMenuContainer from '../../common/components/post/containers/PostActionMenuContainer';
+import PostActionMenuContainer from '../../common/post/containers/PostActionModalContainer';
 
 const HomePage = () => {
     return (

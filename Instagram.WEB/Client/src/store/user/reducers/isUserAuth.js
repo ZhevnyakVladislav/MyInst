@@ -24,8 +24,6 @@ export default handleActions({
         types.RESET_PASSWORD_SUCCESS
     )]: () => {
         setAccessToken('');
-        return {
-            isUserAuth: false,
-        };
+        return false;
     }
 }, initialState);

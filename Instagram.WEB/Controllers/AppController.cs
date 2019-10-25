@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Data.SqlClient;
 using System.Web;
 using System.Web.Mvc;
 using Instagram.BusinessLogic;
 using Instagram.WEB.Utils.WebApi;
-using Microsoft.Owin.Security;
 
 namespace Instagram.WEB.Controllers
 {
@@ -37,6 +35,10 @@ namespace Instagram.WEB.Controllers
                         break;
                     case BusinessLogicException businessLogicException:
                         apiResult.Message = businessLogicException.Description;
+                        break;
+                    case NotFoundException notFoundException:
+                        apiResult.StatusCode = 404;
+                        apiResult.Message = notFoundException.Description;
                         break;
                     default:
                         if (apiResult.StatusCode != 500)

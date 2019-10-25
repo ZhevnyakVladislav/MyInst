@@ -69,7 +69,6 @@ svg {
 .tabs a {
     border-bottom: none;
     border-left: #262626 0px;
-    padding: 15px 30px 15px 30px;
     color: inherit;
     font-weight: 400;
 }
@@ -140,28 +139,6 @@ svg {
     padding: 1em;
 }
 
-.hero {
-    justify-content: flex-start;
-}
-
-.hero-head {
-    border-bottom:  1px solid #efefef;
-    height: 65px;
-}
-
-.hero-body {
-    border-bottom:  1px solid #efefef;
-    flex-grow: 1;
-    overflow: auto;
-    min-height: 0;
-    flex: 1;
-}
-
-.hero-foot {
-    border-bottom:  1px solid #efefef;
-    height: 75px;
-}
-
 .has{
     &-border{
         &-radius{
@@ -172,6 +149,31 @@ svg {
 
 .container {
     width: 100%;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    &-header {
+        flex: 0.1 1 0;
+    }
+
+    &-content {
+        flex: 0.7 1 0;
+        overflow: auto;
+        padding: 0.75em;
+    }
+
+    &-footer {
+        flex: 0.2 1 0;
+        flex-direction: column;
+
+        &-item{
+            border-bottom: 1px solid #dbdbdb;
+        }
+    }
 }
 
 .card-footer-item {

@@ -3,8 +3,9 @@ import { showAlert } from '../../store/alert/actions';
 import globalDispatch from '../dispatch/globalDispatch';
 
 export default class ApiError extends Error {
-    constructor(response) {
+    constructor(error) {
         super();
+        const response = error.response;
 
         if (!!response && response.status) {
             if (response.status === 401) {
@@ -17,5 +18,7 @@ export default class ApiError extends Error {
         }
 
         globalDispatch(showAlert(this.message));
+
+        throw error;
     }
 }

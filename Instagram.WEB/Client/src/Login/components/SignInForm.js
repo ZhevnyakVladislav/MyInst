@@ -1,5 +1,5 @@
 import React from 'react';
-import validationForm from '../../common/components/validation/ValidationForm';
+import validationForm from '../../common/validation/ValidationForm';
 import Joi from 'joi';
 import { Link } from 'react-router-dom';
 import 'react-bulma-components/dist/react-bulma-components.min.css';
@@ -14,7 +14,7 @@ import {
     Control,
 } from 'react-bulma-components/lib/components/form';
 import Button from 'react-bulma-components/lib/components/button';
-import TextField from '../../common/components/inputs/TextInput';
+import TextField from '../../common/inputs/TextInput';
 
 class SignInForm extends React.PureComponent {
     state = {

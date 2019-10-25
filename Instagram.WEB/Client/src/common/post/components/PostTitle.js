@@ -11,6 +11,14 @@ const PostTitle = ({
     createdBy,
     openPostActionMenu
 }) => {
+
+    const handlePostActionMenuOpen = useCallback(
+        () => {
+            openPostActionMenu({ postId, createdBy });
+        },
+        [openPostActionMenu, postId, createdBy]
+    );
+
     return (
         <>
             <Card.Header>
@@ -25,7 +33,7 @@ const PostTitle = ({
                             <Heading size={6}>{createdBy.userName}</Heading>
                         </Media.Item>
                         <Media.Item position="right">
-                            <FontAwesomeIcon icon={faEllipsisH} size="2x" onClick={openPostActionMenu} />
+                            <FontAwesomeIcon icon={faEllipsisH} size="1x" onClick={handlePostActionMenuOpen} />
                         </Media.Item>
                     </Media>
                 </Card.Header.Title>
@@ -35,7 +43,9 @@ const PostTitle = ({
 };
 
 PostTitle.propTypes = {
-    createdBy: PropTypes.object
+    postId: PropTypes.number,
+    createdBy: PropTypes.object,
+    openPostActionMenu: PropTypes.func
 };
 
 export default PostTitle;

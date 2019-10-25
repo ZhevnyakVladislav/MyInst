@@ -18,7 +18,11 @@ namespace Instagram.BusinessLogic.Entities
 
         public List<LikeDto> Likes { get; set; }
 
+        public int LikesCount { get; set; }
+
         public List<CommentDto> Comments { get; set; }
+
+        public int CommentsCount {get;set;}
 
         public DateTime CreatedAt { get; set; }
     }

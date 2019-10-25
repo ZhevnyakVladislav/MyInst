@@ -10,8 +10,8 @@ import {
     openPostModal
 } from '../../store/posts/actions';
 
-import ContentLoader from '../../common/components/loaders/ContentLoader';
-import PostsLoader from '../../common/components/loaders/PostsLoader';
+import ContentLoader from '../../common/loaders/ContentLoader';
+import PostsLoader from '../../common/loaders/PostsLoader';
 import PostsLayout from '../components/PostsLayout';
 
 const PostsLayoutContainer = ({
@@ -57,7 +57,6 @@ const PostsLayoutContainer = ({
                         onPostModalOpen={onPostModalOpen}
                         data={data}
                     />}
-
             </ContentLoader>
         </Container>
     );
@@ -78,7 +77,7 @@ const mapStateToProps = (state) => ({
     isPrivate: state.profile.viewData.isPrivate,
     data: state.posts.profilePosts,
     isProfileDataLoading: state.profile.isLoading,
-    isPostsDataLoading: state.posts.isLoading
+    // isPostsDataLoading: state.posts.isLoading
 });
 
 const mapDispatchToProps = ({

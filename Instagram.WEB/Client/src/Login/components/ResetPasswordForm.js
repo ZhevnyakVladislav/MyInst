@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import validationForm from '../../common/components/validation/ValidationForm';
+import validationForm from '../../common/validation/ValidationForm';
 import Joi from 'joi';
 import { Link } from 'react-router-dom';
 import Section from 'react-bulma-components/lib/components/section';
@@ -12,7 +12,7 @@ import {
     Control,
 } from 'react-bulma-components/lib/components/form';
 import Button from 'react-bulma-components/lib/components/button';
-import TextField from '../../common/components/inputs/TextInput';
+import TextField from '../../common/inputs/TextInput';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLock } from '@fortawesome/free-solid-svg-icons';
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import validationForm from '../../common/components/validation/ValidationForm';
+import validationForm from '../../common/validation/ValidationForm';
 import Joi from 'joi';
 import EditProfileTab from '../components/EditProfileTab';
 import { loadEditProfileData, updateProfile } from '../../store/profile/actions';
@@ -111,7 +111,7 @@ const mapStateToProps = (state) => {
             bio,
             email,
             phone,
-            userName: state.user.userName
+            userName: state.user.data.userName
         },
         isSaving: state.profile.isSaving
     };

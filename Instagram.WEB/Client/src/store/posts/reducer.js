@@ -1,13 +1,17 @@
 import { combineReducers } from 'redux';
 
 import profilePosts from './reducers/profilePosts';
-import postModal from './reducers/postModal';
-import comments from './reducers/comments';
-import likes from './reducers/likes';
+import postData from './reducers/postData';
+import modalPostId from './reducers/modalPostId';
+import isPostModalOpen from './reducers/isPostModalOpen';
 
 export default combineReducers({
-    profilePosts,
-    postModal,
-    comments,
-    likes
+    postModal: combineReducers({
+        isOpen: isPostModalOpen,
+        id: modalPostId
+    }),
+    post: combineReducers({
+        data: postData,
+    }),
+    profilePosts: profilePosts
 });

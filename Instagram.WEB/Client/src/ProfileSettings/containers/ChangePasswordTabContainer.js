@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import validationForm from '../../common/components/validation/ValidationForm';
+import validationForm from '../../common/validation/ValidationForm';
 import Joi from 'joi';
 import { changePassword } from '../../store/user/actions';
 

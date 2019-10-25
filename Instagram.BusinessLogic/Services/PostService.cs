@@ -43,7 +43,11 @@ namespace Instagram.BusinessLogic.Services
         {
             var posts = _postProvider.GetUserPosts(userName);
 
-            return posts.Select(p => _mapper.Map<PostDto>(p));
+            return posts.Select(p => {
+                //p.Comments = null;
+                //p.Likes = null;
+                return _mapper.Map<PostDto>(p);
+            });
         }
 
         public IEnumerable<PostDto> GetFollowingUsersPosts(string userName)
@@ -53,6 +57,18 @@ namespace Instagram.BusinessLogic.Services
             followingUserPosts.Sort((x, y) => DateTime.Compare(x.CreatedAt, y.CreatedAt));
 
             return followingUserPosts.Select(p => _mapper.Map<PostDto>(p));
+        }
+
+        public PostDto GetPostById(int id)
+        {
+            var post = _postProvider.GetPostById(id);
+
+            if(post == null)
+            {
+                throw new NotFoundException($"Post with id={id} was not founded.");
+            }
+
+            return _mapper.Map<PostDto>(post);
         }
     }
 }

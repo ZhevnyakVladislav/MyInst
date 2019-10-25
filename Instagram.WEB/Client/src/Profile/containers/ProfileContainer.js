@@ -17,15 +17,8 @@ import {
 import { logOut } from '../../store/user/actions';
 import { MODE } from '../components/FollowersOrFollowingModal';
 
-import SettingsModal from '../components/SettingsModal';
 import FollowersModal from '../components/FollowersOrFollowingModal';
 import UnfollowModal from '../components/UnfollowModal';
-import ProfileLayout from '../components/ProfileLayout';
-import PostsLayout from '../components/PostsLayout';
-import PostModal from './PostModalContainer';
-import ContentLoader from '../../common/components/loaders/ContentLoader';
-import AvatarWithTextLoader from '../../common/components/loaders/AvatarWithTextLoader';
-
 import ProfileLayoutContainer from '../containers/ProfileLayoutContainer';
 import PostsLayoutContainer from '../containers/PostsLayoutContainer';
 import PostModalContainer from '../containers/PostModalContainer';

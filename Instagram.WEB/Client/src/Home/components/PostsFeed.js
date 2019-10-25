@@ -7,8 +7,8 @@ import Container from 'react-bulma-components/lib/components/container';
 import Image from 'react-bulma-components/lib/components/image';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faComment, faEllipsisH } from '@fortawesome/free-solid-svg-icons';
-import CommentPostForm from '../../common/components/post/components/CommentPostForm';
-import PostTitle from '../../common/components/post/components/PostTitle';
+import CommentPostForm from '../../common/post/components/CommentPostForm';
+import PostTitle from '../../common/post/components/PostTitle';
 
 const posts = [
     {
@@ -56,20 +56,14 @@ const PostsFeed = ({
         [onPostComment]
     );
 
-    const handlePostActionMenuOpen = useCallback(
-        (postId, createdBy) => () => {
-            openPostActionMenu({ postId, createdBy });
-        },
-        [openPostActionMenu]
-    );
-
     return (
         <Columns centered>
             <Columns.Column size={8}>
                 {posts.map(post => (
                     <Card key={post.id} className="has-margin-bottom-60">
                         <PostTitle
-                            openPostActionMenu={handlePostActionMenuOpen(post.id, post.createdBy)}
+                            postId={post.id}
+                            openPostActionMenu={openPostActionMenu}
                             createdBy={post.createdBy}
                         />
                         <Card.Content>

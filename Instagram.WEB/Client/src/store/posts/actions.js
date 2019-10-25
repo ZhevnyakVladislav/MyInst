@@ -23,3 +23,7 @@ export const likePostError = createAction(types.LIKE_POST_ERROR, error => error)
 export const deleteLike = createAction(types.DELETE_LIKE, data => data);
 export const deleteLikeSuccess = createAction(types.DELETE_LIKE_SUCCESS);
 export const deleteLikeError = createAction(types.DELETE_LIKE_ERROR, error => error);
+
+export const loadPostData = createAction(types.LOAD_POST_DATA, data => data);
+export const loadPostDataSuccess = createAction(types.LOAD_POST_DATA_SUCCESS);
+export const loadPostDataError = createAction(types.LOAD_POST_DATA_ERROR, error => error);

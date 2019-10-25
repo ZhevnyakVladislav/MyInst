@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import Columns from 'react-bulma-components/lib/components/columns';
 import Media from 'react-bulma-components/lib/components/media';
 import { Label } from 'react-bulma-components/lib/components/form';
-import FileInput from '../../common/components/inputs/FileInput';
+import FileInput from '../../common/inputs/FileInput';
 import { loadProfileAvatar, updateProfileImage } from '../../store/profile/actions';
 
 class AvatarFormContainer extends React.PureComponent {
@@ -33,7 +33,7 @@ class AvatarFormContainer extends React.PureComponent {
                         </Media.Item>
                     </Media>
                 </Columns.Column>
-                <Columns.Column>
+                <Columns.Column size={4}>
                     <Label>{userName}</Label>
                     {isShowChange && <FileInput label="Change Profile Photo" onChange={this.handleImageChange} />}
                 </Columns.Column>
@@ -53,7 +53,7 @@ AvatarFormContainer.propTypes = {
 
 const mapStateToProps = state => ({
     imageUrl: state.profile.avatar.imageUrl,
-    userName: state.user.userName
+    userName: state.user.data.userName
 });
 
 const mapDispatchToProps = ({

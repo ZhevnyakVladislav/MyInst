@@ -15,10 +15,15 @@ namespace Instagram.WEB.Models
         public AuthorVm CreatedBy { get; set; }
 
         public List<LikeVm> Likes { get; set; }
+        public int LikesCount { get; set; }
 
         public List<CommentVm> Comments { get; set; }
 
+        public int CommentsCount { get; set; }
+
         public DateTime CreatedAt { get; set; }
+
+
 
     }
 }
