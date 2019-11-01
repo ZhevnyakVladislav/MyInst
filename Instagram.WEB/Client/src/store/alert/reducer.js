@@ -1,17 +1,17 @@
 import types from './types';
-import { handleActions, combineActions } from 'redux-actions';
+import { handleActions } from 'redux-actions';
 
 const createInitialState = () => ({
     isShow: false
 });
 
 export default handleActions({
-    [types.SHOW_ALERT]: (state, action) => ({
+    [types.SHOW]: (state, action) => ({
         ...state,
         message: action.payload,
         isShow: true
     }),
-    [types.HIDE_ALERT]: (state) => ({
+    [types.HIDE]: (state) => ({
         ...state,
         isShow: false
     }),

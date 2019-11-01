@@ -5,10 +5,10 @@ const createInitialState = () => false;
 
 export default handleActions({
     [combineActions(
-        types.LOAD_VIEW_PROFILE_DATA,
+        types.LOAD_VIEW_DATA,
     )]: () => true,
     [combineActions(
-        types.LOAD_VIEW_PROFILE_DATA_SUCCESS,
-        types.LOAD_VIEW_PROFILE_DATA_ERROR,
+        types.LOAD_VIEW_DATA_SUCCESS,
+        types.LOAD_VIEW_DATA_ERROR,
     )]: () => false,
 }, createInitialState());

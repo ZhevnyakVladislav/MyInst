@@ -6,7 +6,7 @@ const initialState = false;
 
 export default handleActions({
     [combineActions(
-        types.USER_SIGN_UP_SUCCESS,
+        types.SIGN_UP_SUCCESS,
         types.CONFIRM_RESET_PASSWORD_SUCCESS
     )]: () => true,
     [combineActions(

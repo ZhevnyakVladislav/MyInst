@@ -1,18 +1,18 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import Container from 'react-bulma-components/lib/components/container';
 import Columns from 'react-bulma-components/lib/components/columns';
 import Box from 'react-bulma-components/lib/components/box';
 
-import {
-    loadProfilePosts,
-    openPostModal
-} from '../../store/posts/actions';
+import { loadProfilePosts } from '../../store/posts/actions';
+import { openModal } from '../../store/detailPost/actions';
 
 import ContentLoader from '../../common/loaders/ContentLoader';
 import PostsLoader from '../../common/loaders/PostsLoader';
 import PostsLayout from '../components/PostsLayout';
+import { dynamicDispatch } from '../../helpers/dispatch';
 
 const PostsLayoutContainer = ({
     userName,
@@ -28,7 +28,7 @@ const PostsLayoutContainer = ({
         () => {
             !isPrivate && loadPosts(userName);
         },
-        [isPrivate]
+        [isPrivate, loadPosts, userName]
     );
 
     return (
@@ -80,9 +80,12 @@ const mapStateToProps = (state) => ({
     // isPostsDataLoading: state.posts.isLoading
 });
 
-const mapDispatchToProps = ({
-    loadPosts: loadProfilePosts,
-    onPostModalOpen: openPostModal
+const mapDispatchToProps = dispatch => ({
+    ...bindActionCreators({
+        loadPosts: loadProfilePosts,
+
+    }, dispatch),
+    onPostModalOpen: dynamicDispatch(openModal)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(React.memo(PostsLayoutContainer)); 

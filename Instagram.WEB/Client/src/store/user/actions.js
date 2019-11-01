@@ -1,16 +1,16 @@
 import types from './types';
 import { createAction } from 'redux-actions';
 
-export const signIn = createAction(types.USER_SIGN_IN, data => data);
-export const signInSuccess = createAction(types.USER_SIGN_IN_SUCCESS);
-export const signInError = createAction(types.USER_SIGN_IN_ERROR, error => error);
+export const signIn = createAction(types.SIGN_IN, data => data);
+export const signInSuccess = createAction(types.SIGN_IN_SUCCESS);
+export const signInError = createAction(types.SIGN_IN_ERROR, error => error);
 
-export const signUp = createAction(types.USER_SIGN_UP, data => data);
-export const signUpSuccess = createAction(types.USER_SIGN_UP_SUCCESS);
-export const signUpError = createAction(types.USER_SIGN_UP_ERROR, error => error);
+export const signUp = createAction(types.SIGN_UP, data => data);
+export const signUpSuccess = createAction(types.SIGN_UP_SUCCESS);
+export const signUpError = createAction(types.SIGN_UP_ERROR, error => error);
 
-export const logOut = createAction(types.USER_LOGOUT);
-export const userUnauthorized = createAction(types.USER_UNAUTHORIZED);
+export const logOut = createAction(types.LOGOUT);
+export const userUnauthorized = createAction(types.UNAUTHORIZED);
 
 export const confirmEmail = createAction(types.CONFIRM_CODE);
 export const confirmEmailSuccess = createAction(types.CONFIRM_CODE_SUCCESS);

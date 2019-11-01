@@ -12,16 +12,16 @@ const createInitialState = () => ({
 });
 
 export default handleActions({
-    [types.LOAD_VIEW_PROFILE_DATA]: (state) => ({ ...state }),
-    [types.LOAD_VIEW_PROFILE_DATA_SUCCESS]: (state, action) => ({
+    [types.LOAD_VIEW_DATA]: (state) => ({ ...state }),
+    [types.LOAD_VIEW_DATA_SUCCESS]: (state, action) => ({
         ...state,
         ...action.payload,
     }),
     [combineActions(
         types.FOLLOW_SUCCESS,
         types.UNFOLLOW_SUCCESS
-    )]: (state, action) => ({
+    )]: (state, { payload }) => ({
         ...state,
-        ...action.payload.viewData
+        ...payload.viewData
     })
 }, createInitialState());

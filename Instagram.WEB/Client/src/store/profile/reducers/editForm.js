@@ -12,9 +12,9 @@ const createInitialState = () => ({
 
 export default handleActions({
     [combineActions(
-        types.LOAD_EDIT_PROFILE_DATA,
+        types.LOAD_EDIT_DATA,
     )]: (state) => ({ ...state }),
-    [types.LOAD_EDIT_PROFILE_DATA_SUCCESS]: (state, action) => ({
+    [types.LOAD_EDIT_DATA_SUCCESS]: (state, action) => ({
         ...state,
         ...action.payload,
     }),

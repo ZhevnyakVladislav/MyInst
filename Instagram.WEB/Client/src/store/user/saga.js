@@ -91,8 +91,8 @@ function* callChangePassword(action) {
 }
 
 export default [
-    takeEvery(types.USER_SIGN_UP, callSignUp),
-    takeEvery(types.USER_SIGN_IN, callSignIn),
+    takeEvery(types.SIGN_UP, callSignUp),
+    takeEvery(types.SIGN_IN, callSignIn),
     takeEvery(types.CONFIRM_CODE, callConfirmEmail),
     takeEvery(types.CONFIRM_RESET_PASSWORD, callConfirmResetPassword),
     takeEvery(types.RESET_PASSWORD, callResetPassword),

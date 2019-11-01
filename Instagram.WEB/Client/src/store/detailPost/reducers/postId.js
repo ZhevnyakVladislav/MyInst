@@ -4,6 +4,6 @@ import { handleActions } from 'redux-actions';
 const initialState = -1;
 
 export default handleActions({
-    [types.OPEN_POST_MODAL]: (state, { payload }) => payload,
-    [types.CLOSE_POST_MODAL]: () => initialState
+    [types.OPEN_MODAL]: (stata, { payload }) => payload,
+    [types.CLOSE_MODAL]: () => initialState,
 }, initialState);

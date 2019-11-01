@@ -1,6 +1,6 @@
 import { userUnauthorized } from '../../store/user/actions';
 import { showAlert } from '../../store/alert/actions';
-import globalDispatch from '../dispatch/globalDispatch';
+import globalDispatch from '../dispatch';
 
 export default class ApiError extends Error {
     constructor(error) {

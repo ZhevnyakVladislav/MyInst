@@ -8,7 +8,8 @@ import { createBrowserHistory } from 'history';
 import { getAccessToken } from '../utils/localStorage';
 import { setAuthorizationHeader } from '../api/api';
 import jwt_decode from 'jwt-decode';
-// import { createInitialState } from './user/reducer';
+import dynostore, { dynamicReducers } from '@redux-dynostore/core';
+import { dynamicSagas } from '@redux-dynostore/redux-saga';
 
 export const history = createBrowserHistory();
 
@@ -43,10 +44,16 @@ const composeEnhansers = process.env.NODE_ENV === 'production' ? compose : compo
 const store = createStore(
     createRootReducer(history),
     initialState(),
-    composeEnhansers(applyMiddleware(
-        routerMiddleware(history),
-        sagaMiddleware
-    ))
+    composeEnhansers(
+        applyMiddleware(
+            routerMiddleware(history),
+            sagaMiddleware
+        ),
+        dynostore(
+            dynamicReducers(),
+            dynamicSagas(sagaMiddleware)
+        )
+    )
 );
 
 sagaMiddleware.run(rootSaga);

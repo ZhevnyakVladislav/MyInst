@@ -5,7 +5,6 @@ import user from '../user/reducer';
 import profile from '../profile/reducer';
 import alert from '../alert/reducer';
 import posts from '../posts/reducer';
-import postActionsModal from '../postActionsModal/reducer';
 
 export default (history) => combineReducers({
     router: connectRouter(history),
@@ -13,5 +12,4 @@ export default (history) => combineReducers({
     profile,
     alert,
     posts,
-    postActionsModal
 });

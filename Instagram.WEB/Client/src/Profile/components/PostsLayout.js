@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import Container from 'react-bulma-components/lib/components/container';
 import Tile from 'react-bulma-components/lib/components/tile';

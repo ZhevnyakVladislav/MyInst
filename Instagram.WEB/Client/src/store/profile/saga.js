@@ -11,10 +11,6 @@ import {
     updateProfileError,
     loadProfileAvatarSuccess,
     loadProfileAvatarError,
-    loadFollowersSuccess,
-    loadFollowersError,
-    loadFollowingSuccess,
-    loadFollowingError,
     followSuccess,
     followError,
     unfollowSuccess,
@@ -67,59 +63,42 @@ function* callLoadProfileAvatar() {
     }
 }
 
-function* callFollow(action) {
+function* callFollow({ payload }) {
     try {
-        yield call(api.call.post, api.urls.profile.follow_post, action.payload);
+        yield call(api.call.post, api.urls.profile.follow_post, payload);
 
         const state = yield select();
+        const { userName: currentUserName } = state.user.data;
+        let { viewData } = state.profile;
+        const { userName } = payload;
+        let followers = state.usersModal && state.usersModal.data || [];
 
-        const { user, profile } = state;
-        const { userName } = action.payload;
+        viewData = updateViewData(viewData, currentUserName, userName, true);
+        followers = updateFollowers(followers, userName, true);
 
-        const viewData = updateViewData(profile.viewData, user.userName, userName, true);
-        const followers = updateFollowers(profile.followers, userName, true);
-        const following = updateFollowers(profile.following, userName, true);
-
-        yield put(followSuccess({ viewData, followers, following }));
+        yield put(followSuccess({ viewData, data: followers }));
     } catch (e) {
         yield put(followError(e));
     }
 }
 
-function* callUnfollow(action) {
+function* callUnfollow({ payload }) {
     try {
-        yield call(api.call.post, api.urls.profile.unfollow_post, action.payload);
+        yield call(api.call.post, api.urls.profile.unfollow_post, payload);
 
         const state = yield select();
 
-        const { user, profile } = state;
-        const { userName } = action.payload;
+        const { userName: currentUserName } = state.user.data;
+        let { viewData } = state.profile;
+        const { userName } = payload;
+        let followers = state.usersModal && state.usersModal.data || [];
 
-        const viewData = updateViewData(profile.viewData, user.userName, userName, false);
-        const followers = updateFollowers(profile.followers, userName, false);
-        const following = updateFollowers(profile.following, userName, false);
+        viewData = updateViewData(viewData, currentUserName, userName, false);
+        followers = updateFollowers(followers, userName, false);
 
-        yield put(unfollowSuccess({ viewData, followers, following }));
+        yield put(unfollowSuccess({ viewData, data: followers }));
     } catch (e) {
         yield put(unfollowError(e));
-    }
-}
-
-function* callLoadFollowers(action) {
-    try {
-        const response = yield call(api.call.get, `${api.urls.profile.loadFollowers_post}?username=${action.payload}`);
-        yield put(loadFollowersSuccess(response.data.model));
-    } catch (e) {
-        yield put(loadFollowersError(e));
-    }
-}
-
-function* callLoadFollowing(action) {
-    try {
-        const response = yield call(api.call.get, `${api.urls.profile.loadFollowing_post}?username=${action.payload}`);
-        yield put(loadFollowingSuccess(response.data.model));
-    } catch (e) {
-        yield put(loadFollowingError(e));
     }
 }
 
@@ -143,24 +122,19 @@ const updateViewData = (prevViewData, currentUserName, followersUserName, isFoll
 
 const updateFollowers = (prevFollowers, followerUserName, isFollow) => {
     return prevFollowers.map(p => {
-        let result = { ...p };
-        if (result.userName === followerUserName) {
-            result.isFollowing = isFollow;
+        if (p.userName === followerUserName) {
+            p.isFollowing = isFollow;
         }
-
-        return result;
+        return p;
     });
 };
 
 export default [
-    takeEvery(types.LOAD_VIEW_PROFILE_DATA, callLoadViewProfileData),
-    takeEvery(types.LOAD_EDIT_PROFILE_DATA, callLoadEditProfileData),
-    takeEvery(types.UPDATE_PROFILE_IMAGE, callUpdateProfileImage),
-    takeEvery(types.UPDATE_PROFILE, callUpdateProfile),
-    takeEvery(types.LOAD_PROFILE_AVATAR, callLoadProfileAvatar),
+    takeEvery(types.LOAD_VIEW_DATA, callLoadViewProfileData),
+    takeEvery(types.LOAD_EDIT_DATA, callLoadEditProfileData),
+    takeEvery(types.UPDATE_IMAGE, callUpdateProfileImage),
+    takeEvery(types.UPDATE, callUpdateProfile),
+    takeEvery(types.LOAD_AVATAR, callLoadProfileAvatar),
     takeEvery(types.FOLLOW, callFollow),
     takeEvery(types.UNFOLLOW, callUnfollow),
-    takeEvery(types.LOAD_FOLLOWERS, callLoadFollowers),
-    takeEvery(types.LOAD_FOLLOWING, callLoadFollowing),
-
 ];

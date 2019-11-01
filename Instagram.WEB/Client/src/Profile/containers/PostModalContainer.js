@@ -2,17 +2,21 @@ import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import modal from '../../common/modal/Modal';
 import { connect } from 'react-redux';
-import { closePostModal } from '../../store/posts/actions';
+import { closeModal } from '../../store/detailPost/actions';
+import withDynamicStore from '../../common/dynamicStore/withDynamicStore';
+import { dynamicDispatch } from '../../helpers/dispatch';
+import reducer from '../../store/detailPost/reducer';
+import saga from '../../store/detailPost/saga';
 import DetailPostContainer from '../../common/post/containers/DetailPostContainer';
 
 const PostModal = modal(DetailPostContainer);
 
 const PostModalContainer = ({
     isOpen,
-    onClosePostModal,
+    onCloseModal,
 }) => {
 
-    const handleClosePostModal = useCallback(() => onClosePostModal(), []);
+    const handleClosePostModal = () => onCloseModal();
 
     return (
         <>
@@ -27,15 +31,19 @@ const PostModalContainer = ({
 PostModalContainer.propTypes = {
     isOpen: PropTypes.bool,
 
-    onClosePostModal: PropTypes.func,
+    onCloseModal: PropTypes.func,
 };
 
 const mapStateToProps = state => ({
-    isOpen: state.posts.postModal.isOpen
+    isOpen: state.detailPost.isModalOpen
 });
 
-const mapDispatchToProps = ({
-    onClosePostModal: closePostModal,
+const mapDispatchToProps = () => ({
+    onCloseModal: dynamicDispatch(closeModal),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(PostModalContainer);
+export default withDynamicStore(connect(mapStateToProps, mapDispatchToProps)(PostModalContainer), {
+    storeName: 'detailPost',
+    reducer,
+    saga,
+});

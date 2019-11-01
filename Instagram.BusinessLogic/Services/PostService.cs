@@ -65,7 +65,7 @@ namespace Instagram.BusinessLogic.Services
 
             if(post == null)
             {
-                throw new NotFoundException($"Post with id={id} was not founded.");
+                throw new NotFoundException($"Post with id={id} was not found.");
             }
 
             return _mapper.Map<PostDto>(post);

@@ -49,7 +49,7 @@ namespace Instagram.WEB.Controllers
         [HttpGet]
         [Route("")]
         [Authorize]
-        public ApiResult GetPost([FromUri]int id)
+        public ApiResult GetPost([FromUri]int id = 0)
         {
             var post = _postService.GetPostById(id);
 

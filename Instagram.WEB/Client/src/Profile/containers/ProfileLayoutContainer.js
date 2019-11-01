@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Container from 'react-bulma-components/lib/components/container';
 import Columns from 'react-bulma-components/lib/components/columns';
+import { bindActionCreators } from 'redux';
 
 import {
     loadViewProfileData,
     follow,
-    openUnfollowModal
 } from '../../store/profile/actions';
 
 import ContentLoader from '../../common/loaders/ContentLoader';
@@ -15,45 +15,52 @@ import AvatarWithTextLoader from '../../common/loaders/AvatarWithTextLoader';
 import ProfileLayout from '../components/ProfileLayout';
 import ProfileActionsModalContainer from './ProfileActionsModalContainer';
 
+import { openModal as openUsersModal } from '../../store/usersModal/actions';
+import { openModal as openUnfollowModal } from '../../store/unfollowModal/actions';
+import { dynamicDispatch } from '../../helpers/dispatch';
+import { UsersModalTypes } from '../../common/usersModal/constants';
 
 const ProfileLayoutContainer = ({
     profileData,
     isOwner,
     loadProfileData,
     isLoading,
-    userName
+    follow,
+    userName,
+    openUsersModal,
+    openUnfollowModal
 }) => {
 
     useEffect(
         () => {
             loadProfileData(userName);
         },
-        []
+        [loadProfileData, userName]
     );
 
     const [isModalOpen, handleChangeModalState] = useState(false);
 
-    const handleOpenModal = useCallback(
-        () => {
-            handleChangeModalState(true);
+    const handleOpenUsersModal = useCallback(
+        (modalType) => () => {
+            openUsersModal({
+                userName: userName,
+                modalType: modalType
+            });
         },
-        [handleChangeModalState]
+        [openUsersModal, userName]
     );
 
-    const handleCloseModal = useCallback(
-        () => {
-            handleChangeModalState(false);
-        },
-        [handleChangeModalState]
-    );
 
     const handleChangeFollowing = useCallback(
         () => {
             profileData.isFollowing
-                ? openUnfollowModal(profileData)
+                ? openUnfollowModal({
+                    userName: profileData.userName,
+                    imageUrl: profileData.imageUrl
+                })
                 : follow({ userName: profileData.userName });
         },
-        [openUnfollowModal, follow]
+        [follow, openUnfollowModal, profileData]
     );
 
     return (
@@ -71,10 +78,11 @@ const ProfileLayoutContainer = ({
                             <ProfileLayout
                                 isOwner={isOwner}
                                 profileData={profileData}
-                                openSettingsModal={handleOpenModal}
-                                openFollowersModal={() => console.log('openFollowersModal')}
-                                openFollowingModal={() => console.log('openFollowingModal')}
+                                openSettingsModal={() => handleChangeModalState(true)}
+                                openFollowersModal={handleOpenUsersModal(UsersModalTypes.Followers)}
+                                openFollowingModal={handleOpenUsersModal(UsersModalTypes.Following)}
                                 onChangeFollowing={handleChangeFollowing}
+                                onOpenUnfollowModal={openUnfollowModal}
                             />
                         </ContentLoader>
                     </Columns.Column>
@@ -82,7 +90,7 @@ const ProfileLayoutContainer = ({
             </Container>
             <ProfileActionsModalContainer
                 isOpen={isModalOpen}
-                onClose={handleCloseModal}
+                onClose={() => handleChangeModalState(false)}
             />
         </>
     );
@@ -92,8 +100,12 @@ ProfileLayoutContainer.propTypes = {
     profileData: PropTypes.object,
     isOwner: PropTypes.bool,
     isLoading: PropTypes.bool,
+    userName: PropTypes.string,
 
     loadProfileData: PropTypes.func,
+    follow: PropTypes.func,
+    openUsersModal: PropTypes.func,
+    openUnfollowModal: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({
@@ -101,11 +113,13 @@ const mapStateToProps = (state) => ({
     isLoading: state.profile.isLoading,
     isOwner: state.user.data.userName === state.profile.viewData.userName,
 });
-
-const mapDispatchToProps = ({
-    loadProfileData: loadViewProfileData,
-    follow,
-    openUnfollowModal,
+const mapDispatchToProps = dispatch => ({
+    ...bindActionCreators({
+        loadProfileData: loadViewProfileData,
+        follow
+    }, dispatch),
+    openUsersModal: dynamicDispatch(openUsersModal),
+    openUnfollowModal: dynamicDispatch(openUnfollowModal),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(React.memo(ProfileLayoutContainer)); 

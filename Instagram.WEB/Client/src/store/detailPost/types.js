@@ -1,0 +1,26 @@
+const prefix = '@@detailPost/';
+
+export default {
+    OPEN_MODAL: `${prefix}OPEN_MODAL`,
+    CLOSE_MODAL: `${prefix}CLOSE_MODAL`,
+
+    LOAD_DATA: `${prefix}LOAD_DATA`,
+    LOAD_DATA_SUCCESS: `${prefix}LOAD_DATA_SUCCESS`,
+    LOAD_DATA_ERROR: `${prefix}LOAD_DATA_ERROR`,
+
+    POST_COMMENT: `${prefix}POST_COMMENT`,
+    POST_COMMENT_SUCCESS: `${prefix}POST_COMMENT_SUCCESS`,
+    POST_COMMENT_ERROR: `${prefix}POST_COMMENT_ERROR`,
+
+    DELETE_COMMENT: `${prefix}DELETE_COMMENT`,
+    DELETE_COMMENT_SUCCESS: `${prefix}DELETE_COMMENT_SUCCESS`,
+    DELETE_COMMENT_ERROR: `${prefix}DELETE_COMMENT_ERROR`,
+
+    POST_LIKE: `${prefix}POST_LIKE`,
+    POST_LIKE_SUCCESS: `${prefix}POST_LIKE_SUCCESS`,
+    POST_LIKE_ERROR: `${prefix}POST_LIKE_ERROR`,
+
+    DELETE_LIKE: `${prefix}DELETE_LIKE`,
+    DELETE_LIKE_SUCCESS: `${prefix}DELETE_LIKE_SUCCESS`,
+    DELETE_LIKE_ERROR: `${prefix}DELETE_LIKE_ERROR`,
+};

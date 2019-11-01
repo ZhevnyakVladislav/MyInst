@@ -10,8 +10,8 @@ const createInitialState = () => ({
 });
 
 export default handleActions({
-    [types.OPEN_MODAL]: (state, { payload }) => ({
+    [types.OPEN]: (state, { payload }) => ({
         ...payload
     }),
-    [types.CLOSE_MODAL]: () => createInitialState()
+    [types.CLOSE]: () => createInitialState()
 }, createInitialState());

@@ -1,4 +1,6 @@
+const prefix = '@@postActionModal/';
+
 export default {
-    OPEN_MODAL: 'OPEN_MODAL',
-    CLOSE_MODAL: 'CLOSE_MODAL',
+    OPEN: `${prefix}OPEN`,
+    CLOSE: `${prefix}CLOSE`
 };

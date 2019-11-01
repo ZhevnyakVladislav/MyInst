@@ -6,6 +6,10 @@ import { unfollow } from '../../../store/profile/actions';
 import { closeModal } from '../../../store/postActionsModal/actions';
 import PostActionMenu from '../components/PostActionMenu';
 import { useHistory } from 'react-router-dom';
+import withDynamicStore from '../../dynamicStore/withDynamicStore';
+import { dynamicDispatch } from '../../../helpers/dispatch';
+import reducer from '../../../store/postActionsModal/reducer';
+import { bindActionCreators } from 'redux';
 
 const contentStyles = {
     width: '40%'
@@ -13,7 +17,7 @@ const contentStyles = {
 
 const PostActionsModal = modal(PostActionMenu, contentStyles);
 
-const PostActionMenuContainer = ({
+const PostActionModalContainer = ({
     isOpen,
     userName,
     postId,
@@ -28,7 +32,7 @@ const PostActionMenuContainer = ({
             closeModal();
             history.push(`/posts/${postId}`);
         },
-        [postId]
+        [closeModal, history, postId]
     );
 
     const handleUnfollow = useCallback(
@@ -39,12 +43,7 @@ const PostActionMenuContainer = ({
         [unfollow, userName, closeModal]
     );
 
-    const handleCloseModal = useCallback(
-        () => {
-            closeModal();
-        },
-        [closeModal]
-    );
+    const handleCloseModal = () => closeModal();
 
     return (
         <PostActionsModal
@@ -56,7 +55,7 @@ const PostActionMenuContainer = ({
     );
 };
 
-PostActionMenuContainer.propTypes = {
+PostActionModalContainer.propTypes = {
     isOpen: PropTypes.bool,
     postId: PropTypes.number,
     userName: PropTypes.string,
@@ -70,9 +69,14 @@ const mapStateToProps = (state) => ({
     postId: state.postActionsModal.data.postId
 });
 
-const mapDispatchToProps = ({
-    unfollow: unfollow,
-    closeModal: closeModal
+const mapDispatchToProps = dispatch => ({
+    ...bindActionCreators({
+        unfollow,
+    }, dispatch),
+    closeModal: dynamicDispatch(closeModal)
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(PostActionMenuContainer);
+export default withDynamicStore(connect(mapStateToProps, mapDispatchToProps)(PostActionModalContainer), {
+    storeName: 'postActionsModal',
+    reducer,
+});
