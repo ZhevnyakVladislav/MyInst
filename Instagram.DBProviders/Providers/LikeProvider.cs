@@ -50,9 +50,24 @@ namespace Instagram.DBProviders.Providers
             {
                 var likes = context.Likes
                     .Include(l => l.User)
+                    .Include(c => c.User.UsertProfile)
                     .Where(l => l.PostId == postId);
 
                 return likes.ToList();
+            }
+        }
+
+        public IEnumerable<UserProfile> GetPostLikedBy(int postId)
+        {
+            using (var context = IoContainer.Resolve<AppDbContext>())
+            {
+
+                var userIds = context.Likes.Where(l => l.PostId == postId).Select(l => l.UserId);
+                var profiles = context.UserProfiles
+                    .Include(p => p.User)
+                    .Where(p => userIds.Contains(p.User.Id));
+
+                return profiles.ToList();
             }
         }
     }

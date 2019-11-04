@@ -13,5 +13,6 @@ namespace Instagram.BusinessLogic.Interfaces
 
         IEnumerable<LikeDto> GetPostLikes(int postId);
 
+        IEnumerable<ProfileDto> GetPostLikedBy(int postId);
     }
 }

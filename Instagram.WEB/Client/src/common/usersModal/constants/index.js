@@ -9,7 +9,7 @@ export const UsersModalTypes = {
 export const UrlsByType = {
     [UsersModalTypes.Followers]: (userName) => `${api.urls.profile.loadFollowers_post}?username=${userName}`,
     [UsersModalTypes.Following]: (userName) => `${api.urls.profile.loadFollowing_post}?username=${userName}`,
-    [UsersModalTypes.Likes]: (postId) => ''
+    [UsersModalTypes.Likes]: (postId) => `${api.urls.posts.loadPostLikes_get}?postId=${postId}`
 };
 
 export const UsersModalTitleByType = {

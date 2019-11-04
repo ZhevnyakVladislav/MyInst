@@ -16,5 +16,7 @@ namespace Instagram.DBProviders.Interfaces
         Like GetLikeById(int id);
 
         void DeleteLike(int id);
+
+        IEnumerable<UserProfile> GetPostLikedBy(int postId);
     }
 }

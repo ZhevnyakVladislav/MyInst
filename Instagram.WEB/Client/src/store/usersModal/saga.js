@@ -11,7 +11,7 @@ function* callLoadData() {
     try {
         const state = yield select();
         const usersModal = state.usersModal;
-        const url = UrlsByType[usersModal.modalType](usersModal.userName);
+        const url = UrlsByType[usersModal.modalType](usersModal.param);
         const response = yield call(api.call.get, url);
 
         yield put(loadDataSuccess(response.data.model));

@@ -11,6 +11,7 @@ import {
 import { dynamicDispatch } from '../../../helpers/dispatch';
 import { openModal as openPostActionModal } from '../../../store/postActionsModal/actions';
 import PostActionModalContainer from './PostActionModalContainer';
+import { openModal as openUsersModal } from '../../../store/usersModal/actions';
 
 const DetailPostContainer = ({
     id,
@@ -22,7 +23,8 @@ const DetailPostContainer = ({
     onLikePost,
     onDeleteLike,
     openPostActionModal,
-    isLoading
+    isLoading,
+    openUsersModal
 }) => {
 
     useEffect(
@@ -42,6 +44,7 @@ const DetailPostContainer = ({
                 onDeleteLike={onDeleteLike}
                 openPostActionMenu={openPostActionModal}
                 isLoading={isLoading}
+                openUsersModal={openUsersModal}
             />
             <PostActionModalContainer />
         </>
@@ -59,7 +62,8 @@ DetailPostContainer.propTypes = {
     onPostComment: PropTypes.func,
     onLikePost: PropTypes.func,
     onDeleteLike: PropTypes.func,
-    openPostActionModal: PropTypes.func
+    openPostActionModal: PropTypes.func,
+    openUsersModal: PropTypes.func,
 };
 
 const mapStateToProps = state => ({
@@ -74,7 +78,8 @@ const mapDispatchToProps = () => ({
     onPostComment: dynamicDispatch(postComment),
     onLikePost: dynamicDispatch(postLike),
     onDeleteLike: dynamicDispatch(deleteLike),
-    openPostActionModal: dynamicDispatch(openPostActionModal)
+    openPostActionModal: dynamicDispatch(openPostActionModal),
+    openUsersModal: dynamicDispatch(openUsersModal),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(DetailPostContainer);

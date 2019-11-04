@@ -55,5 +55,12 @@ namespace Instagram.BusinessLogic.Services
         {
             return _likeProvider.GetPostLikes(postId).Select(l => _mapper.Map<LikeDto>(l));
         }
+
+        public IEnumerable<ProfileDto> GetPostLikedBy(int postId)
+        {
+            var profiles = _likeProvider.GetPostLikedBy(postId);
+
+            return profiles.Select(p => _mapper.Map<ProfileDto>(p));
+        }
     }
 }

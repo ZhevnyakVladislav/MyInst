@@ -97,5 +97,15 @@ namespace Instagram.WEB.Controllers
 
             return ApiResult.Ok;
         }
+
+        [HttpGet]
+        [Route("likes")]
+        [Authorize]
+        public ApiResult GetPostLikes([FromUri]int postId = 0)
+        {
+            var likes = _likeService.GetPostLikedBy(postId);
+
+            return likes.Select(l => _mapper.Map<ViewProfileVm>(l)).AsApiResult();
+        }
     }
 }

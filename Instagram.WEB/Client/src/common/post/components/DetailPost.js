@@ -14,6 +14,7 @@ import PostTitle from './PostTitle';
 import CommentPostForm from './CommentPostForm';
 import ContentLoader from '../../loaders/ContentLoader';
 import DetailPostLoader from '../../loaders/DetailPostLoader';
+import { UsersModalTypes } from '../../usersModal/constants';
 
 const DetailPost = ({
     id,
@@ -26,10 +27,13 @@ const DetailPost = ({
     onLikePost,
     onDeleteLike,
     openPostActionMenu,
-    isLoading
+    isLoading,
+    openUsersModal
 }) => {
     const [commentActionMenuId, changeCommentActionMenuId] = useState(-1);
     const [isCommentActionMenuOpen, changeCommentOptionMenuState] = useState(false);
+
+    const isLikesClickable = useMemo(() => likes.length > 0, [likes]);
 
     const postComment = useCallback(
         (comment) => {
@@ -61,11 +65,23 @@ const DetailPost = ({
 
     const handleLike = useCallback(
         () => {
-            isLiked
+            isLikesClickable
                 ? onDeleteLike(id)
                 : onLikePost(id);
         },
-        [isLiked, onDeleteLike, id, onLikePost]
+        [isLikesClickable, onDeleteLike, id, onLikePost]
+    );
+
+    const handleOpenLikesModal = useCallback(
+        () => {
+            if (likes.length > 0) {
+                openUsersModal({
+                    postId: id,
+                    modalType: UsersModalTypes.Likes
+                });
+            }
+        },
+        [id, likes.length, openUsersModal]
     );
 
     return (
@@ -120,7 +136,7 @@ const DetailPost = ({
                                                 <FontAwesomeIcon icon={faComment} size="2x" />
                                             </span>
                                         </div>
-                                        <div className="is-full-width">
+                                        <div className={`is-full-width ${isLikesClickable && 'has-cursor-pointer'}`} onClick={handleOpenLikesModal}>
                                             <b>{likes.length} likes</b>
                                         </div>
                                     </Card.Footer.Item>

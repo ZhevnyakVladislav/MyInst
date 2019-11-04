@@ -29,8 +29,8 @@ const urls = {
         deleteComment_post: `${base}/post/comments/delete`,
         likePost_post: `${base}/post/likes/add`,
         deleteLike_post: `${base}/post/likes/delete`,
-        loadPostData_get: `${base}/post`
-
+        loadPostData_get: `${base}/post`,
+        loadPostLikes_get: `${base}/post/likes`
     }
 };
 
