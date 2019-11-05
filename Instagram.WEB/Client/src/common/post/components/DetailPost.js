@@ -65,11 +65,11 @@ const DetailPost = ({
 
     const handleLike = useCallback(
         () => {
-            isLikesClickable
+            isLiked
                 ? onDeleteLike(id)
                 : onLikePost(id);
         },
-        [isLikesClickable, onDeleteLike, id, onLikePost]
+        [isLiked, onDeleteLike, id, onLikePost]
     );
 
     const handleOpenLikesModal = useCallback(

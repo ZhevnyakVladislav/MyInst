@@ -6,7 +6,7 @@ import { unfollow } from '../../../store/profile/actions';
 import { closeModal } from '../../../store/postActionsModal/actions';
 import PostActionMenu from '../components/PostActionMenu';
 import { useHistory } from 'react-router-dom';
-import withDynamicStore from '../../dynamicStore/withDynamicStore';
+import withDynamicStore from '../../dynamicStore';
 import { dynamicDispatch } from '../../../helpers/dispatch';
 import reducer from '../../../store/postActionsModal/reducer';
 import { bindActionCreators } from 'redux';

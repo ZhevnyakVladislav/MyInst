@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import modal from '../../modal/Modal';
 import { connect } from 'react-redux';
-import withDynamicStore from '../../dynamicStore/withDynamicStore';
+import withDynamicStore from '../../dynamicStore';
 import { dynamicDispatch } from '../../../helpers/dispatch';
 import reducer from '../../../store/unfollowModal/reducer';
 import { closeModal } from '../../../store/unfollowModal/actions';

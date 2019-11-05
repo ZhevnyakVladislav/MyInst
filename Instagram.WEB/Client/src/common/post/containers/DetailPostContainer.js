@@ -7,16 +7,18 @@ import {
     postComment,
     postLike,
     deleteLike,
-} from '../../../store/detailPost/actions';
-import { dynamicDispatch } from '../../../helpers/dispatch';
-import { openModal as openPostActionModal } from '../../../store/postActionsModal/actions';
+} from 'store/post/actions';
+import { dynamicDispatch } from 'helpers/dispatch';
+import { openModal as openPostActionModal } from 'store/postActionsModal/actions';
+import { openModal as openUsersModal } from 'store/usersModal/actions';
 import PostActionModalContainer from './PostActionModalContainer';
-import { openModal as openUsersModal } from '../../../store/usersModal/actions';
 
 const DetailPostContainer = ({
     id,
     postId,
     data,
+    likes,
+    comments,
     currentUserName,
     loadData,
     onPostComment,
@@ -38,6 +40,8 @@ const DetailPostContainer = ({
         <>
             <DetailPost
                 {...data}
+                likes={likes}
+                comments={comments}
                 currentUserName={currentUserName}
                 onPostComment={onPostComment}
                 onLikePost={onLikePost}
@@ -57,6 +61,8 @@ DetailPostContainer.propTypes = {
     data: PropTypes.object,
     currentUserName: PropTypes.string,
     isLoading: PropTypes.bool,
+    likes: PropTypes.array,
+    comments: PropTypes.array,
 
     loadData: PropTypes.func,
     onPostComment: PropTypes.func,
@@ -66,18 +72,25 @@ DetailPostContainer.propTypes = {
     openUsersModal: PropTypes.func,
 };
 
-const mapStateToProps = state => ({
-    id: state.detailPost.postId,
-    data: state.detailPost.data,
-    currentUserName: state.user.data.userName,
-    isLoading: state.detailPost.isLoading
-});
+const mapStateToProps = (state, { postId }) => {
+    const id = state.post.postId > 0 ? state.post.postId : postId;
+
+    return ({
+        id: id,
+        data: state.post.detailPost,
+        likes: state.post.likes[id] || [],
+        comments: state.post.comments[id] || [],
+        currentUserName: state.user.data.userName,
+        isLoading: state.post.isLoading
+    });
+};
+
 
 const mapDispatchToProps = () => ({
-    loadData: dynamicDispatch(loadData),
     onPostComment: dynamicDispatch(postComment),
     onLikePost: dynamicDispatch(postLike),
     onDeleteLike: dynamicDispatch(deleteLike),
+    loadData: dynamicDispatch(loadData),
     openPostActionModal: dynamicDispatch(openPostActionModal),
     openUsersModal: dynamicDispatch(openUsersModal),
 });

@@ -30,7 +30,8 @@ const urls = {
         likePost_post: `${base}/post/likes/add`,
         deleteLike_post: `${base}/post/likes/delete`,
         loadPostData_get: `${base}/post`,
-        loadPostLikes_get: `${base}/post/likes`
+        loadPostLikes_get: `${base}/post/likes`,
+        loadFollowingPosts_get: `${base}/post/followingPosts`
     }
 };
 

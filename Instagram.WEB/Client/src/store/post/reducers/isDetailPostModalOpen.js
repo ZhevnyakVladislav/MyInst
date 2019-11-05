@@ -4,6 +4,6 @@ import { handleActions } from 'redux-actions';
 const initialState = false;
 
 export default handleActions({
-    [types.OPEN_MODAL]: () => true,
-    [types.CLOSE_MODAL]: () => initialState,
+    [types.OPEN_DETAIL_MODAL]: () => true,
+    [types.CLOSE_DETAIL_MODAL]: () => initialState,
 }, initialState);

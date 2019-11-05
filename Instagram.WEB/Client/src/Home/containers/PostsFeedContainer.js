@@ -1,30 +1,41 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { dynamicDispatch } from 'helpers/dispatch';
+import { loadFollowingPosts } from 'store/post/actions';
 import PropsFeed from '../components/PostsFeed';
-import { openModal } from '../../store/postActionsModal/actions';
 
 const PostsFeedContainer = ({
     data,
-    openPostActionMenu
+    loadFollowingPosts,
 }) => {
+
+    useEffect(
+        () => {
+            loadFollowingPosts();
+        },
+        [loadFollowingPosts]
+    );
+
     return (
         <PropsFeed
-            openPostActionMenu={openPostActionMenu}
+            data={data}
         />
     );
 };
 
 PostsFeedContainer.propTypes = {
-    openPostActionMenu: PropTypes.func
+    data: PropTypes.array,
+
+    loadFollowingPosts: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({
-
+    data: state.post.posts,
 });
 
-const mapDispatchToProps = ({
-    openPostActionMenu: openModal
+const mapDispatchToProps = () => ({
+    loadFollowingPosts: dynamicDispatch(loadFollowingPosts),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostsFeedContainer);

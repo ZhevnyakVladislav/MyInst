@@ -56,6 +56,16 @@ namespace Instagram.WEB.Controllers
             return _mapper.Map<PostVm>(post).AsApiResult();
         }
 
+        [HttpGet]
+        [Route("followingPosts")]
+        [Authorize]
+        public ApiResult GetFollowingPosts()
+        {
+            var posts = _postService.GetFollowingUsersPosts(User.Identity.Name);
+
+            return posts.Select(p => _mapper.Map<PostVm>(p)).AsApiResult();
+        }
+
         [HttpPost]
         [Route("comments/add")]
         [Authorize]

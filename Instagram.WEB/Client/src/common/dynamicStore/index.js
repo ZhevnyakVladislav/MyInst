@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import store from '../../store';
-import dynamic from '@redux-dynostore/react-redux';
-import { runSaga } from '@redux-dynostore/redux-saga';
 
 const withDynamicStore = (WrappedComponent, {
     storeName,

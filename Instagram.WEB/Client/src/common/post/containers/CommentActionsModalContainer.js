@@ -1,10 +1,10 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import modal from '../../modal/Modal';
+import modal from 'common/modal/Modal';
 import CommentActionsMenu from '../components/CommentActionsMenu';
-import { deleteComment } from '../../../store/detailPost/actions';
-import { dynamicDispatch } from '../../../helpers/dispatch';
+import { deleteComment } from 'store/post/actions';
+import { dynamicDispatch } from 'helpers/dispatch';
 
 const contentStyles = {
     width: '40%'

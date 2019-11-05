@@ -1,0 +1,26 @@
+{
+    "compilerOptions": {
+        "baseUrl": "./src/",
+        "module": "commonjs",
+        "jsx": "preserve",
+        "allowSyntheticDefaultImports": true,
+        "paths": {
+            "store/*": [
+                "store/*"
+            ],
+            "common/*": [
+                "common/*"
+            ],
+            "api/*": [
+                "api/*"
+            ],
+            "helpers/*": [
+                "helpers/*"
+            ]
+        }
+    },
+    "exclude": [
+        "node_modules",
+        "dist"
+    ]
+}

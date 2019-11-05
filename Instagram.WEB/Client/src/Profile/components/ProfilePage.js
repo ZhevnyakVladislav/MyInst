@@ -5,6 +5,9 @@ import PostsLayoutContainer from '../containers/PostsLayoutContainer';
 import PostModalContainer from '../containers/PostModalContainer';
 import UsersModalContainer from '../../common/usersModal/containers/UsersModalContainer';
 import UnfollowModalContainer from '../../common/unfollowModal/containers/UnfollowModalContainer';
+import withDynamicStore from 'common/dynamicStore';
+import reducer from 'store/post/reducer';
+import saga from 'store/post/saga';
 
 const ProfilePage = ({
     match
@@ -18,4 +21,8 @@ const ProfilePage = ({
     </Container>
 );
 
-export default ProfilePage;
+export default withDynamicStore(ProfilePage, {
+    storeName: 'post',
+    reducer,
+    saga
+});

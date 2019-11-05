@@ -56,5 +56,11 @@ module.exports = env => ({
     ],
     resolve: {
         modules: ['node_modules', 'src'],
+        alias: {
+            store: path.resolve(__dirname, 'src/store/'),
+            common: path.resolve(__dirname, 'src/common'),
+            helpers: path.resolve(__dirname, 'src/helpers'),
+            api: path.resolve(__dirname, 'src/api')
+        }
     }
 });
