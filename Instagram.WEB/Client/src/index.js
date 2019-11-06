@@ -8,6 +8,8 @@ import store, { history } from './store';
 import ErrorBoundary from './common/errorBoundary/ErrorBoundary';
 
 import './index.scss';
+import 'react-bulma-components/dist/react-bulma-components.min.css';
+import 'bulma-helpers/css/bulma-helpers.min.css';
 
 ReactDOM.render(
     <BrowserRouter>

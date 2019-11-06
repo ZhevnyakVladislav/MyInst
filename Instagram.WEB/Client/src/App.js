@@ -12,9 +12,6 @@ import ProfilePage from './Profile/components/ProfilePage';
 import ProfileSettingsPage from './ProfileSettings/components/ProfileSettingsPage';
 import PostPage from './Post/components/PostPage';
 
-import 'react-bulma-components/dist/react-bulma-components.min.css';
-import 'bulma-helpers/css/bulma-helpers.min.css';
-
 const withHeader = (ComposedComponent, props) =>
     (
         <>
