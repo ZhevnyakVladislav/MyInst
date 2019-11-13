@@ -5,6 +5,7 @@ import Media from 'react-bulma-components/lib/components/media';
 import Heading from 'react-bulma-components/lib/components/heading';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisH } from '@fortawesome/free-solid-svg-icons';
+import { Link } from 'react-router-dom';
 
 const PostTitle = ({
     postId,
@@ -30,7 +31,9 @@ const PostTitle = ({
                             </figure>
                         </Media.Item>
                         <Media.Item>
-                            <Heading size={6}>{createdBy.userName}</Heading>
+                            <Link to={`/users/${createdBy.userName}`}>
+                                <Heading size={6}>{createdBy.userName}</Heading>
+                            </Link>
                         </Media.Item>
                         <Media.Item position="right">
                             <FontAwesomeIcon icon={faEllipsisH} size="1x" onClick={handlePostActionMenuOpen} />

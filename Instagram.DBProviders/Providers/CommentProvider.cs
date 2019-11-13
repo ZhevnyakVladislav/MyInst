@@ -52,6 +52,7 @@ namespace Instagram.DBProviders.Providers
             {
                 var comments = context.Comments
                     .Include(c => c.User)
+                    .Include(c => c.User.UsertProfile)
                     .Where(c => c.PostId == postId);
 
                 return comments;

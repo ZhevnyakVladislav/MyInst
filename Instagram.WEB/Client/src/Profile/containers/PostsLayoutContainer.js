@@ -9,6 +9,7 @@ import ContentLoader from 'common/loaders/ContentLoader';
 import PostsLoader from 'common/loaders/PostsLoader';
 import PostsLayout from '../components/PostsLayout';
 import { dynamicDispatch } from 'helpers/dispatch';
+import useInfiniteScroll from 'common/hooks/useInfiniteScroll';
 
 const PostsLayoutContainer = ({
     userName,
@@ -17,20 +18,26 @@ const PostsLayoutContainer = ({
     isProfileDataLoading,
     isPostsDataLoading,
     isPrivate,
+    hasMore,
     onPostModalOpen
 }) => {
 
-    useEffect(
-        () => {
-            !isPrivate && loadPosts(userName);
-        },
-        [isPrivate, loadPosts, userName]
-    );
+    const onPostsLoad = page => loadPosts({ userName, page });
+
+    useInfiniteScroll(onPostsLoad, hasMore, isPostsDataLoading);
+
+
+    // useEffect(
+    //     () => {
+    //         isDataLoaded && !isPrivate && loadPosts({ userName, page: 1 });
+    //     },
+    //     [isDataLoaded, isPrivate, loadPosts, userName]
+    // );
 
     return (
         <Container className="has-margin-top-100">
             <ContentLoader
-                isLoading={isProfileDataLoading || isPostsDataLoading}
+                isLoading={isProfileDataLoading}
                 loaderContent={
                     <Columns centered>
                         <Columns.Column size={12}>
@@ -49,7 +56,6 @@ const PostsLayoutContainer = ({
                         </Columns.Column>
                     </Columns>
                     : <PostsLayout
-                        isPrivate={isPrivate}
                         onPostModalOpen={onPostModalOpen}
                         data={data}
                     />}
@@ -64,6 +70,8 @@ PostsLayoutContainer.propTypes = {
     isProfileDataLoading: PropTypes.bool,
     isPostsDataLoading: PropTypes.bool,
     isPrivate: PropTypes.bool,
+    isDataLoaded: PropTypes.bool,
+    hasMore: PropTypes.bool,
 
     loadPosts: PropTypes.func,
     onPostModalOpen: PropTypes.func
@@ -71,9 +79,11 @@ PostsLayoutContainer.propTypes = {
 
 const mapStateToProps = (state) => ({
     isPrivate: state.profile.viewData.isPrivate,
+    isDataLoaded: state.profile.isDataLoaded,
     data: state.post.posts,
+    hasMore: state.post.hasMore,
     isProfileDataLoading: state.profile.isLoading,
-    isPostsDataLoading: state.post.isLoading
+    isPostsDataLoading: state.post.isLoading,
 });
 
 const mapDispatchToProps = () => ({

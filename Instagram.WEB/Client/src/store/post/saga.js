@@ -33,16 +33,16 @@ function* callLoadData({ payload }) {
 
 function* callLoadProfilePosts({ payload }) {
     try {
-        const response = yield call(api.call.get, `${api.urls.posts.loadProfilePosts_get}?userName=${payload}`);
+        const response = yield call(api.call.get, `${api.urls.posts.loadProfilePosts_get}?userName=${payload.userName}&page=${payload.page}`);
         yield put(loadProfilePostsSuccess(response.data.model));
     } catch (e) {
         yield put(loadProfilePostsError(e));
     }
 }
 
-function* callLoadFollowingPosts() {
+function* callLoadFollowingPosts({ payload }) {
     try {
-        const response = yield call(api.call.get, api.urls.posts.loadFollowingPosts_get);
+        const response = yield call(api.call.get, `${api.urls.posts.loadFollowingPosts_get}?page=${payload.page}`);
         yield put(loadFollowingPostsSuccess(response.data.model));
 
     } catch (e) {

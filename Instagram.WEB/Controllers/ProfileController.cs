@@ -52,6 +52,7 @@ namespace Instagram.WEB.Controllers
             var result = _mapper.Map<ViewProfileVm>(profile);
 
             result.IsFollowing = profile.Followers.Select(x => x.UserName).Contains(User.Identity.Name);
+            result.IsPrivate = result.IsPrivate && !result.IsFollowing;
 
             return result.AsApiResult();
         }

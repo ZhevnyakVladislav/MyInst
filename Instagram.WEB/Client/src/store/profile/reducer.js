@@ -5,6 +5,7 @@ import editForm from './reducers/editForm';
 import isLoading from './reducers/isLoading';
 import isSaving from './reducers/isSaving';
 import viewData from './reducers/viewData';
+import isDataLoaded from './reducers/isDataLoaded';
 
 export default combineReducers({
     avatar,
@@ -12,5 +13,5 @@ export default combineReducers({
     isLoading,
     isSaving,
     viewData,
-
+    isDataLoaded
 });

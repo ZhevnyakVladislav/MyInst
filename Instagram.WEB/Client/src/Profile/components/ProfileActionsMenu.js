@@ -9,15 +9,16 @@ const SettingsModal = ({
     onClose,
     onLogout
 }) => {
+    const handleLogout = () => onLogout();
     return (
         <Container>
             <Box>
                 <Menu>
                     <Menu.List>
-                        <Menu.List.Item onClick={onLogout}>
+                        <Menu.List.Item>
                             <Link className="has-text-centered" to="/profile/change_password">Change Password</Link>
                         </Menu.List.Item>
-                        <Menu.List.Item onClick={onLogout}>
+                        <Menu.List.Item onClick={handleLogout}>
                             <Link className="has-text-centered" to="/profile/privacy_and_security">Privacy and Security</Link>
                         </Menu.List.Item>
                         <Menu.List.Item className="has-text-centered" onClick={onLogout}>Log Out</Menu.List.Item>

@@ -1,5 +1,6 @@
 import types from '../types';
 import { handleActions, combineActions } from 'redux-actions';
+import { LOCATION_CHANGE } from 'connected-react-router';
 
 const createInitialState = () => ({
     userName: '',
@@ -12,7 +13,10 @@ const createInitialState = () => ({
 });
 
 export default handleActions({
-    [types.LOAD_VIEW_DATA]: (state) => ({ ...state }),
+    [combineActions(
+        LOCATION_CHANGE,
+        types.LOAD_VIEW_DATA
+    )]: () => createInitialState(),
     [types.LOAD_VIEW_DATA_SUCCESS]: (state, action) => ({
         ...state,
         ...action.payload,

@@ -34,16 +34,22 @@ namespace Instagram.WEB.Controllers
         [HttpGet]
         [Route("profilePosts")]
         [Authorize]
-        public ApiResult GetProfilePosts([FromUri]string userName)
+        public ApiResult GetProfilePosts([FromUri]string userName, int page = 1)
         {
-            var posts = _postService.GetUserPosts(userName);
+            const int pageSize = 9;
+            var allPosts = _postService.GetUserPosts(userName);
+            var posts = allPosts.Skip((page - 1) * pageSize).Take(pageSize);
 
-            return posts.Select(p =>
+            return new InfiniteScrollVm
             {
-                p.Likes = null;
-                p.Comments = null;
-                return _mapper.Map<PostVm>(p);
-            }).AsApiResult();
+                Posts = posts.Select(p =>
+                {
+                    p.Likes = null;
+                    p.Comments = null;
+                    return _mapper.Map<PostVm>(p);
+                }).ToList(),
+                HasMore = (page * pageSize) < allPosts.Count()
+            }.AsApiResult();
         }
 
         [HttpGet]
@@ -59,11 +65,20 @@ namespace Instagram.WEB.Controllers
         [HttpGet]
         [Route("followingPosts")]
         [Authorize]
-        public ApiResult GetFollowingPosts()
+        public ApiResult GetFollowingPosts([FromUri]int page = 1)
         {
-            var posts = _postService.GetFollowingUsersPosts(User.Identity.Name);
+            var allPosts = _postService.GetFollowingUsersPosts(User.Identity.Name);
+            const int pageSize = 9;
+            var posts = allPosts.Skip((page - 1) * pageSize).Take(pageSize);
 
-            return posts.Select(p => _mapper.Map<PostVm>(p)).AsApiResult();
+            return new InfiniteScrollVm
+            {
+                Posts = posts.Select(p =>
+                {
+                    return _mapper.Map<PostVm>(p);
+                }).ToList(),
+                HasMore = (page * pageSize) < allPosts.Count()
+            }.AsApiResult();
         }
 
         [HttpPost]

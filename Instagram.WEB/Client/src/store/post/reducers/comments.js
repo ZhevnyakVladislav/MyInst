@@ -12,7 +12,7 @@ export default handleActions({
         ...payload
     }),
     [types.LOAD_DETAIL_DATA_SUCCESS]: (_, { payload }) => ({ [payload.id]: payload.comments }),
-    [types.LOAD_FOLLOWING_POSTS_SUCCESS]: (_, { payload }) => payload.reduce((acc, p) => {
+    [types.LOAD_FOLLOWING_POSTS_SUCCESS]: (_, { payload }) => payload.posts.reduce((acc, p) => {
         acc[p.id] = p.comments;
         return acc;
     }, {})

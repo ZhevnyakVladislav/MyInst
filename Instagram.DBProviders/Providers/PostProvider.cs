@@ -29,7 +29,11 @@ namespace Instagram.DBProviders.Providers
                     .Include(p => p.CreatedBy)
                     .Include(p => p.CreatedBy.UsertProfile)
                     .Include(p => p.Comments)
+                    .Include(p => p.Comments.Select(c => c.User))
+                    .Include(p => p.Comments.Select(c => c.User.UsertProfile))
                     .Include(p => p.Likes)
+                    .Include(p => p.Likes.Select(l => l.User))
+                    .Include(p => p.Likes.Select(l => l.User.UsertProfile))
                     .Where(p => p.CreatedBy.UserName == userName);
 
                 return posts.ToList();

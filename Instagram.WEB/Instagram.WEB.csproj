@@ -240,6 +240,7 @@
     <Compile Include="Models\ChangePasswordVm.cs" />
     <Compile Include="Models\CommentVm.cs" />
     <Compile Include="Models\EditProfileVm.cs" />
+    <Compile Include="Models\InfiniteScrollVm.cs" />
     <Compile Include="Models\LikeVm.cs" />
     <Compile Include="Models\PostCommentVm.cs" />
     <Compile Include="Models\PostVm.cs" />

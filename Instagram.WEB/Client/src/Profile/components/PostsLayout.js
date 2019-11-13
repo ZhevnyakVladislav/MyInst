@@ -11,16 +11,12 @@ const PostsLayout = ({
     return (
         <Container className="has-margin-top-100">
             <Tile size={12} className="wrap">
-                {data.map(post => (
-                    <Tile key={post.id} size={4} kind="parent">
-                        <Tile renderAs="article" kind="child">
-                            <ClickablePost
-                                data={post}
-                                onPostModalOpen={onPostModalOpen}
-                            />
-                        </Tile>
-                    </Tile>
-                ))}
+                {data.map(post => <ClickablePost
+                    key={post.id}
+                    data={post}
+                    onPostModalOpen={onPostModalOpen}
+                />
+                )}
             </Tile>
         </Container>
     );
@@ -28,8 +24,11 @@ const PostsLayout = ({
 
 PostsLayout.propTypes = {
     data: PropTypes.array,
-    onDataLoad: PropTypes.func,
-    onPostModalOpen: PropTypes.func
+    hasMore: PropTypes.bool,
+    isLoading: PropTypes.bool,
+
+    onPostModalOpen: PropTypes.func,
+    onPostsLoad: PropTypes.func,
 };
 
 export default React.memo(PostsLayout);
