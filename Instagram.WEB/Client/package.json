@@ -45,7 +45,7 @@
     "connected-react-router": "^6.5.2",
     "joi": "^14.3.1",
     "jwt-decode": "^2.2.0",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "net": "^1.0.2",
     "node-sass": "^4.13.0",
     "prop-types": "^15.7.2",
