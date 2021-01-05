@@ -39,7 +39,7 @@
     "@redux-dynostore/core": "^3.0.1",
     "@redux-dynostore/react-redux": "^3.0.1",
     "@redux-dynostore/redux-saga": "^3.0.1",
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "bulma": "^0.7.5",
     "bulma-helpers": "^0.3.8",
     "connected-react-router": "^6.5.2",
