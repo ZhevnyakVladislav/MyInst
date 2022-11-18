@@ -60,6 +60,6 @@
     "redux-actions": "^2.6.5",
     "redux-saga": "^1.1.1",
     "webpack": "^4.41.2",
-    "webpack-cli": "^3.3.10"
+    "webpack-cli": "^3.3.12"
   }
 }
